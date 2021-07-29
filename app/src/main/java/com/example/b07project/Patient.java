@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 public class Patient extends Person{
 
     private Set<Appointment> appointments;
+    private Set<String> specifications;
 
     public Patient(){
 
@@ -26,16 +27,17 @@ public class Patient extends Person{
 
     public Patient(String name, String username, int patientID, String password) {
         //first maybe check if the ID is valid (ie: in a correct format)
-
-        super(name, username, patientID, password);
-        appointments = new HashSet<Appointment>();
-
 //        String t = Integer.toString(PatientID);
 //        Pattern pattern = Pattern.compile("\\d{10}");
 //        Matcher matcher = pattern.matcher(t);
 //        if (matcher.matches() == false) {
 //            throw new IllegalArgumentException("ID does not match proper format");}
+        //else{
+        super(name, username, patientID, password);
+        appointments = new HashSet<Appointment>();
+        specifications = new HashSet<String>();
         storeInDB();
+//      }
 
         }
 
@@ -87,6 +89,22 @@ public class Patient extends Person{
 ////
 ////        }
 //    }
+
+    public void addSpecification(String specification){
+        specifications.add(specification);
+    }
+
+    public void clearSpecifications(){
+        specifications.clear();
+    }
+
+    public Set<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public Set<String> getSpecifications() {
+        return specifications;
+    }
 
     @Override
     public int hashCode() {
