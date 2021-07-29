@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.b07project.MainActivity;
 import com.example.b07project.R;
 import com.example.b07project.ui.login.LoginViewModel;
 import com.example.b07project.ui.login.LoginViewModelFactory;
@@ -29,6 +31,7 @@ import com.example.b07project.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
 
@@ -132,5 +135,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+
+    /** Called when the user taps the Login/Register button */
+    public void sendUsername(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 }
