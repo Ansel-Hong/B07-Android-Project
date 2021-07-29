@@ -1,18 +1,31 @@
 package com.example.b07project;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Person implements Login{
-    public String name;;
-    static Set<Person> persons = new HashSet<Person>(); //static set to store Persons until we get DB, just for testing
+public abstract class Person implements Login, Serializable {
+    public String name;
+    static int personCount;
 
     // I figure having the 3 fields is no harm when logging in
     public String username;
     public int loginID; //OHIB for Patients and Employee ID for Doctors, unique for each person
     private String password;
+
+
+    public Person(){};
 
     public Person(String name){
         this.name = name;
@@ -20,11 +33,6 @@ public abstract class Person implements Login{
 
     public Person(String name, String username, int loginID, String password){
         this.name = name;
-
-        for (Person p: persons){ //eventually this will check DB
-            if(loginID == p.loginID)
-                throw new IllegalArgumentException("An account has already been created with the ID provided");
-        }
         this.username = username;
         this.loginID = loginID;
         this.password = password;
@@ -38,7 +46,19 @@ public abstract class Person implements Login{
     }
 
     //Function to pull appointments from DB. Abstract since it will be implemented differently for Doctors/Patients
-    public abstract void getAppointments(); //return type might not be void eventually, depends on later implementation
+    //public abstract Set<Appointment> getAppointments(); //return type might not be void eventually, depends on later implementation
+
+
+    //--------------------- for Firebase -----------------------//
+    public void setName(String name){this.name = name;}
+    public void setUsername(String username){this.username = username;}
+    public void setLoginID(int loginID){this.loginID = loginID;}
+    public void setPassword(String password){this.name = password;}
+
+    public String getName(){return name;}
+    public String getUsername(){return username;}
+    public int getLoginID(){return loginID;}
+    public String getPassword(){return password;}
 
 
     @Override

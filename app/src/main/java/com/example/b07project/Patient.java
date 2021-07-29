@@ -1,28 +1,75 @@
 package com.example.b07project;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Set;
 import java.util.HashSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Patient extends Person{
 
-//    private Set<Appointment> appointments;
+    private Set<Appointment> appointments;
 
-    public Patient(String name, String username, int PatientID, String password){
+    public Patient(){
+
+    }
+
+
+    public Patient(String name, String username, int patientID, String password) {
         //first maybe check if the ID is valid (ie: in a correct format)
-        //String t = Integer.toString(PatientID);
-        //Pattern pattern = Pattern.compile("\\d{10}");
-        //Matcher matcher = pattern.matcher(t);
-        //if(matcher.matches() == true){
-        super(name, username, PatientID, password);
-//        appointments = new HashSet<Appointment>();
-        //}
-    }
 
-    @Override
-    //keep it so no error
-    public void getAppointments() {
+        super(name, username, patientID, password);
+        appointments = new HashSet<Appointment>();
 
-    }
+//        String t = Integer.toString(PatientID);
+//        Pattern pattern = Pattern.compile("\\d{10}");
+//        Matcher matcher = pattern.matcher(t);
+//        if (matcher.matches() == false) {
+//            throw new IllegalArgumentException("ID does not match proper format");}
+        storeInDB();
+
+        }
+
+        public void storeInDB(){
+            int loginID = this.loginID;
+            FirebaseDatabase.getInstance().getReference().child("patients")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot patients : dataSnapshot.getChildren()) {
+                                Patient patient = patients.getValue(Patient.class);
+//                                if (patient.loginID == loginID) {
+//                                    throw new IllegalArgumentException("An account has already been created with the ID provided");
+//                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            Log.w("info", "Failed to read value.", error.toException());
+                        }
+                    });
+
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("patients");
+            db.child("" + this.loginID).setValue(this);
+        }
+
+
+
+//    @Override
+//    //keep it so no error
+//    public Set<Appointment> getAppointments() {
+//
+//    }
 
 
     //assume Date is a class including the time of the appointment
@@ -57,4 +104,15 @@ public class Patient extends Person{
             return false;
         return true;
     }
+
+
+
+    @Override
+    public String toString() {
+        return "{Patient name: " + name +
+                ", ID: " + loginID +"}";
+    }
+
+
+
 }
