@@ -80,9 +80,9 @@ public class Patient extends Person{
     //I think abstract method getAppointments() would maybe need some arguments
     //Or maybe we don't declare the abstract method getAppointments() in Person class
     //because I think only Patient would demand appointments and not doctor
-//    public void getAppointments(Doctor doctor, Date date) {
+//    public void getAppointments(Doctor doctor, Date start, Date end) {
 //        //assume to create an Appointment with 3 fields: Patient, Doctor, Date
-////        Appointment a = new Appointment(this, doctor, date);
+////        Appointment a = new Appointment(this, doctor, Date start, Date end);
 ////        if(appointments.contains(a) == false){
 ////            appointments.add(a);
 ////

@@ -16,7 +16,7 @@ public class Doctor extends Person{
 
     private Set<Appointment> appointments;
     // This field stores the availability of the doctor.
-    private Set<Date> availability;
+    private Set<Availability> availability;
 
     public Doctor(){}
 
@@ -28,7 +28,7 @@ public class Doctor extends Person{
     public Doctor(String name, String username, int EmployeeID, String password){
         super(name, username, EmployeeID, password);
 //        this.appointments = new HashSet<Appointment>();
-        this.availability = new HashSet<Date>();
+        this.availability = new HashSet<Availability>();
 
         storeInDB();
     }
@@ -83,10 +83,13 @@ public class Doctor extends Person{
         if (this.appointments.contains(appointment) == false){
             appointments.add(appointment);
             // Update the doctor's availability accordingly.
-            // Assuming the class Appointment has the method getDate
-            // that returns the date (and the specific time) of the appointment;
-            Date date = appointment.getEndTime();
-            this.availability.remove(date);
+            // Assuming that the appointment must be booked because of an available spot from the doctor
+            //ie: There must be an element in availability that matches the start and end Date of this new appointment
+            Availability t = new Availability(appointment.getStartTime(), appointment.getEndTime());
+            for(Availability each: availability){
+                if (t.equals(each) == true)
+                    each.booking();
+            }
         }
         else {
             // Throws an exception if the doctor is not available at the given time slot.
@@ -98,11 +101,11 @@ public class Doctor extends Person{
     //---------------- For Firebase --------------------//
     // setter function for a doctor
     public void setAppointments(Set<Appointment> appointments){this.appointments=appointments;}
-    public void setAvailability(Set<Date> availability){this.availability=availability;}
+    public void setAvailability(Set<Availability> availability){this.availability=availability;}
 
     // getter function for a doctor
     public Set<Appointment> getAppointments(){return this.appointments;}
-    public Set<Date> getAvailability(){return this.availability;}
+    public Set<Availability> getAvailability(){return this.availability;}
 
 
 
