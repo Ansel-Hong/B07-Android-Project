@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.b07project.MainActivity;
+import com.example.b07project.PatientActivity;
 import com.example.b07project.R;
 import com.example.b07project.ui.login.LoginViewModel;
 import com.example.b07project.ui.login.LoginViewModelFactory;
@@ -138,11 +139,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /** Called when the user taps the Login/Register button */
-    public void sendUsername(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+//    public void sendUsername(View view) {
+//        Intent intent = new Intent(this, MainActivity.class);
+//        EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
+//        String message = editText.getText().toString();
+//        intent.putExtra(EXTRA_MESSAGE, message);
+//        startActivity(intent);
+//    }
+
+    public void goToPatientUserPage(View view) {
+        Intent intent = new Intent(this, PatientActivity.class);
         startActivity(intent);
     }
 }

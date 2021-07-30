@@ -85,7 +85,7 @@ public class Doctor extends Person{
             // Update the doctor's availability accordingly.
             // Assuming the class Appointment has the method getDate
             // that returns the date (and the specific time) of the appointment;
-            Date date = appointment.getDate();
+            Date date = appointment.getEndTime();
             this.availability.remove(date);
         }
         else {

@@ -81,6 +81,7 @@ public class Appointment {
     public Date getEndTime() {
         return endTime;
     }
+
 //========================== not sure if these are necessary ===============================
 }
 
