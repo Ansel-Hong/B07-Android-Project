@@ -95,8 +95,14 @@ public class Doctor extends Person{
 
     }
 
+    //---------------- For Firebase --------------------//
+    // setter function for a doctor
+    public void setAppointments(Set<Appointment> appointments){this.appointments=appointments;}
+    public void setAvailability(Set<Date> availability){this.availability=availability;}
 
-
+    // getter function for a doctor
+    public Set<Appointment> getAppointments(){return this.appointments;}
+    public Set<Date> getAvailability(){return this.availability;}
 
 
 
