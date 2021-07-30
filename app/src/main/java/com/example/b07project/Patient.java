@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.regex.Matcher;
@@ -17,8 +18,8 @@ import java.util.regex.Pattern;
 
 public class Patient extends Person{
 
-    private Set<Appointment> appointments;
-    private Set<String> specifications;
+    private ArrayList<Appointment> appointments;
+    private HealthInformation healthInformation;
 
     public Patient(){
 
@@ -34,8 +35,7 @@ public class Patient extends Person{
 //            throw new IllegalArgumentException("ID does not match proper format");}
         //else{
         super(name, username, patientID, password);
-        appointments = new HashSet<Appointment>();
-        specifications = new HashSet<String>();
+        appointments = new ArrayList<Appointment>();
         storeInDB();
 //      }
 
@@ -90,20 +90,15 @@ public class Patient extends Person{
 ////        }
 //    }
 
-    public void addSpecification(String specification){
-        specifications.add(specification);
-    }
+    public void addHealthInformation(HealthInformation healthInformation){ this.healthInformation = healthInformation; }
 
-    public void clearSpecifications(){
-        specifications.clear();
-    }
+    public void clearHealthInformation(){ this.healthInformation = null; }
 
-    public Set<Appointment> getAppointments() {
+    public ArrayList<Appointment> getAppointments() {
         return appointments;
     }
-
-    public Set<String> getSpecifications() {
-        return specifications;
+    public HealthInformation getHealthInformation() {
+        return healthInformation;
     }
 
     @Override

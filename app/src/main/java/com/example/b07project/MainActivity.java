@@ -16,6 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -38,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
                 DataSnapshot patients = dataSnapshot.child("patients");
                 for (DataSnapshot child: patients.getChildren()){
                     Patient p = child.getValue(Patient.class);
+//                    if(p.loginID == 202023){
+//                        HealthInformation h = new HealthInformation(33, 170, "O-");
+//                        Map<String, Object> patientUpdates = new HashMap<>();
+//                        patientUpdates.put("healthInformation", h);
+//                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("patients").child(""+ p.loginID);
+//                        ref.updateChildren(patientUpdates);
+//
+//
+//                    }
                     Log.i("info", p.toString());
                 }
             }
@@ -48,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("info", "Failed to read value.", error.toException());
             }
         });
+
+
+
 
 
     }
