@@ -11,6 +11,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.regex.Matcher;
@@ -90,16 +92,19 @@ public class Patient extends Person{
 ////        }
 //    }
 
-    public void addHealthInformation(HealthInformation healthInformation){ this.healthInformation = healthInformation; }
+    public void addHealthInformation(HealthInformation healthInformation){
+        Map<String, Object> patientUpdates = new HashMap<>();
+        patientUpdates.put("healthInformation", healthInformation);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("patients").child(""+ this.loginID);
+        ref.updateChildren(patientUpdates);
+    }
 
     public void clearHealthInformation(){ this.healthInformation = null; }
 
-    public ArrayList<Appointment> getAppointments() {
-        return appointments;
-    }
-    public HealthInformation getHealthInformation() {
-        return healthInformation;
-    }
+
+    public void setHealthInformation(HealthInformation healthInformation){this.healthInformation = healthInformation;}
+    public ArrayList<Appointment> getAppointments() { return appointments; }
+    public HealthInformation getHealthInformation() { return healthInformation; }
 
     @Override
     public int hashCode() {

@@ -41,14 +41,9 @@ public class MainActivity extends AppCompatActivity {
                 DataSnapshot patients = dataSnapshot.child("patients");
                 for (DataSnapshot child: patients.getChildren()){
                     Patient p = child.getValue(Patient.class);
-//                    if(p.loginID == 202023){
+//                    if(p.loginID == 202020){
 //                        HealthInformation h = new HealthInformation(33, 170, "O-");
-//                        Map<String, Object> patientUpdates = new HashMap<>();
-//                        patientUpdates.put("healthInformation", h);
-//                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("patients").child(""+ p.loginID);
-//                        ref.updateChildren(patientUpdates);
-//
-//
+//                        p.addHealthInformation(h);
 //                    }
                     Log.i("info", p.toString());
                 }
