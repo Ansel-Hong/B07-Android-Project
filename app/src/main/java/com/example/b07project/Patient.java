@@ -28,7 +28,7 @@ public class Patient extends Person{
     }
 
 
-    public Patient(String name, String username, int patientID, String password) {
+    public Patient(String name, String email, int patientID, String password) {
         //first maybe check if the ID is valid (ie: in a correct format)
 //        String t = Integer.toString(PatientID);
 //        Pattern pattern = Pattern.compile("\\d{10}");
@@ -36,7 +36,7 @@ public class Patient extends Person{
 //        if (matcher.matches() == false) {
 //            throw new IllegalArgumentException("ID does not match proper format");}
         //else{
-        super(name, username, patientID, password);
+        super(name, email, patientID, password);
         appointments = new ArrayList<Appointment>();
         storeInDB();
 //      }

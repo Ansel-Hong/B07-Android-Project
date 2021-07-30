@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
+    Button switchToPatientActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,16 @@ public class LoginActivity extends AppCompatActivity {
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+
+
+        switchToPatientActivity = findViewById(R.id.login);
+        switchToPatientActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToPatientPage(view);
+            }
+        });
+
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
@@ -147,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
 //        startActivity(intent);
 //    }
 
-    public void goToPatientUserPage(View view) {
+    public void goToPatientPage(View view) {
         Intent intent = new Intent(this, PatientActivity.class);
         startActivity(intent);
     }

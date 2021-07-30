@@ -20,7 +20,7 @@ public abstract class Person implements Login {
     static int personCount;
 
     // I figure having the 3 fields is no harm when logging in
-    public String username;
+    public String email;
     public int loginID; //OHIB for Patients and Employee ID for Doctors, unique for each person
     private String password;
 
@@ -31,16 +31,16 @@ public abstract class Person implements Login {
         this.name = name;
     }
 
-    public Person(String name, String username, int loginID, String password){
+    public Person(String name, String email, int loginID, String password){
         this.name = name;
-        this.username = username;
+        this.email = email;
         this.loginID = loginID;
         this.password = password;
     }
 
 
-    public void setLoginInformation(String username, int loginID, String password){
-        this.username = username;
+    public void setLoginInformation(String email, int loginID, String password){
+        this.email = email;
         this.loginID = loginID;
         this.password = password;
     }
@@ -51,12 +51,12 @@ public abstract class Person implements Login {
 
     //--------------------- for Firebase -----------------------//
     public void setName(String name){this.name = name;}
-    public void setUsername(String username){this.username = username;}
+    public void setEmail(String email){this.email = email;}
     public void setLoginID(int loginID){this.loginID = loginID;}
     public void setPassword(String password){this.name = password;}
 
     public String getName(){return name;}
-    public String getUsername(){return username;}
+    public String getEmail(){return email;}
     public int getLoginID(){return loginID;}
     public String getPassword(){return password;}
 
