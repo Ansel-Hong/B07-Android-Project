@@ -1,11 +1,21 @@
 package com.example.b07project;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -14,12 +24,78 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
+        Context pageContext = this;
 
         Button switchToPatientPage = findViewById(R.id.login_button);
         switchToPatientPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navigateToPatientActivity();
+                EditText editText = (EditText) findViewById(R.id.login_ID);
+                int loginID = Integer.parseInt(editText.getText().toString());
+
+                editText = (EditText) findViewById(R.id.login_password);
+                String password = editText.getText().toString();
+
+
+
+                int length = String.valueOf(loginID).length();
+                if (length == 5){
+                    DatabaseReference patientsDb = FirebaseDatabase.getInstance().getReference().child("patients");
+
+                    if (patientsDb.child(""+ loginID) != null){
+
+                        //Login ID verified
+                        //------------Verify password here --------
+
+
+
+
+
+
+                        //------------------------------------------
+                        boolean verifyPassword = true; //dummy variable so no errors
+                        if (verifyPassword){
+                            navigateToPatientActivity();
+                        } else{ //if password incorrect
+                            new AlertDialog.Builder(pageContext)
+                                    .setTitle("Incorrect Password")
+                                    .setMessage("Password provided does not match the login ID")
+
+                                    // A null listener allows the button to dismiss the dialog and take no further action.
+                                    .setNegativeButton(android.R.string.no, null)
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        }
+                    } else {
+                        new AlertDialog.Builder(pageContext)
+                                .setTitle("Invalid Login ID")
+                                .setMessage("No account has been created with this login ID")
+
+                                // A null listener allows the button to dismiss the dialog and take no further action.
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
+
+                }
+
+
+                if (length == 6){
+                    DatabaseReference doctorsDb = FirebaseDatabase.getInstance().getReference().child("doctors");
+
+                }
+
+
+
+
+//                if (db.child("" + this.loginID) != null) {
+//                    throw new IllegalArgumentException("ID has been used to create an account already");
+//                }else{
+//                    db.child("" + this.loginID).setValue(this);
+//                }
+
+
+
             }
         });
 

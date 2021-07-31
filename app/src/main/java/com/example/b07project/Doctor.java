@@ -40,7 +40,7 @@ public class Doctor extends Person{
      */
     private static int validateEmployeeID(int EmployeeID){
         String s = Integer.toString(EmployeeID);
-        Pattern pattern = Pattern.compile("//d{6}");
+        Pattern pattern = Pattern.compile("\\d{6}");
         Matcher matcher = pattern.matcher(s);
         if (matcher.matches() == false){
             throw new IllegalArgumentException("The employee ID is invalid!");

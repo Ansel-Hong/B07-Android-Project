@@ -49,7 +49,7 @@ public class Appointment {
             return false;
         return true;
     }
-//========================== not sure if these are necessary ===============================
+//========================== Necessary ===============================
     public void setPatient(Patient patient) {
         this.patient = patient;
     }
@@ -82,7 +82,7 @@ public class Appointment {
         return endTime;
     }
 
-//========================== not sure if these are necessary ===============================
+//========================== Necessary ===============================
 }
 
 
