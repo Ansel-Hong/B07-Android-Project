@@ -29,7 +29,7 @@ public class Patient extends Person{
         super(name);
     }
 
-    public Patient(String name, String email, int patientID, String password) {
+    public Patient(String name, String email, int patientID, String password) throws InputException {
         super(name, validatePatientEmail(email), validatePatientID(patientID), password);
         appointments = new ArrayList<Appointment>();
         storeInDB();
@@ -39,11 +39,11 @@ public class Patient extends Person{
     ** This method validates the format of the patient's email.
     ** Return the email if it is valid, throw an exception otherwise.
      */
-    public static String validatePatientEmail(String email){
-        Pattern pattern = Pattern.compile("^.+@.+\\..+$");
+    public static String validatePatientEmail(String email) throws InputException {
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)\\.[a-z]+$");
         Matcher matcher = pattern.matcher(email);
         if (matcher.matches() == false){
-            throw new IllegalArgumentException("The email address is invalid!");
+            throw new InputException("The email address is invalid!");
         }
         return email;
     }
@@ -52,38 +52,27 @@ public class Patient extends Person{
     ** This method validates the format of the patient's patientID.
     ** Return the ID if it is valid, throw an exception otherwise.
     */
-    public static int validatePatientID(int patientID){
+    public static int validatePatientID(int patientID) throws InputException {
         String s = Integer.toString(patientID);
-        Pattern pattern = Pattern.compile("//d{5}");
+        Pattern pattern = Pattern.compile("\\d{5}");
         Matcher matcher = pattern.matcher(s);
         if (matcher.matches() == false){
-            throw new IllegalArgumentException("The patient ID is invalid!");
+            throw new InputException("The patient ID is invalid! ID must be a 5 digit number.");
         }
         return patientID;
     }
 
     public void storeInDB(){
-        int loginID = this.loginID;
-        FirebaseDatabase.getInstance().getReference().child("patients")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot patients : dataSnapshot.getChildren()) {
-                            Patient patient = patients.getValue(Patient.class);
-//                               if (patient.loginID == loginID) {
-//                                   throw new IllegalArgumentException("An account has already been created with the ID provided");
-//                               }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        Log.w("info", "Failed to read value.", error.toException());
-                    }
-                });
 
         DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("patients");
-        db.child("" + this.loginID).setValue(this);
+
+
+        if (db.child("" + this.loginID) != null) {
+            throw new IllegalArgumentException("ID has been used to create an account already");
+        }else{
+            db.child("" + this.loginID).setValue(this);
+        }
+
     }
 
 

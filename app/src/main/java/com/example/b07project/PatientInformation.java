@@ -1,7 +1,9 @@
 package com.example.b07project;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +23,7 @@ public class PatientInformation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_information);
 
-
+        Context pageContext = this;
 
         Button update_info = findViewById(R.id.add_patient_info);
         update_info.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +39,7 @@ public class PatientInformation extends AppCompatActivity {
                 editText = (EditText) findViewById(R.id.patient_name);
                 String newName = editText.getText().toString();
 
-                editText = (EditText) findViewById(R.id.patient_password);
+                editText = (EditText) findViewById(R.id.patient_email);
                 String newEmail = editText.getText().toString();
 
                 editText = (EditText) findViewById(R.id.age);
@@ -49,10 +51,30 @@ public class PatientInformation extends AppCompatActivity {
                 editText = (EditText) findViewById(R.id.blood_type);
                 String newBloodType = editText.getText().toString();
 
+                try{
+                    Patient newPatient = new Patient(newName, newEmail, newLoginID, newPassword);
+                    HealthInformation newHealthInformation = new HealthInformation(newAge, newWeight, newBloodType);
+                    newPatient.addHealthInformation(newHealthInformation);
+                } catch (IllegalArgumentException e){
+                    new AlertDialog.Builder(pageContext)
+                            .setTitle("Invalid Input")
+                            .setMessage("This user ID or email have already been used to create another account")
 
-                Patient newPatient = new Patient(newName, newEmail, newLoginID, newPassword);
-                HealthInformation newHealthInformation = new HealthInformation(newAge, newWeight, newBloodType);
-                newPatient.addHealthInformation(newHealthInformation);
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }catch (InputException ex){
+                    new AlertDialog.Builder(pageContext)
+                            .setTitle("Invalid Input")
+                            .setMessage("The ID or email inputted do not match proper format.\nPlease insure the ID is a 5 digit number")
+
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+
 
 
             }
