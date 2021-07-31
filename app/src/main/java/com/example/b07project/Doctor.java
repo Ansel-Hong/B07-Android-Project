@@ -8,9 +8,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Doctor extends Person{
 
@@ -20,17 +23,29 @@ public class Doctor extends Person{
 
     public Doctor(){}
 
-
     public Doctor(String name){
         super(name);
     }
 
     public Doctor(String name, String username, int EmployeeID, String password){
-        super(name, username, EmployeeID, password);
-//        this.appointments = new HashSet<Appointment>();
+        super(name, username, validateEmployeeID(EmployeeID), password);
+//      this.appointments = new HashSet<Appointment>();
         this.availability = new HashSet<Availability>();
-
         storeInDB();
+    }
+
+    /*
+    ** This method validate the format of the doctor's EmployeeID.
+    **  Return the ID if it is valid, throw an exception otherwise.
+     */
+    private static int validateEmployeeID(int EmployeeID){
+        String s = Integer.toString(EmployeeID);
+        Pattern pattern = Pattern.compile("//d{6}");
+        Matcher matcher = pattern.matcher(s);
+        if (matcher.matches() == false){
+            throw new IllegalArgumentException("The employee ID is invalid!");
+        }
+        return EmployeeID;
     }
 
     public void storeInDB(){

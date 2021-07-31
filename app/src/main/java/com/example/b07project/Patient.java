@@ -23,49 +23,68 @@ public class Patient extends Person{
     private ArrayList<Appointment> appointments;
     private HealthInformation healthInformation;
 
-    public Patient(){
+    public Patient(){}
 
+    public Patient(String name){
+        super(name);
     }
 
-
     public Patient(String name, String email, int patientID, String password) {
-        //first maybe check if the ID is valid (ie: in a correct format)
-//        String t = Integer.toString(PatientID);
-//        Pattern pattern = Pattern.compile("\\d{10}");
-//        Matcher matcher = pattern.matcher(t);
-//        if (matcher.matches() == false) {
-//            throw new IllegalArgumentException("ID does not match proper format");}
-        //else{
-        super(name, email, patientID, password);
+        super(name, validatePatientEmail(email), validatePatientID(patientID), password);
         appointments = new ArrayList<Appointment>();
         storeInDB();
-//      }
+    }
 
+    /*
+    ** This method validates the format of the patient's email.
+    ** Return the email if it is valid, throw an exception otherwise.
+     */
+    public static String validatePatientEmail(String email){
+        Pattern pattern = Pattern.compile("^.+@.+\\..+$");
+        Matcher matcher = pattern.matcher(email);
+        if (matcher.matches() == false){
+            throw new IllegalArgumentException("The email address is invalid!");
         }
+        return email;
+    }
 
-        public void storeInDB(){
-            int loginID = this.loginID;
-            FirebaseDatabase.getInstance().getReference().child("patients")
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot patients : dataSnapshot.getChildren()) {
-                                Patient patient = patients.getValue(Patient.class);
-//                                if (patient.loginID == loginID) {
-//                                    throw new IllegalArgumentException("An account has already been created with the ID provided");
-//                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            Log.w("info", "Failed to read value.", error.toException());
-                        }
-                    });
-
-            DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("patients");
-            db.child("" + this.loginID).setValue(this);
+    /*
+    ** This method validates the format of the patient's patientID.
+    ** Return the ID if it is valid, throw an exception otherwise.
+    */
+    public static int validatePatientID(int patientID){
+        String s = Integer.toString(patientID);
+        Pattern pattern = Pattern.compile("//d{5}");
+        Matcher matcher = pattern.matcher(s);
+        if (matcher.matches() == false){
+            throw new IllegalArgumentException("The patient ID is invalid!");
         }
+        return patientID;
+    }
+
+    public void storeInDB(){
+        int loginID = this.loginID;
+        FirebaseDatabase.getInstance().getReference().child("patients")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot patients : dataSnapshot.getChildren()) {
+                            Patient patient = patients.getValue(Patient.class);
+//                               if (patient.loginID == loginID) {
+//                                   throw new IllegalArgumentException("An account has already been created with the ID provided");
+//                               }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Log.w("info", "Failed to read value.", error.toException());
+                    }
+                });
+
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("patients");
+        db.child("" + this.loginID).setValue(this);
+    }
 
 
 
