@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,18 +43,39 @@ public class LoginPage extends AppCompatActivity {
                 if (length == 5){
                     DatabaseReference patientsDb = FirebaseDatabase.getInstance().getReference().child("patients");
 
-                    if (patientsDb.child(""+ loginID) != null){
+                    Log.i("Check", "len correct");
 
+                    if (patientsDb.child(""+ loginID) != null){ //check if user exists
+                        Log.i("ONDATACHANGE", "loginid matched with " + patientsDb.child(""+ loginID));
+
+                        boolean verifyPassword = false; //dummy variable so no errors
                         //Login ID verified
                         //------------Verify password here --------
 
+//                        Log.i("ONDATACHANGE", "pass is " + patientsDb.child(""+ loginID).child("password"));
+//                        if (patientsDb.child(""+ loginID).child("password").toString().equals(password)){
+//                            verifyPassword = true;
+//                        }
 
+//                        addListenerForSingleValueEvent
+                        patientsDb.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.i("ONDATACHANGE", "abc");
+                                String retrievePass = dataSnapshot.child("password").getValue(String.class);
+                                Log.i("ONDATACHANGE", retrievePass);
+                                if(retrievePass == password){
+                                    Log.i("PASS", retrievePass);
+                                }
+                            }
 
-
-
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // ...
+                            }
+                        });
 
                         //------------------------------------------
-                        boolean verifyPassword = true; //dummy variable so no errors
                         if (verifyPassword){
                             navigateToPatientActivity();
                         } else{ //if password incorrect
@@ -69,7 +91,7 @@ public class LoginPage extends AppCompatActivity {
                     } else {
                         new AlertDialog.Builder(pageContext)
                                 .setTitle("Invalid Login ID")
-                                .setMessage("No account has been created with this login ID")
+                                .setMessage("No account has been created with this login ID, would you like to sign up for a new account?")
 
                                 // A null listener allows the button to dismiss the dialog and take no further action.
                                 .setNegativeButton(android.R.string.no, null)

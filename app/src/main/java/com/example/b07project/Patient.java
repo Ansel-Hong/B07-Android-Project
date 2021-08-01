@@ -104,6 +104,7 @@ public class Patient extends Person{
         Map<String, Object> patientUpdates = new HashMap<>();
         patientUpdates.put("healthInformation", healthInformation);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("patients").child(""+ this.loginID);
+
         ref.updateChildren(patientUpdates);
     }
 
