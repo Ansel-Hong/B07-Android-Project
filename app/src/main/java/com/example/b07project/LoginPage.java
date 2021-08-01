@@ -62,9 +62,11 @@ public class LoginPage extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Log.i("ONDATACHANGE", "abc");
+                                //System.out.println(password);
                                 String retrievePass = dataSnapshot.child("password").getValue(String.class);
                                 Log.i("ONDATACHANGE", retrievePass);
-                                if(retrievePass == password){
+                                //System.out.println(retrievePass);
+                                if(retrievePass.equals(password)){
                                     Log.i("PASS", retrievePass);
                                 }
                             }

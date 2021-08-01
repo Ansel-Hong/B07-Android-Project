@@ -5,33 +5,28 @@ import java.util.Date;
 
 public class Appointment {
 
-    private Patient patient;
-    private Doctor doctor;
+    private int patientID;
+    private int doctorID;
     private Date startTime;
     private Date endTime;
     private int appointmentID;
 
-    public Appointment (Patient patient, Doctor doctor, Date startTime, Date endTime) {
-        this.patient = patient;
-        this.doctor = doctor;
+    public Appointment (int patientID, int doctorID, Date startTime, Date endTime) {
+        this.patientID = patientID;
+        this.doctorID = doctorID;
         this.startTime = startTime;
         this.endTime = endTime;
         SimpleDateFormat st = new SimpleDateFormat("yyyy.MM.dd hh:mm");
         SimpleDateFormat et = new SimpleDateFormat("yyyy.MM.dd hh:mm");
-        this.appointmentID = Integer.parseInt(patient.loginID + doctor.loginID +
+        this.appointmentID = Integer.parseInt(patientID + doctorID +
                 st.format(startTime) + et.format(endTime));
     }
 
-    public Appointment() {
-        this.patient = null;
-        this.doctor = null;
-        this.startTime = null;
-        this.endTime = null;
-    }
+    public Appointment() { }
 
     @Override
     public String toString() {
-        return patient.name + " has a appointment with Dr." + doctor.name + " from " + startTime
+        return patientID + " has a appointment with Dr." + doctorID + " from " + startTime
                 + " to " + endTime;
     }
 
@@ -50,20 +45,18 @@ public class Appointment {
         return true;
     }
 //========================== Necessary ===============================
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setPatientID(int patientID) {
+        this.patientID = patientID;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public int getPatientID() { return patientID; }
+
+    public void setDoctor(int doctorID) {
+        this.doctorID = doctorID;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
+    public int getDoctorID() {
+        return doctorID;
     }
 
     public void setStartTime(Date startTime) {

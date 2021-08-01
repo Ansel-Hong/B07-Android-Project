@@ -66,7 +66,6 @@ public class Patient extends Person{
 
         DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("patients");
 
-
         if (db.child("" + this.loginID) != null) {
             throw new IllegalArgumentException("ID has been used to create an account already");
         }else{

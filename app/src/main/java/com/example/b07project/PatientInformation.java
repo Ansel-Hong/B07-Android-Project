@@ -58,7 +58,7 @@ public class PatientInformation extends AppCompatActivity {
                 } catch (IllegalArgumentException e){
                     new AlertDialog.Builder(pageContext)
                             .setTitle("Invalid Input")
-                            .setMessage("This user ID or email have already been used to create another account")
+                            .setMessage("This user ID has already been used to create another account")
 
                             // A null listener allows the button to dismiss the dialog and take no further action.
                             .setNegativeButton(android.R.string.no, null)
