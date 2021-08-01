@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,9 +18,9 @@ import java.util.regex.Pattern;
 
 public class Doctor extends Person{
 
-    private Set<Appointment> appointments;
+    private ArrayList<Appointment> appointments;
     // This field stores the availability of the doctor.
-    private Set<Availability> availability;
+    private ArrayList<Availability> availability;
 
     public Doctor(){}
 
@@ -27,10 +28,10 @@ public class Doctor extends Person{
         super(name);
     }
 
-    public Doctor(String name, String username, int EmployeeID, String password){
-        super(name, username, validateEmployeeID(EmployeeID), password);
-//      this.appointments = new HashSet<Appointment>();
-        this.availability = new HashSet<Availability>();
+    public Doctor(String name, String email, int EmployeeID, String password){
+        super(name, email, validateEmployeeID(EmployeeID), password);
+        this.appointments = new ArrayList<Appointment>();
+        this.availability = new ArrayList<Availability>();
         storeInDB();
     }
 
@@ -115,12 +116,12 @@ public class Doctor extends Person{
 
     //---------------- For Firebase --------------------//
     // setter function for a doctor
-    public void setAppointments(Set<Appointment> appointments){this.appointments=appointments;}
-    public void setAvailability(Set<Availability> availability){this.availability=availability;}
+    public void setAppointments(ArrayList<Appointment> appointments){this.appointments=appointments;}
+    public void setAvailability(ArrayList<Availability> availability){this.availability=availability;}
 
     // getter function for a doctor
-    public Set<Appointment> getAppointments(){return this.appointments;}
-    public Set<Availability> getAvailability(){return this.availability;}
+    public ArrayList<Appointment> getAppointments(){return this.appointments;}
+    public ArrayList<Availability> getAvailability(){return this.availability;}
 
 
 

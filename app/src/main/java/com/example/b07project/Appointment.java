@@ -16,17 +16,18 @@ public class Appointment {
         this.doctorID = doctorID;
         this.startTime = startTime;
         this.endTime = endTime;
-        SimpleDateFormat st = new SimpleDateFormat("yyyy.MM.dd hh:mm");
-        SimpleDateFormat et = new SimpleDateFormat("yyyy.MM.dd hh:mm");
-        this.appointmentID = Integer.parseInt(patientID + doctorID +
-                st.format(startTime) + et.format(endTime));
+        SimpleDateFormat st = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+        SimpleDateFormat et = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+        this.appointmentID = patientID + doctorID + (int)startTime.getTime() + (int)endTime.getTime();
+
+
     }
 
     public Appointment() { }
 
     @Override
     public String toString() {
-        return patientID + " has a appointment with Dr." + doctorID + " from " + startTime
+        return "" + patientID + " has a appointment with Dr." + doctorID + " from " + startTime
                 + " to " + endTime;
     }
 

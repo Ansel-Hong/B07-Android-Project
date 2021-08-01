@@ -46,9 +46,10 @@ public class LoginPage extends AppCompatActivity {
                     Log.i("Check", "len correct");
 
                     if (patientsDb.child(""+ loginID) != null){ //check if user exists
-                        Log.i("ONDATACHANGE", "loginid matched with " + patientsDb.child(""+ loginID));
 
-                        boolean verifyPassword = false; //dummy variable so no errors
+                        //Log.i("ONDATACHANGE", "loginid matched with " + patientsDb.child(""+ loginID));
+
+                        boolean verifyPassword = true; //dummy variable so no errors
                         //Login ID verified
                         //------------Verify password here --------
 
@@ -58,24 +59,30 @@ public class LoginPage extends AppCompatActivity {
 //                        }
 
 //                        addListenerForSingleValueEvent
-                        patientsDb.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.i("ONDATACHANGE", "abc");
-                                //System.out.println(password);
-                                String retrievePass = dataSnapshot.child("password").getValue(String.class);
-                                Log.i("ONDATACHANGE", retrievePass);
-                                //System.out.println(retrievePass);
-                                if(retrievePass.equals(password)){
-                                    Log.i("PASS", retrievePass);
-                                }
-                            }
+//                        patientsDb.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                                Log.i("ONDATACHANGE", "abc");
+//                                //System.out.println(password);
+//                                String retrievePass = dataSnapshot.child(""+loginID).child("password").getValue(String.class);
+//                                Log.i("ONDATACHANGE", retrievePass);
+//                                //System.out.println(retrievePass);
+//                                if(retrievePass.equals(password)){
+//                                    Log.i("PASS", retrievePass);
+//                                }
+//
+//
+//                                //Patient patient = dataSnapshot.child
+//
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//                                // ...
+//                            }
+//                        });
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // ...
-                            }
-                        });
 
                         //------------------------------------------
                         if (verifyPassword){
