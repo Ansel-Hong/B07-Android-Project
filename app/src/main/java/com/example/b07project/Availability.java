@@ -62,6 +62,13 @@ public class Availability {
         return true;
     }
 
+    public Appointment bookTime(int patientID, int doctorID){
+        Appointment appt = new Appointment(patientID, doctorID, start, end);
+        available = false;
+        return appt;
+    }
+
+
 
 
     @Override

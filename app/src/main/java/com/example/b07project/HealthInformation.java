@@ -1,6 +1,8 @@
 package com.example.b07project;
 
-public class HealthInformation {
+import java.io.Serializable;
+
+public class HealthInformation implements Serializable {
     public int age;
     public int weight;
     public String bloodtype;

@@ -38,6 +38,8 @@ public class LoginPage extends AppCompatActivity {
                 String password = editText.getText().toString();
 
 
+                final Patient[] patient = new Patient[1];
+
 
                 int length = String.valueOf(loginID).length();
                 if (length == 5){
@@ -46,6 +48,20 @@ public class LoginPage extends AppCompatActivity {
                     Log.i("Check", "len correct");
 
                     if (patientsDb.child(""+ loginID) != null){ //check if user exists
+
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("patients");
+                        ref.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                patient[0] = dataSnapshot.child(""+loginID).getValue(Patient.class);
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                Log.w("info", "Failed to read value.", error.toException());
+                            }
+                        });
 
                         //Log.i("ONDATACHANGE", "loginid matched with " + patientsDb.child(""+ loginID));
 
@@ -86,7 +102,7 @@ public class LoginPage extends AppCompatActivity {
 
                         //------------------------------------------
                         if (verifyPassword){
-                            navigateToPatientActivity();
+                            navigateToPatientActivity(patient[0]);
                         } else{ //if password incorrect
                             new AlertDialog.Builder(pageContext)
                                     .setTitle("Incorrect Password")
@@ -145,8 +161,10 @@ public class LoginPage extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void navigateToPatientActivity(){
+    public void navigateToPatientActivity(Patient patient){
         Intent navigateToPatientIntent = new Intent(this, PatientActivity.class);
+        navigateToPatientIntent.putExtra("patient", patient);
+
         startActivity(navigateToPatientIntent);
     }
 

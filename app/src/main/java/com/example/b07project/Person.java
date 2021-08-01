@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Person implements Login {
+public abstract class Person implements Login, Serializable {
     public String name;
     static int personCount;
 
