@@ -28,8 +28,13 @@ public class MainActivity extends AppCompatActivity {
         setActivityBackgroundColor(0xff42e9f5);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//        Patient p = new Patient("John Doe", "johndoe", 10000, "password");
-//        ref.child("p1").setValue(p);
+        Patient p = null;
+//        try {
+//            p = new Patient("John Doe", "johndoe", 10000, "password");
+//            ref.child("10000").setValue(p);
+//        } catch (InputException e) {
+//            e.printStackTrace();
+//        }
 
         //reads patients in database and displays users in log --
         ref.addValueEventListener(new ValueEventListener() {
@@ -45,13 +50,12 @@ public class MainActivity extends AppCompatActivity {
 //                        HealthInformation h = new HealthInformation(33, 170, "O-");
 //                        p.addHealthInformation(h);
 //                    }
-                    Log.i("info", p.toString());
+                    Log.i("checkdata", p.toString());
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
                 Log.w("info", "Failed to read value.", error.toException());
             }
         });
