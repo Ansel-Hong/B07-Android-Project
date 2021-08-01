@@ -43,14 +43,21 @@ public class LoginPage extends AppCompatActivity {
                 if (length == 5){
                     DatabaseReference patientsDb = FirebaseDatabase.getInstance().getReference().child("patients");
 
+                    Log.i("Check", "len correct");
 
                     if (patientsDb.child(""+ loginID) != null){ //check if user exists
-                        patientsDb = patientsDb.child("" + loginID);
+                        Log.i("ONDATACHANGE", "loginid matched with " + patientsDb.child(""+ loginID));
 
-                        boolean verifyPassword = true; //dummy variable so no errors
+                        boolean verifyPassword = false; //dummy variable so no errors
                         //Login ID verified
                         //------------Verify password here --------
 
+//                        Log.i("ONDATACHANGE", "pass is " + patientsDb.child(""+ loginID).child("password"));
+//                        if (patientsDb.child(""+ loginID).child("password").toString().equals(password)){
+//                            verifyPassword = true;
+//                        }
+
+//                        addListenerForSingleValueEvent
                         patientsDb.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {

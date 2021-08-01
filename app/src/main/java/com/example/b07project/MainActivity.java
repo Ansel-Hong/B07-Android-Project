@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 //                        HealthInformation h = new HealthInformation(33, 170, "O-");
 //                        p.addHealthInformation(h);
 //                    }
-                    Log.i("checkdata", p.toString());
+                    Log.i("info", p.toString());
                 }
             }
 
