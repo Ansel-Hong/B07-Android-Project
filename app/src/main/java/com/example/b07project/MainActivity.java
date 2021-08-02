@@ -29,10 +29,9 @@ public class MainActivity extends AppCompatActivity {
         setActivityBackgroundColor(0xff42e9f5);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
-        Doctor doctor = new Doctor("Michael Scott", "scott@doctor.com", "password");
+        Doctor doctor = new Doctor("Michael Scott", "scott@doctor.com",404040, "password");
         Date start = new Date(2020,8, 20, 13, 30);
         Date end = new Date(2020,8, 20, 14, 30);
-
 
 
         //Appointment a = new Appointment(12345, 404040, start, end);

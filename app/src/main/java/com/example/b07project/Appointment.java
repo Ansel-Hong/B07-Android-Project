@@ -5,29 +5,39 @@ import java.util.Date;
 
 public class Appointment {
 
-    private int patientID;
+    private String patientName;
     private int doctorID;
     private Date startTime;
     private Date endTime;
     private int appointmentID;
+    private boolean booked;
 
-    public Appointment (int patientID, int doctorID, Date startTime, Date endTime) {
-        this.patientID = patientID;
+    public Appointment (int doctorID, Date startTime, Date endTime) {
+        this.patientName = null;
         this.doctorID = doctorID;
         this.startTime = startTime;
         this.endTime = endTime;
         SimpleDateFormat st = new SimpleDateFormat("yyyy/MM/dd hh:mm");
         SimpleDateFormat et = new SimpleDateFormat("yyyy/MM/dd hh:mm");
-        this.appointmentID = patientID + doctorID + (int)startTime.getTime() + (int)endTime.getTime();
-
-
+        this.appointmentID = doctorID + (int)startTime.getTime() + (int)endTime.getTime();
+        this.booked = false;
     }
 
     public Appointment() { }
 
+    public void bookAppointment(String name){
+        this.patientName = name;
+        this.booked = true;
+    }
+
+    public void cancelAppointment(){
+        this.patientName = null; //optional
+        this.booked = false;
+    }
+
     @Override
     public String toString() {
-        return "" + patientID + " has a appointment with Dr." + doctorID + " from " + startTime
+        return "" + patientName + " has a appointment with Dr." + doctorID + " from " + startTime
                 + " to " + endTime;
     }
 
@@ -46,11 +56,13 @@ public class Appointment {
         return true;
     }
 //========================== Necessary ===============================
-    public void setPatientID(int patientID) {
-        this.patientID = patientID;
+    public String getPatientName() {
+        return patientName;
     }
 
-    public int getPatientID() { return patientID; }
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
 
     public void setDoctor(int doctorID) {
         this.doctorID = doctorID;
@@ -76,7 +88,15 @@ public class Appointment {
         return endTime;
     }
 
-//========================== Necessary ===============================
+    public int getAppointmentID() {
+        return appointmentID;
+    }
+
+    public boolean isBooked() {
+        return booked;
+    }
+
+    //========================== Necessary ===============================
 }
 
 
