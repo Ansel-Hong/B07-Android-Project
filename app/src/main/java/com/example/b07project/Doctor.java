@@ -11,7 +11,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +32,7 @@ public class Doctor extends Person{
 
     public Doctor(String name, String email, String password){
         super(name, email, password);
+
         this.appointments = new ArrayList<Appointment>();
         this.availability = new ArrayList<Availability>();
     }
@@ -38,12 +41,12 @@ public class Doctor extends Person{
     ** This method validate the format of the doctor's EmployeeID.
     **  Return the ID if it is valid, throw an exception otherwise.
      */
-    private static int validateEmployeeID(int EmployeeID){
+    private static int validateEmployeeID(int EmployeeID) throws InputException{
         String s = Integer.toString(EmployeeID);
         Pattern pattern = Pattern.compile("\\d{6}");
         Matcher matcher = pattern.matcher(s);
         if (matcher.matches() == false){
-            throw new IllegalArgumentException("The employee ID is invalid!");
+            throw new InputException("The employee ID is invalid! ID must be a 6 digit number.");
         }
         return EmployeeID;
     }
@@ -89,6 +92,22 @@ public class Doctor extends Person{
             throw new IllegalArgumentException("This doctor is not available at this time slot, please book another time slot or check another doctor's availability.");
         }
 
+    }
+
+    /*
+    ** This method adds an available time slot of the doctor and updates the database accordingly.
+     */
+    public void addAvailability(Availability availability){
+        if (this.availability.contains(availability)){
+            throw new IllegalArgumentException("This time slot has already been in the availability list!");
+        }
+        else{
+            this.availability.add(availability);
+            Map<String, Object> availabilityUpdates = new HashMap<>();
+            availabilityUpdates.put("Availability", this.availability);
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors").child("" + this.loginID);
+            ref.updateChildren(availabilityUpdates);
+        }
     }
 
     //---------------- For Firebase --------------------//
