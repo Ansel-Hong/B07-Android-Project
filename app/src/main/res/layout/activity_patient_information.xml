@@ -10,17 +10,19 @@
     <EditText
         android:id="@+id/patient_email"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/patient_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patient_name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/weight"
@@ -63,9 +65,9 @@
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patient_email" />
+        app:layout_constraintTop_toBottomOf="@+id/patient_name" />
 
     <EditText
         android:id="@+id/patient_name"
@@ -83,20 +85,6 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
-        android:id="@+id/patient_loginID"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Login ID (Health Card #)"
-        android:inputType="number"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
         android:id="@+id/patient_password"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -108,7 +96,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patient_loginID" />
+        app:layout_constraintTop_toBottomOf="@+id/patient_email" />
 
     <Button
         android:id="@+id/add_patient_info"

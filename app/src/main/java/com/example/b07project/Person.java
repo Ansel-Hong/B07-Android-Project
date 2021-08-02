@@ -21,7 +21,6 @@ public abstract class Person implements Login, Serializable {
 
     // I figure having the 3 fields is no harm when logging in
     public String email;
-    public int loginID; //OHIB for Patients and Employee ID for Doctors, unique for each person
     private String password;
 
 
@@ -31,17 +30,15 @@ public abstract class Person implements Login, Serializable {
         this.name = name;
     }
 
-    public Person(String name, String email, int loginID, String password){
+    public Person(String name, String email, String password){
         this.name = name;
         this.email = email;
-        this.loginID = loginID;
         this.password = password;
     }
 
 
     public void setLoginInformation(String email, int loginID, String password){
         this.email = email;
-        this.loginID = loginID;
         this.password = password;
     }
 
@@ -52,18 +49,16 @@ public abstract class Person implements Login, Serializable {
     //--------------------- for Firebase -----------------------//
     public void setName(String name){this.name = name;}
     public void setEmail(String email){this.email = email;}
-    public void setLoginID(int loginID){this.loginID = loginID;}
     public void setPassword(String password){this.name = password;}
 
     public String getName(){return name;}
     public String getEmail(){return email;}
-    public int getLoginID(){return loginID;}
     public String getPassword(){return password;}
 
 
     @Override
     public int hashCode() {
-        return loginID;
+        return 3;
     }
 
     @Override

@@ -29,51 +29,53 @@ public class Patient extends Person{
         super(name);
     }
 
-    public Patient(String name, String email, int patientID, String password) throws InputException {
-        super(name, validatePatientEmail(email), validatePatientID(patientID), password);
+    public Patient(String name, String email, String password, HealthInformation healthInformation) {
+        super(name, email, password);
+        this.healthInformation = healthInformation;
         appointments = new ArrayList<Appointment>();
-        storeInDB();
+
+
+//        if(checkID() == false)
+//            storeInDB();
+//        else
+//            throw new IllegalArgumentException("ID already used");
     }
 
     /*
     ** This method validates the format of the patient's email.
     ** Return the email if it is valid, throw an exception otherwise.
      */
-    public static String validatePatientEmail(String email) throws InputException {
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)\\.[a-z]+$");
-        Matcher matcher = pattern.matcher(email);
-        if (matcher.matches() == false){
-            throw new InputException("The email address is invalid!");
-        }
-        return email;
-    }
+//    public static String validatePatientEmail(String email)  {
+//        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)\\.[a-z]+$");
+//        Matcher matcher = pattern.matcher(email);
+//        if (matcher.matches() == false){
+//            throw new IllegalArgumentException("The email address is invalid!");
+//        }
+//        return email;
+//    }
 
     /*
     ** This method validates the format of the patient's patientID.
     ** Return the ID if it is valid, throw an exception otherwise.
     */
-    public static int validatePatientID(int patientID) throws InputException {
+    public static int validatePatientID(int patientID) {
         String s = Integer.toString(patientID);
         Pattern pattern = Pattern.compile("\\d{5}");
         Matcher matcher = pattern.matcher(s);
         if (matcher.matches() == false){
-            throw new InputException("The patient ID is invalid! ID must be a 5 digit number.");
+            throw new IllegalArgumentException("The patient ID is invalid! ID must be a 5 digit number.");
         }
         return patientID;
     }
 
-    public void storeInDB(){
 
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("patients");
 
-        if (db.child("" + this.loginID) != null) {
-            throw new IllegalArgumentException("ID has been used to create an account already");
-        }else{
-            db.child("" + this.loginID).setValue(this);
-        }
 
+
+
+    public static void throwIDException(){
+        throw new IllegalArgumentException("ID has already been used");
     }
-
 
 
 //    @Override
@@ -99,13 +101,7 @@ public class Patient extends Person{
 ////        }
 //    }
 
-    public void addHealthInformation(HealthInformation healthInformation){
-        Map<String, Object> patientUpdates = new HashMap<>();
-        patientUpdates.put("healthInformation", healthInformation);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("patients").child(""+ this.loginID);
 
-        ref.updateChildren(patientUpdates);
-    }
 
     public void clearHealthInformation(){ this.healthInformation = null; }
 
@@ -135,8 +131,7 @@ public class Patient extends Person{
 
     @Override
     public String toString() {
-        return "{Patient name: " + name +
-                ", ID: " + loginID +"}";
+        return "{Patient name: " + name + "}";
     }
 
 

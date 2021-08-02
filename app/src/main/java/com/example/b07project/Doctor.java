@@ -28,11 +28,10 @@ public class Doctor extends Person{
         super(name);
     }
 
-    public Doctor(String name, String email, int EmployeeID, String password){
-        super(name, email, validateEmployeeID(EmployeeID), password);
+    public Doctor(String name, String email, String password){
+        super(name, email, password);
         this.appointments = new ArrayList<Appointment>();
         this.availability = new ArrayList<Availability>();
-        storeInDB();
     }
 
     /*
@@ -49,29 +48,7 @@ public class Doctor extends Person{
         return EmployeeID;
     }
 
-    public void storeInDB(){
-        int loginID = this.loginID;
-        FirebaseDatabase.getInstance().getReference().child("doctors")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot doctors : dataSnapshot.getChildren()) {
-                            Doctor doctor = doctors.getValue(Doctor.class);
-//                            if (doctor.loginID == loginID) {
-//                                throw new IllegalArgumentException("An account has already been created with the ID provided");
-//                            }
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        Log.w("info", "Failed to read value.", error.toException());
-                    }
-                });
-
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("doctors");
-        db.child("" + this.loginID).setValue(this);
-    }
 
     @Override
     public void setLoginInformation(String username, int loginID, String password) {
@@ -149,7 +126,6 @@ public class Doctor extends Person{
 
     @Override
     public String toString() {
-        return "{Doctor name: Dr. " + name +
-                ", ID: " + loginID +"}";
+        return "{Doctor name: Dr. " + name + "}";
     }
 }
