@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class BookAppointmentActivity extends AppCompatActivity {
     Button newDoctor;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,8 @@ public class BookAppointmentActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
+
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -38,7 +42,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
                 for (DataSnapshot child: dataSnapshot.getChildren()){
                     Doctor d = child.getValue(Doctor.class);
-                    addDoctor(d);
+                    addDoctor(d, child.getKey());
                 }
             }
 
@@ -52,18 +56,17 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
 
 
-    public void addDoctor(Doctor doctor){
-        int loginID = doctor.getEmployeeID();
+    public void addDoctor(Doctor doctor, String id){
+        String doctorID = id;
         LinearLayout layout = (LinearLayout) findViewById(R.id.doctor_list);
         newDoctor = new Button(this);
         newDoctor.setText(doctor.name);
 
-        newDoctor.setId(doctor.getEmployeeID());
         newDoctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent navigateToAvailabilityIntent = new Intent(BookAppointmentActivity.this, SelectAvailabilityActivity.class);
-                navigateToAvailabilityIntent.putExtra("loginID", Integer.toString(loginID));
+                navigateToAvailabilityIntent.putExtra("doctorID", doctorID);
                 startActivity(navigateToAvailabilityIntent);
             }
         });

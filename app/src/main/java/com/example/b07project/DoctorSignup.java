@@ -1,13 +1,14 @@
 package com.example.b07project;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,52 +20,45 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class PatientInformation extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class DoctorSignup extends AppCompatActivity {
 
     private FirebaseAuth auth;
-    EditText editTextName, editTextEmail, editTextPassword, editTextAge, editTextWeight, editTextBloodType;
+    EditText editTextName, editTextEmail, editTextPassword, editTextSpecialty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_information);
+        setContentView(R.layout.activity_doctor_signup);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
 
         auth = FirebaseAuth.getInstance();
-
-
-        Button update_info = findViewById(R.id.add_patient_info);
+        Button update_info = findViewById(R.id.add_doctor_info);
         update_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
-                editTextPassword = (EditText) findViewById(R.id.patient_password);
+                editTextPassword = (EditText) findViewById(R.id.doctor_password);
 
-                editTextName = (EditText) findViewById(R.id.patient_name);
+                editTextName = (EditText) findViewById(R.id.doctor_name);
 
-                editTextEmail = (EditText) findViewById(R.id.patient_email);
+                editTextEmail = (EditText) findViewById(R.id.doctor_email);
 
-                editTextAge = (EditText) findViewById(R.id.age);
-
-                editTextWeight = (EditText) findViewById(R.id.weight);
-
-                editTextBloodType = (EditText) findViewById(R.id.blood_type);
+                editTextSpecialty = (EditText) findViewById(R.id.doctor_specialty);
 
                 registerUser();
 
             }
         });
+
+
+
     }
-
-    public void navigateToPatientActivity(Patient patient){
-        Intent navigateToPatientIntent = new Intent(this, PatientActivity.class);
-        //navigateToPatientIntent.putExtra("patient", patient);
-
-        startActivity(navigateToPatientIntent);
-    }
-
 
     private void registerUser() {
         Context pageContext = this;
@@ -76,11 +70,8 @@ public class PatientInformation extends AppCompatActivity {
 
         String newEmail = editTextEmail.getText().toString().trim();
 
-        String newAge = editTextAge.getText().toString();
 
-        String newWeight = editTextWeight.getText().toString();
-
-        String newBloodType = editTextBloodType.getText().toString().trim();
+        String newSpecialty = editTextSpecialty.getText().toString().trim();
 
         if (newName.isEmpty()) {
             editTextName.setError("Full name is required!");
@@ -88,11 +79,6 @@ public class PatientInformation extends AppCompatActivity {
             return;
         }
 
-        if (newAge.isEmpty()) {
-            editTextAge.setError("Age is required!");
-            editTextAge.requestFocus();
-            return;
-        }
 
         if (newEmail.isEmpty()) {
             editTextEmail.setError("Email is required!");
@@ -123,22 +109,22 @@ public class PatientInformation extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            HealthInformation newHealthInformation = new HealthInformation(Integer.parseInt(newAge), Integer.parseInt(newWeight), newBloodType);
-                            Patient newPatient = new Patient(newName, newEmail, newPassword, newHealthInformation);
+                            ArrayList<Appointment> timeSlots = new ArrayList<Appointment>();
+                            Doctor newDoctor = new Doctor(newName, newEmail, newPassword, timeSlots);
 
-                            FirebaseDatabase.getInstance().getReference().child("patients").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(newPatient).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            FirebaseDatabase.getInstance().getReference().child("doctors").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(newDoctor).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast toast = Toast.makeText(PatientInformation.this, "User successfully registered!", Toast.LENGTH_LONG);
+                                        Toast toast = Toast.makeText(DoctorSignup.this, "User successfully registered!", Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
                                         toast.show();
 
-                                        navigateToPatientActivity();
+
 
                                     } else{
-                                        Toast toast = Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
+                                        Toast toast = Toast.makeText(DoctorSignup.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
                                         toast.show();
                                     }
@@ -146,7 +132,7 @@ public class PatientInformation extends AppCompatActivity {
                             });
 
                         } else {
-                            Toast toast = Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
+                            Toast toast = Toast.makeText(DoctorSignup.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
                             toast.show();
                         }
@@ -155,11 +141,13 @@ public class PatientInformation extends AppCompatActivity {
 
     }
 
-    public void navigateToPatientActivity(){
-        Intent navigateToPatientIntent = new Intent(PatientInformation.this, PatientActivity.class);
-        //navigateToPatientIntent.putExtra("patient", patient);
-
-        startActivity(navigateToPatientIntent);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
-
 }

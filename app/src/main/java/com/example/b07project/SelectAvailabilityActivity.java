@@ -15,18 +15,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class SelectAvailabilityActivity extends AppCompatActivity {
+
+    Button newSlot;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_availability);
+
+        auth = FirebaseAuth.getInstance();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -36,22 +47,81 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
         Context pageContext = this;
 
         Intent intent = getIntent();
-        int loginID = Integer.parseInt(intent.getStringExtra("loginID"));
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors").child("" + loginID).child("Availability");
+        String doctorID = intent.getStringExtra("doctorID");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors").child(doctorID);
+
+        //Creating blank schedule
         ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot availability:dataSnapshot.getChildren()){
-                    //Availability child = availability.getValue(Availability.class);
-                    //addTimeSlot(child);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                Doctor doctor = snapshot.getValue(Doctor.class);
+
+                String doctorID = snapshot.getKey();
+
+
+
+                int i = 0;
+
+                Calendar today = Calendar.getInstance();
+                today.add(Calendar.DAY_OF_MONTH, 1);
+                today.set(Calendar.HOUR, 9);
+                today.set(Calendar.MINUTE, 0);
+                today.set(Calendar.SECOND, 0);
+
+
+                Calendar holder = new GregorianCalendar();
+                holder = today;
+
+
+                while(i<30){
+                    int j = 0;
+                    while (j<9){
+                        Calendar slot = new GregorianCalendar();
+                        slot = holder;
+
+                        Date date = slot.getTime();
+
+//                        for (Appointment apt: doctor.timeSlots){
+//                            if (!apt.getStartTime().equals(date))
+//                                addTimeSlot(date);
+//                        }
+
+                        addTimeSlot(date, doctorID); //should be in if statement once all features are added
+
+
+                        slot.add(Calendar.HOUR, 1);
+                        holder = slot;
+                        j++;
+                    }
+                    holder.add(Calendar.DAY_OF_MONTH,1);
+                    i++;
                 }
+
+
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                Log.w("info", "Failed to read value.", error.toException());
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot availability:dataSnapshot.getChildren()){
+//                    //Availability child = availability.getValue(Availability.class);
+//                    //addTimeSlot(child);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                Log.w("info", "Failed to read value.", error.toException());
+//            }
+//        });
     }
 
 //    public void addTimeSlot(Availability availability){
@@ -83,5 +153,53 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void addTimeSlot(Date date, String doctorID){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.time_slots);
+        newSlot = new Button(this);
+        newSlot.setText(date.toString());
+
+        newSlot.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                bookAppointment(date, doctorID);
+            }
+        });
+
+        layout.addView(newSlot);
+
+    }
+
+    public void bookAppointment(Date date, String doctorID){
+
+        //Using doctorID, you can map through the
+
+
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Appointments");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String patientID = auth.getCurrentUser().getUid();
+                Appointment apt = new Appointment(doctorID, patientID, date);
+
+                ref.child(Integer.toString(apt.getAppointmentID())).setValue(apt);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+    }
+
+
 
 }

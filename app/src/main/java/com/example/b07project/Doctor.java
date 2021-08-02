@@ -10,6 +10,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +19,10 @@ import java.util.regex.Pattern;
 
 public class Doctor extends Person{
 
-    private ArrayList<Appointment> timeSlots;
+    public ArrayList<Appointment> timeSlots;
     private int employeeID;
+    String specialty;
+
 
 
     public Doctor(){}
@@ -28,19 +31,18 @@ public class Doctor extends Person{
         super(name);
     }
 
-    public Doctor(String name, String email, int EmployeeID, String password, ArrayList<Appointment> slots){
+    public Doctor(String name, String email, String password, ArrayList<Appointment> slots){
         super(name, email, password);
-        employeeID = validateEmployeeID(EmployeeID);
+        //employeeID = validateEmployeeID(EmployeeID);
         this.timeSlots = slots;
-        storeInDB();
     }
 
-    public Doctor(String name, String email, int EmployeeID, String password){
+    public Doctor(String name, String email, String password){
         super(name, email, password);
-        employeeID = validateEmployeeID(EmployeeID);
+        //employeeID = validateEmployeeID(EmployeeID);
         this.timeSlots = new ArrayList<Appointment>();
-        storeInDB();
     }
+
 
     public ArrayList<Appointment> getTimeSlots() {
         return timeSlots;
@@ -64,29 +66,7 @@ public class Doctor extends Person{
         return EmployeeID;
     }
 
-    public void storeInDB(){
-        int loginID = this.employeeID;
-        FirebaseDatabase.getInstance().getReference().child("doctors")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot doctors : dataSnapshot.getChildren()) {
-                            Doctor doctor = doctors.getValue(Doctor.class);
-//                            if (doctor.loginID == loginID) {
-//                                throw new IllegalArgumentException("An account has already been created with the ID provided");
-//                            }
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        Log.w("info", "Failed to read value.", error.toException());
-                    }
-                });
-
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("doctors");
-        db.child("" + this.employeeID).setValue(this);
-    }
 
     @Override
     public void setLoginInformation(String username, int loginID, String password) {
@@ -109,13 +89,13 @@ public class Doctor extends Person{
     *  appointment list appointments if it's not in the list.
     *  The availability of the doctor will be updated accordingly.
     */
-    public void addAppointment(Appointment appointment, String patientName) {
-       for(Appointment t : timeSlots){
-           if(t.getAppointmentID() == appointment.getAppointmentID())
-               t.bookAppointment(patientName);
-       }
-
-    }
+//    public void addAppointment(Appointment appointment, String patientName) {
+//       for(Appointment t : timeSlots){
+//           if(t.getAppointmentID() == appointment.getAppointmentID())
+//               t.bookAppointment(patientName);
+//       }
+//
+//    }
 
     //---------------- For Firebase --------------------//
     // setter function for a doctor
@@ -124,13 +104,16 @@ public class Doctor extends Person{
     // getter function for a doctor
     public ArrayList<Appointment> getAppointments(){return this.timeSlots;}
 
-    public int getEmployeeID() {
-        return employeeID;
-    }
+//    public int getEmployeeID() {
+//        return employeeID;
+//    }
+//
+//    public void setEmployeeID(int employeeID) {
+//        this.employeeID = validateEmployeeID(employeeID);
+//    }
 
-    public void setEmployeeID(int employeeID) {
-        this.employeeID = validateEmployeeID(employeeID);
-    }
+    public String getSpecialty(){return specialty;}
+    public void setSpecialty(String specialty){this.specialty = specialty;}
 
     @Override
     public boolean equals(Object obj){

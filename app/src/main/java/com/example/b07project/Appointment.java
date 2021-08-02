@@ -5,40 +5,35 @@ import java.util.Date;
 
 public class Appointment {
 
-    private String patientName;
-    private int doctorID;
+    private String patientID;
+    private String doctorID;
     private Date startTime;
-    private Date endTime;
     private int appointmentID;
-    private boolean booked;
 
-    public Appointment (int doctorID, Date startTime, Date endTime) {
-        this.patientName = null;
+    public Appointment (String doctorID, String patientID, Date startTime) {
+        this.patientID = patientID;
         this.doctorID = doctorID;
         this.startTime = startTime;
-        this.endTime = endTime;
         SimpleDateFormat st = new SimpleDateFormat("yyyy/MM/dd hh:mm");
         SimpleDateFormat et = new SimpleDateFormat("yyyy/MM/dd hh:mm");
-        this.appointmentID = doctorID + (int)startTime.getTime() + (int)endTime.getTime();
-        this.booked = false;
+        this.appointmentID = (int)startTime.getTime();
     }
 
     public Appointment() { }
 
-    public void bookAppointment(String name){
-        this.patientName = name;
-        this.booked = true;
-    }
+//    public void bookAppointment(String patientID){
+//        this.patientID = patientID;
+//        this.booked = true;
+//    }
 
-    public void cancelAppointment(){
-        this.patientName = null; //optional
-        this.booked = false;
-    }
+//    public void cancelAppointment(){
+//        this.patientID = null; //optional
+//        this.booked = false;
+//    }
 
     @Override
     public String toString() {
-        return "" + patientName + " has a appointment with Dr." + doctorID + " from " + startTime
-                + " to " + endTime;
+        return "" + patientID + " has a appointment with Dr." + doctorID + " at " + startTime;
     }
 
     @Override
@@ -55,20 +50,24 @@ public class Appointment {
             return false;
         return true;
     }
+//    public boolean isBooked() {
+//        return booked;
+//    }
+
 //========================== Necessary ===============================
-    public String getPatientName() {
-        return patientName;
+    public String getPatientID() {
+        return patientID;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setPatientName(String patientID) {
+        this.patientID = patientID;
     }
 
-    public void setDoctor(int doctorID) {
+    public void setDoctor(String doctorID) {
         this.doctorID = doctorID;
     }
 
-    public int getDoctorID() {
+    public String getDoctorID() {
         return doctorID;
     }
 
@@ -80,21 +79,16 @@ public class Appointment {
         return startTime;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
+    public void setAppointmentID(int appointmentID){this.appointmentID = appointmentID;}
 
     public int getAppointmentID() {
         return appointmentID;
     }
 
-    public boolean isBooked() {
-        return booked;
-    }
+//    public void setBooked(boolean booked){this.booked = booked;}
+//    public boolean getBooked(){return this.booked};
+
+
 
     //========================== Necessary ===============================
 }

@@ -70,6 +70,15 @@ public class LoginPage extends AppCompatActivity {
                 navigateToPatientSignup();
             }
         });
+
+        Button signupDoctor = findViewById(R.id.signup_doctor);
+        signupDoctor.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginPage.this, DoctorSignup.class));
+            }
+        });
+
     }
 
 
