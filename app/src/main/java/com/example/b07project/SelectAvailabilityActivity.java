@@ -1,6 +1,7 @@
 package com.example.b07project;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -26,6 +28,11 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_availability);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+
         Context pageContext = this;
 
         Intent intent = getIntent();
@@ -35,8 +42,8 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot availability:dataSnapshot.getChildren()){
-                    Availability child = availability.getValue(Availability.class);
-                    addTimeSlot(child);
+                    //Availability child = availability.getValue(Availability.class);
+                    //addTimeSlot(child);
                 }
             }
 
@@ -47,23 +54,34 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
         });
     }
 
-    public void addTimeSlot(Availability availability){
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.availability_list);
-        Button newTimeSlot = new Button(this);
-        newTimeSlot.setText(availability.toString());
-        newTimeSlot.setId(availability.hashCode());
-        linearLayout.addView(newTimeSlot);
-        Context pageContext = this;
-        newTimeSlot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(pageContext)
-                        .setTitle("Booking Successful")
-                        .setMessage("You have successfully booked this time slot!")
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
-            }
-        });
+//    public void addTimeSlot(Availability availability){
+//        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.availability_list);
+//        Button newTimeSlot = new Button(this);
+//        newTimeSlot.setText(availability.toString());
+//        newTimeSlot.setId(availability.hashCode());
+//        linearLayout.addView(newTimeSlot);
+//        Context pageContext = this;
+//        newTimeSlot.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new AlertDialog.Builder(pageContext)
+//                        .setTitle("Booking Successful")
+//                        .setMessage("You have successfully booked this time slot!")
+//                        .setNegativeButton(android.R.string.no, null)
+//                        .show();
+//            }
+//        });
+//    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

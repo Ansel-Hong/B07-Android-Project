@@ -3,12 +3,15 @@ package com.example.b07project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +36,8 @@ public class PatientInformation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_information);
+
+
 
         auth = FirebaseAuth.getInstance();
 
@@ -134,19 +139,35 @@ public class PatientInformation extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(PatientInformation.this, "User has been registered successfully", Toast.LENGTH_LONG).show();
+                                        Toast toast = Toast.makeText(PatientInformation.this, "User successfully registered!", Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                                        toast.show();
+
+                                        navigateToPatientActivity();
+
                                     } else{
-                                        Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG).show();
+                                        Toast toast = Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                                        toast.show();
                                     }
                                 }
                             });
 
                         } else {
-                            Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG).show();
+                            Toast toast = Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                            toast.show();
                         }
                     }
                 });
 
+    }
+
+    public void navigateToPatientActivity(){
+        Intent navigateToPatientIntent = new Intent(PatientInformation.this, PatientActivity.class);
+        //navigateToPatientIntent.putExtra("patient", patient);
+
+        startActivity(navigateToPatientIntent);
     }
 
 }

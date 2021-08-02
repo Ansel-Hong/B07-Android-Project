@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -112,7 +113,9 @@ public class LoginPage extends AppCompatActivity {
             return;
         }
 
-        //progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        Context pageContext = this;
 
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -121,7 +124,22 @@ public class LoginPage extends AppCompatActivity {
                     startActivity(new Intent(LoginPage.this, PatientActivity.class));
 
                 } else {
-                    Toast.makeText(LoginPage.this, "Login failure, please input correct email and password", Toast.LENGTH_LONG).show();
+                    new AlertDialog.Builder(pageContext)
+                            .setTitle("Login information was incorrect, please try again.")
+                            //.setMessage("Are you sure you want to delete this entry?")
+
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                }
+                            });
+
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+//                            .setNegativeButton(android.R.string.no, null)
+//                            .setIcon(android.R.drawable.ic_dialog_alert)
+//                            .show();
                 }
 
             }
