@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PatientInformation extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth auth;
     EditText editTextName, editTextEmail, editTextPassword, editTextAge, editTextWeight, editTextBloodType;
 
     @Override
@@ -34,7 +34,7 @@ public class PatientInformation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_information);
 
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
 
         Button update_info = findViewById(R.id.add_patient_info);
@@ -121,7 +121,7 @@ public class PatientInformation extends AppCompatActivity {
             return;
         }
 
-        mAuth.createUserWithEmailAndPassword(newEmail, newPassword)
+        auth.createUserWithEmailAndPassword(newEmail, newPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

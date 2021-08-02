@@ -46,17 +46,17 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
 
     public void addDoctor(Doctor doctor){
-        int loginID = doctor.loginID;
+        //int loginID = doctor.loginID;
         LinearLayout layout = (LinearLayout) findViewById(R.id.doctor_list);
         newDoctor = new Button(this);
         newDoctor.setText(doctor.name);
 
-        newDoctor.setId(doctor.loginID);
+        //newDoctor.setId(doctor.loginID);
         newDoctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent navigateToAvailabilityIntent = new Intent(BookAppointmentActivity.this, SelectAvailabilityActivity.class);
-                navigateToAvailabilityIntent.putExtra("loginID", Integer.toString(loginID));
+                //navigateToAvailabilityIntent.putExtra("loginID", Integer.toString(loginID));
                 startActivity(navigateToAvailabilityIntent);
             }
         });

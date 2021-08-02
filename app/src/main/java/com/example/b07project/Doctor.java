@@ -41,15 +41,15 @@ public class Doctor extends Person{
     ** This method validate the format of the doctor's EmployeeID.
     **  Return the ID if it is valid, throw an exception otherwise.
      */
-    private static int validateEmployeeID(int EmployeeID) throws InputException{
-        String s = Integer.toString(EmployeeID);
-        Pattern pattern = Pattern.compile("\\d{6}");
-        Matcher matcher = pattern.matcher(s);
-        if (matcher.matches() == false){
-            throw new InputException("The employee ID is invalid! ID must be a 6 digit number.");
-        }
-        return EmployeeID;
-    }
+//    private static int validateEmployeeID(int EmployeeID) throws InputException{
+//        String s = Integer.toString(EmployeeID);
+//        Pattern pattern = Pattern.compile("\\d{6}");
+//        Matcher matcher = pattern.matcher(s);
+//        if (matcher.matches() == false){
+//            throw new InputException("The employee ID is invalid! ID must be a 6 digit number.");
+//        }
+//        return EmployeeID;
+//    }
 
 
 
@@ -105,8 +105,8 @@ public class Doctor extends Person{
             this.availability.add(availability);
             Map<String, Object> availabilityUpdates = new HashMap<>();
             availabilityUpdates.put("Availability", this.availability);
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors").child("" + this.loginID);
-            ref.updateChildren(availabilityUpdates);
+            //DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors").child("" + this.loginID);
+            //ref.updateChildren(availabilityUpdates);
         }
     }
 
