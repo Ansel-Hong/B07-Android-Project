@@ -20,6 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginPage extends AppCompatActivity {
 
+    public boolean verify = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +52,11 @@ public class LoginPage extends AppCompatActivity {
                     if (patientsDb.child(""+ loginID) != null){ //check if user exists
 
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("patients");
-                        ref.addValueEventListener(new ValueEventListener() {
+                        ref.child(""+loginID).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                patient[0] = dataSnapshot.child(""+loginID).getValue(Patient.class);
+                                Patient p = dataSnapshot.getValue(Patient.class);
+                                verifyPassword(p.getPassword(), password);
 
                             }
 
@@ -65,7 +68,6 @@ public class LoginPage extends AppCompatActivity {
 
                         //Log.i("ONDATACHANGE", "loginid matched with " + patientsDb.child(""+ loginID));
 
-                        boolean verifyPassword = true; //dummy variable so no errors
                         //Login ID verified
                         //------------Verify password here --------
 
@@ -101,7 +103,7 @@ public class LoginPage extends AppCompatActivity {
 
 
                         //------------------------------------------
-                        if (verifyPassword){
+                        if (verify){
                             navigateToPatientActivity(patient[0]);
                         } else{ //if password incorrect
                             new AlertDialog.Builder(pageContext)
@@ -156,10 +158,6 @@ public class LoginPage extends AppCompatActivity {
         });
     }
 
-    public void goToPatientUserPage(View view) {
-        Intent intent = new Intent(this, PatientActivity.class);
-        startActivity(intent);
-    }
 
     public void navigateToPatientActivity(Patient patient){
         Intent navigateToPatientIntent = new Intent(this, PatientActivity.class);
@@ -172,5 +170,11 @@ public class LoginPage extends AppCompatActivity {
         Intent navigateToPatientSignup = new Intent(this, PatientInformation.class);
         startActivity(navigateToPatientSignup);
     }
+
+    public void verifyPassword(String dbPassword, String inputPassword){
+        if(dbPassword.equals(inputPassword))
+            verify = true;
+    }
+
 
 }

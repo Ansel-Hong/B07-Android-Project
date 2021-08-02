@@ -1,15 +1,23 @@
 package com.example.b07project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,66 +26,127 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PatientInformation extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
+    EditText editTextName, editTextEmail, editTextPassword, editTextAge, editTextWeight, editTextBloodType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_information);
 
-        Context pageContext = this;
+        mAuth = FirebaseAuth.getInstance();
+
 
         Button update_info = findViewById(R.id.add_patient_info);
         update_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                EditText editText = (EditText) findViewById(R.id.patient_loginID);
-                int newLoginID = Integer.parseInt(editText.getText().toString());
 
-                editText = (EditText) findViewById(R.id.patient_password);
-                String newPassword = editText.getText().toString();
+                editTextPassword = (EditText) findViewById(R.id.patient_password);
 
-                editText = (EditText) findViewById(R.id.patient_name);
-                String newName = editText.getText().toString();
+                editTextName = (EditText) findViewById(R.id.patient_name);
 
-                editText = (EditText) findViewById(R.id.patient_email);
-                String newEmail = editText.getText().toString();
+                editTextEmail = (EditText) findViewById(R.id.patient_email);
 
-                editText = (EditText) findViewById(R.id.age);
-                int newAge = Integer.parseInt(editText.getText().toString());
+                editTextAge = (EditText) findViewById(R.id.age);
 
-                editText = (EditText) findViewById(R.id.weight);
-                int newWeight = Integer.parseInt(editText.getText().toString());
+                editTextWeight = (EditText) findViewById(R.id.weight);
 
-                editText = (EditText) findViewById(R.id.blood_type);
-                String newBloodType = editText.getText().toString();
+                editTextBloodType = (EditText) findViewById(R.id.blood_type);
 
-                try{
-                    Patient newPatient = new Patient(newName, newEmail, newLoginID, newPassword);
-                    HealthInformation newHealthInformation = new HealthInformation(newAge, newWeight, newBloodType);
-                    newPatient.addHealthInformation(newHealthInformation);
-                } catch (IllegalArgumentException e){
-                    new AlertDialog.Builder(pageContext)
-                            .setTitle("Invalid Input")
-                            .setMessage("This user ID has already been used to create another account")
-
-                            // A null listener allows the button to dismiss the dialog and take no further action.
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }catch (InputException ex){
-                    new AlertDialog.Builder(pageContext)
-                            .setTitle("Invalid Input")
-                            .setMessage("The ID or email inputted do not match proper format.\nPlease insure the ID is a 5 digit number")
-
-                            // A null listener allows the button to dismiss the dialog and take no further action.
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-
-
+                registerUser();
 
             }
         });
     }
+
+    public void navigateToPatientActivity(Patient patient){
+        Intent navigateToPatientIntent = new Intent(this, PatientActivity.class);
+        //navigateToPatientIntent.putExtra("patient", patient);
+
+        startActivity(navigateToPatientIntent);
+    }
+
+
+    private void registerUser() {
+        Context pageContext = this;
+
+
+        String newPassword = editTextPassword.getText().toString().trim();
+
+        String newName = editTextName.getText().toString().trim();
+
+        String newEmail = editTextEmail.getText().toString().trim();
+
+        String newAge = editTextAge.getText().toString();
+
+        String newWeight = editTextWeight.getText().toString();
+
+        String newBloodType = editTextBloodType.getText().toString().trim();
+
+        if (newName.isEmpty()) {
+            editTextName.setError("Full name is required!");
+            editTextName.requestFocus();
+            return;
+        }
+
+        if (newAge.isEmpty()) {
+            editTextAge.setError("Age is required!");
+            editTextAge.requestFocus();
+            return;
+        }
+
+        if (newEmail.isEmpty()) {
+            editTextEmail.setError("Email is required!");
+            editTextEmail.requestFocus();
+            return;
+        }
+
+        if (newPassword.isEmpty()) {
+            editTextPassword.setError("Password is required!");
+            editTextPassword.requestFocus();
+            return;
+        }
+
+        if (newPassword.length() < 6) {
+            editTextPassword.setError("Password should be at least 6 characters!");
+            editTextPassword.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(newEmail).matches()) {
+            editTextEmail.setError("Please provide valid email");
+            editTextEmail.requestFocus();
+            return;
+        }
+
+        mAuth.createUserWithEmailAndPassword(newEmail, newPassword)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            HealthInformation newHealthInformation = new HealthInformation(Integer.parseInt(newAge), Integer.parseInt(newWeight), newBloodType);
+                            Patient newPatient = new Patient(newName, newEmail, newPassword, newHealthInformation);
+
+                            FirebaseDatabase.getInstance().getReference().child("patients").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(newPatient).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(PatientInformation.this, "User has been registered successfully", Toast.LENGTH_LONG).show();
+                                    } else{
+                                        Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
+                        } else {
+                            Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+    }
+
 }

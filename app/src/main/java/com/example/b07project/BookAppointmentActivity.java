@@ -50,6 +50,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.doctor_list);
         newDoctor = new Button(this);
         newDoctor.setText(doctor.name);
+
         newDoctor.setId(doctor.loginID);
         newDoctor.setOnClickListener(new View.OnClickListener() {
             @Override
