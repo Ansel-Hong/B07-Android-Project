@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/layout/activity_patient.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_patient_information.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_select_availability.xml" value="0.20555555555555555" />
+        <entry key="app/src/main/res/layout/activity_view_appointment.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/content_doctor_signup.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.22291666666666668" />
       </map>
