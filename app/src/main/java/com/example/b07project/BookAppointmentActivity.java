@@ -2,6 +2,7 @@ package com.example.b07project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,11 +43,22 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
     }
 
+
+
     public void addDoctor(Doctor doctor){
+        int loginID = doctor.loginID;
         LinearLayout layout = (LinearLayout) findViewById(R.id.doctor_list);
         newDoctor = new Button(this);
         newDoctor.setText(doctor.name);
         newDoctor.setId(doctor.loginID);
+        newDoctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent navigateToAvailabilityIntent = new Intent(BookAppointmentActivity.this, SelectAvailabilityActivity.class);
+                navigateToAvailabilityIntent.putExtra("loginID", Integer.toString(loginID));
+                startActivity(navigateToAvailabilityIntent);
+            }
+        });
         layout.addView(newDoctor);
     }
 

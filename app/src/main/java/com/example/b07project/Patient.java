@@ -64,13 +64,30 @@ public class Patient extends Person{
 
     public void storeInDB(){
 
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("patients");
+        int loginID = this.loginID;
 
-        if (db.child("" + this.loginID) != null) {
-            throw new IllegalArgumentException("ID has been used to create an account already");
-        }else{
+
+        FirebaseDatabase.getInstance().getReference().child("patients")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot patients:dataSnapshot.getChildren()){
+                            Patient patient = patients.getValue(Patient.class);
+                            if (patient.loginID == loginID){
+
+                                throw new IllegalArgumentException("An account has already been created with the ID provided");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Log.w("info","Failed to read value", error.toException());
+                    }
+                });
+
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("patients");
             db.child("" + this.loginID).setValue(this);
-        }
 
     }
 

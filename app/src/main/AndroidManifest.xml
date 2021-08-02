@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.B07Project">
-        <activity android:name=".ViewAppointmentActivity"></activity>
+        <activity
+            android:name=".SelectAvailabilityActivity"
+            android:exported="true" />
+        <activity android:name=".ViewAppointmentActivity" />
         <activity android:name=".BookAppointmentActivity" />
         <activity android:name=".PatientActivity" />
         <activity android:name=".PatientInformation" />
