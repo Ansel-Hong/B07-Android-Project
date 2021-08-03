@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class HealthInformation implements Serializable {
     public int age;
     public int weight;
-    public String bloodtype;
+    public String gender;
 
     public HealthInformation(){}
 
-    public HealthInformation(int age, int weight, String bloodtype){
+    public HealthInformation(int age, int weight, String gender){
         this.age = age;
         this.weight = weight;
-        this.bloodtype = bloodtype;
+        this.gender = gender;
 
     }
 

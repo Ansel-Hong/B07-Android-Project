@@ -51,7 +51,7 @@ public class PatientActivity extends AppCompatActivity {
                     String email = patientProfile.email;
                     int age = patientProfile.getHealthInformation().age;
                     int weight = patientProfile.getHealthInformation().weight;
-                    String bloodType = patientProfile.getHealthInformation().bloodtype;
+                    String gender = patientProfile.getHealthInformation().gender;
 
                     welcome.setText("Welcome " + name + "!");
 

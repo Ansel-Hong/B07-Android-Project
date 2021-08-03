@@ -8,9 +8,9 @@ import java.util.regex.Pattern;
 
 public class Doctor extends Person{
 
-    public ArrayList<Appointment> timeSlots;
     private int employeeID;
     String specialty;
+    String gender;
 
 
 
@@ -20,26 +20,17 @@ public class Doctor extends Person{
         super(name);
     }
 
-    public Doctor(String name, String email, String password, ArrayList<Appointment> slots){
-        super(name, email, password);
-        //employeeID = validateEmployeeID(EmployeeID);
-        this.timeSlots = slots;
-    }
-
     public Doctor(String name, String email, String password){
         super(name, email, password);
         //employeeID = validateEmployeeID(EmployeeID);
-        this.timeSlots = new ArrayList<Appointment>();
     }
 
-
-    public ArrayList<Appointment> getTimeSlots() {
-        return timeSlots;
+    public Doctor(String name, String email, String password, String gender){
+        super(name, email, password);
+        this.gender = gender;
+        //employeeID = validateEmployeeID(EmployeeID);
     }
 
-    public void setTimeSlots(ArrayList<Appointment> timeSlots) {
-        this.timeSlots = timeSlots;
-    }
 
     /*
     ** This method validate the format of the doctor's EmployeeID.
@@ -62,47 +53,17 @@ public class Doctor extends Person{
         super.setLoginInformation(username, loginID, password);
     }
 
-    /* Not sure if this class needs this.
-    *  If this class needs this method, then it should display the appointments
-    *  that the doctor currently have.
-    */
-//    @Override
-//    public void getAppointments(){
-//        for (Appointment appointment:this.appointments){
-//            // Not sure how to display the appointment on the screen.
-//        }
-//    }
-
-    /* A proposed way to implement addAppointment for the class Doctor.
-    *  It takes one parameter appointment of class Appointment and add it to the doctor's
-    *  appointment list appointments if it's not in the list.
-    *  The availability of the doctor will be updated accordingly.
-    */
-//    public void addAppointment(Appointment appointment, String patientName) {
-//       for(Appointment t : timeSlots){
-//           if(t.getAppointmentID() == appointment.getAppointmentID())
-//               t.bookAppointment(patientName);
-//       }
-//
-//    }
 
     //---------------- For Firebase --------------------//
-    // setter function for a doctor
-    public void setAppointments(ArrayList<Appointment> appointments){this.timeSlots=appointments;}
 
-    // getter function for a doctor
-    public ArrayList<Appointment> getAppointments(){return this.timeSlots;}
 
-//    public int getEmployeeID() {
-//        return employeeID;
-//    }
-//
-//    public void setEmployeeID(int employeeID) {
-//        this.employeeID = validateEmployeeID(employeeID);
-//    }
-
+    public String getGender(){return gender;}
+    public void setGender(String gender){this.gender=gender;}
     public String getSpecialty(){return specialty;}
     public void setSpecialty(String specialty){this.specialty = specialty;}
+
+    //---------------- For Firebase --------------------//
+
 
     @Override
     public boolean equals(Object obj){

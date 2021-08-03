@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/gender_doctor"
         app:layout_constraintVertical_bias="0.283" />
 
     <EditText
@@ -87,7 +87,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/gender_doctor"
         android:layout_width="122dp"
         android:layout_height="93dp"
         android:layout_marginTop="16dp"

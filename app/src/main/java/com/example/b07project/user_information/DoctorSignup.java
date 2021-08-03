@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.b07project.R;
@@ -28,6 +30,7 @@ public class DoctorSignup extends AppCompatActivity {
 
     private FirebaseAuth auth;
     EditText editTextName, editTextEmail, editTextPassword, editTextSpecialty;
+    RadioGroup genderRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class DoctorSignup extends AppCompatActivity {
 
                 editTextSpecialty = (EditText) findViewById(R.id.doctor_specialty);
 
+                genderRadioGroup = (RadioGroup)findViewById(R.id.gender_doctor);
+
                 registerUser();
 
             }
@@ -63,7 +68,6 @@ public class DoctorSignup extends AppCompatActivity {
     }
 
     private void registerUser() {
-        Context pageContext = this;
 
 
         String newPassword = editTextPassword.getText().toString().trim();
@@ -74,6 +78,11 @@ public class DoctorSignup extends AppCompatActivity {
 
 
         String newSpecialty = editTextSpecialty.getText().toString().trim();
+
+        String gender = ((RadioButton)findViewById(genderRadioGroup.getCheckedRadioButtonId()))
+                .getText().toString();
+
+
 
         if (newName.isEmpty()) {
             editTextName.setError("Full name is required!");
@@ -111,8 +120,7 @@ public class DoctorSignup extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            ArrayList<Appointment> timeSlots = new ArrayList<Appointment>();
-                            Doctor newDoctor = new Doctor(newName, newEmail, newPassword, timeSlots);
+                            Doctor newDoctor = new Doctor(newName, newEmail, newPassword, gender);
 
                             FirebaseDatabase.getInstance().getReference().child("doctors").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(newDoctor).addOnCompleteListener(new OnCompleteListener<Void>() {

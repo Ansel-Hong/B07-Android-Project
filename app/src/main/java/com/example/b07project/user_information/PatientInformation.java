@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -16,6 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.example.b07project.LoginPage;
 import com.example.b07project.R;
@@ -29,6 +33,8 @@ public class PatientInformation extends AppCompatActivity {
 
     private FirebaseAuth auth;
     EditText editTextName, editTextEmail, editTextPassword, editTextAge, editTextWeight, editTextBloodType;
+    RadioGroup genderRadioGroup;
+    RadioButton genderRadioChoice;
     private ProgressBar progressBar;
 
     @Override
@@ -57,7 +63,7 @@ public class PatientInformation extends AppCompatActivity {
 
                 editTextWeight = (EditText) findViewById(R.id.weight);
 
-                editTextBloodType = (EditText) findViewById(R.id.blood_type);
+                genderRadioGroup = (RadioGroup)findViewById(R.id.gender_patient);
 
                 registerUser();
 
@@ -87,7 +93,8 @@ public class PatientInformation extends AppCompatActivity {
 
         String newWeight = editTextWeight.getText().toString();
 
-        String newBloodType = editTextBloodType.getText().toString().trim();
+        String gender = ((RadioButton)findViewById(genderRadioGroup.getCheckedRadioButtonId()))
+                .getText().toString();
 
         if (newName.isEmpty()) {
             editTextName.setError("Full name is required!");
@@ -133,7 +140,7 @@ public class PatientInformation extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            HealthInformation newHealthInformation = new HealthInformation(Integer.parseInt(newAge), Integer.parseInt(newWeight), newBloodType);
+                            HealthInformation newHealthInformation = new HealthInformation(Integer.parseInt(newAge), Integer.parseInt(newWeight), gender);
                             Patient newPatient = new Patient(newName, newEmail, newPassword, newHealthInformation);
 
                             FirebaseDatabase.getInstance().getReference().child("patients").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
