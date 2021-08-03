@@ -64,7 +64,7 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
 
                 Calendar today = Calendar.getInstance();
                 today.add(Calendar.DAY_OF_MONTH, 1);
-                today.set(Calendar.HOUR, -3);
+                today.set(Calendar.HOUR, -15);
                 today.set(Calendar.MINUTE, 0);
                 today.set(Calendar.SECOND, 0);
 
