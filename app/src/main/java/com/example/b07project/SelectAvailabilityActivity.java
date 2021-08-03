@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,17 +49,13 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String doctorID = intent.getStringExtra("doctorID");
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors").child(doctorID);
+        //DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors").child(doctorID);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
         //Creating blank schedule
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                Doctor doctor = snapshot.getValue(Doctor.class);
-
-                String doctorID = snapshot.getKey();
-
 
 
                 int i = 0;
@@ -82,13 +79,14 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
 
                         Date date = slot.getTime();
 
-//                        for (Appointment apt: doctor.timeSlots){
-//                            if (!apt.getStartTime().equals(date))
-//                                addTimeSlot(date);
-//                        }
 
-                        addTimeSlot(date, doctorID); //should be in if statement once all features are added
+                        SimpleDateFormat test = new SimpleDateFormat("yyyyMMddhhmm");
+                        String dateCode = test.format(date)+doctorID;
 
+
+
+                        if(!snapshot.child("Appointments").child(dateCode).exists())
+                            addTimeSlot(date, doctorID); //should be in if statement once all features are added
 
                         slot.add(Calendar.HOUR, 1);
                         holder = slot;
@@ -173,9 +171,6 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
 
     public void bookAppointment(Date date, String doctorID){
 
-        //Using doctorID, you can map through the
-
-
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Appointments");
 
@@ -184,9 +179,12 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 String patientID = auth.getCurrentUser().getUid();
+
                 Appointment apt = new Appointment(doctorID, patientID, date);
 
-                ref.child(Integer.toString(apt.getAppointmentID())).setValue(apt);
+                String aptID = apt.getAppointmentID();
+
+                ref.child(aptID).setValue(apt);
 
             }
 

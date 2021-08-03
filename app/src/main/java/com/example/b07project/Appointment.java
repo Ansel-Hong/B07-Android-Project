@@ -8,7 +8,7 @@ public class Appointment {
     private String patientID;
     private String doctorID;
     private Date startTime;
-    private int appointmentID;
+    private String appointmentID;
 
     public Appointment (String doctorID, String patientID, Date startTime) {
         this.patientID = patientID;
@@ -16,7 +16,9 @@ public class Appointment {
         this.startTime = startTime;
         SimpleDateFormat st = new SimpleDateFormat("yyyy/MM/dd hh:mm");
         SimpleDateFormat et = new SimpleDateFormat("yyyy/MM/dd hh:mm");
-        this.appointmentID = (int)startTime.getTime();
+        SimpleDateFormat test = new SimpleDateFormat("yyyyMMddhhmm");
+        //this.appointmentID = (int)startTime.getTime();
+        this.appointmentID = test.format(startTime)+doctorID;
     }
 
     public Appointment() { }
@@ -36,8 +38,8 @@ public class Appointment {
         return "" + patientID + " has a appointment with Dr." + doctorID + " at " + startTime;
     }
 
-    @Override
-    public int hashCode() { return appointmentID; }
+//    @Override
+//    public int hashCode() { return appointmentID; }
 
     @Override
     public boolean equals(Object obj) {
@@ -79,9 +81,9 @@ public class Appointment {
         return startTime;
     }
 
-    public void setAppointmentID(int appointmentID){this.appointmentID = appointmentID;}
+    public void setAppointmentID(String appointmentID){this.appointmentID = appointmentID;}
 
-    public int getAppointmentID() {
+    public String getAppointmentID() {
         return appointmentID;
     }
 
