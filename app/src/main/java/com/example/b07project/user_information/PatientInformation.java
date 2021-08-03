@@ -1,9 +1,11 @@
 package com.example.b07project.user_information;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +14,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.b07project.LoginPage;
 import com.example.b07project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +29,7 @@ public class PatientInformation extends AppCompatActivity {
 
     private FirebaseAuth auth;
     EditText editTextName, editTextEmail, editTextPassword, editTextAge, editTextWeight, editTextBloodType;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +125,8 @@ public class PatientInformation extends AppCompatActivity {
             return;
         }
 
+
+
         Log.i("USERCREATION", "Creating user with new email and password");
         auth.createUserWithEmailAndPassword(newEmail, newPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -134,24 +141,40 @@ public class PatientInformation extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast toast = Toast.makeText(PatientInformation.this, "User successfully registered!", Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                                        toast.show();
+//                                        Toast toast = Toast.makeText(PatientInformation.this, "User successfully registered!", Toast.LENGTH_LONG);
+//                                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+//                                        toast.show();
 
                                         navigateToPatientActivity();
 
                                     } else{
-                                        Toast toast = Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                                        toast.show();
+                                        new AlertDialog.Builder(PatientInformation.this)
+                                                .setTitle("Failed to register user! Please try again.")
+                                                //.setMessage("Are you sure you want to delete this entry?")
+
+                                                // Specifying a listener allows you to take an action before dismissing the dialog.
+                                                // The dialog is automatically dismissed when a dialog button is clicked.
+                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        // Continue with delete operation
+                                                    }
+                                                }).show();
                                     }
                                 }
                             });
 
                         } else {
-                            Toast toast = Toast.makeText(PatientInformation.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                            toast.show();
+                            new AlertDialog.Builder(PatientInformation.this)
+                                    .setTitle("Failed to register user! Please try again.")
+                                    //.setMessage("Are you sure you want to delete this entry?")
+
+                                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                                    // The dialog is automatically dismissed when a dialog button is clicked.
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Continue with delete operation
+                                        }
+                                    }).show();
                         }
                     }
                 });

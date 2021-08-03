@@ -10,7 +10,7 @@
         android:layout_width="387dp"
         android:layout_height="712dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="8dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,7 +33,7 @@
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="20dp"
                 android:text="Please select a time slot from the doctor's availability list:"
