@@ -1,4 +1,4 @@
-package com.example.b07project;
+package com.example.b07project.appointment_activities;
 
 import java.util.ArrayList;
 import java.util.Calendar;

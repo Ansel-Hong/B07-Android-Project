@@ -1,4 +1,4 @@
-package com.example.b07project;
+package com.example.b07project.user_information;
 
 import java.io.Serializable;
 

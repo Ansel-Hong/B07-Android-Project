@@ -1,4 +1,4 @@
-package com.example.b07project;
+package com.example.b07project.appointment_activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.example.b07project.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

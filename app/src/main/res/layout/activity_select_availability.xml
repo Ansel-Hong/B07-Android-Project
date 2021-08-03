@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelectAvailabilityActivity">
+    tools:context=".appointment_activities.SelectAvailabilityActivity">
 
     <ScrollView
         android:layout_width="387dp"

@@ -1,19 +1,8 @@
-package com.example.b07project;
+package com.example.b07project.user_information;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.jetbrains.annotations.NotNull;
+import com.example.b07project.Login;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 public abstract class Person implements Login, Serializable {
     public String name;

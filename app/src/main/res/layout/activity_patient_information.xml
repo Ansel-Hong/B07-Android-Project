@@ -5,7 +5,7 @@
     android:id="@+id/add_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PatientInformation">
+    tools:context=".user_information.PatientInformation">
 
     <EditText
         android:id="@+id/patient_email"

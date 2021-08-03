@@ -1,4 +1,4 @@
-package com.example.b07project;
+package com.example.b07project.user_information;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.b07project.R;
+import com.example.b07project.appointment_activities.Appointment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

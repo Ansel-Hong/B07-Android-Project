@@ -1,17 +1,15 @@
-package com.example.b07project;
+package com.example.b07project.appointment_activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.VirtualLayout;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.renderscript.Sampler;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.b07project.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

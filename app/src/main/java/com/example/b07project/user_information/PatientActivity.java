@@ -1,4 +1,4 @@
-package com.example.b07project;
+package com.example.b07project.user_information;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.b07project.R;
+import com.example.b07project.appointment_activities.ViewAppointmentActivity;
+import com.example.b07project.appointment_activities.BookAppointmentActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
