@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,7 +63,7 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
 
                 Calendar today = Calendar.getInstance();
                 today.add(Calendar.DAY_OF_MONTH, 1);
-                today.set(Calendar.HOUR, 9);
+                today.set(Calendar.HOUR, -3);
                 today.set(Calendar.MINUTE, 0);
                 today.set(Calendar.SECOND, 0);
 
@@ -92,6 +93,7 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
                         holder = slot;
                         j++;
                     }
+                    holder.add(Calendar.HOUR, -9);
                     holder.add(Calendar.DAY_OF_MONTH,1);
                     i++;
                 }
@@ -156,8 +158,10 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
     public void addTimeSlot(Date date, String doctorID){
         LinearLayout layout = (LinearLayout) findViewById(R.id.time_slots);
         newSlot = new Button(this);
-        newSlot.setText(date.toString());
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
+        String time = dateFormat.format(date);
+        newSlot.setText(time);
         newSlot.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

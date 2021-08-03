@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ViewAppointmentActivity extends AppCompatActivity {
@@ -75,7 +77,10 @@ public class ViewAppointmentActivity extends AppCompatActivity {
 
                     if(doctorID.equals(doctor.getKey())){
                         appointmentInfo = new TextView(ViewAppointmentActivity.this);
-                        appointmentInfo.setText(date.toString()+"with Dr. "+doc.getName());
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
+                        String time = dateFormat.format(date);
+                        appointmentInfo.setText(time+" with Dr. "+doc.getName());
 
                         layout.addView(appointmentInfo);
                     }
