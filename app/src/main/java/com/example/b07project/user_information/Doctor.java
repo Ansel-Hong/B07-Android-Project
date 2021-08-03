@@ -25,9 +25,10 @@ public class Doctor extends Person{
         //employeeID = validateEmployeeID(EmployeeID);
     }
 
-    public Doctor(String name, String email, String password, String gender){
+    public Doctor(String name, String email, String password, String gender, String specialty){
         super(name, email, password);
         this.gender = gender;
+        this.specialty = specialty;
         //employeeID = validateEmployeeID(EmployeeID);
     }
 

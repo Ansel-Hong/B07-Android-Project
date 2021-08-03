@@ -156,14 +156,11 @@ public class PatientInformation extends AppCompatActivity {
 
                                     } else{
                                         new AlertDialog.Builder(PatientInformation.this)
-                                                .setTitle("Failed to register user! Please try again.")
-                                                //.setMessage("Are you sure you want to delete this entry?")
+                                                .setTitle("User failed to register, please try again")
+                                                .setMessage("Email may have already been used to create an account")
 
-                                                // Specifying a listener allows you to take an action before dismissing the dialog.
-                                                // The dialog is automatically dismissed when a dialog button is clicked.
                                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        // Continue with delete operation
                                                     }
                                                 }).show();
                                     }
@@ -172,14 +169,11 @@ public class PatientInformation extends AppCompatActivity {
 
                         } else {
                             new AlertDialog.Builder(PatientInformation.this)
-                                    .setTitle("Failed to register user! Please try again.")
-                                    //.setMessage("Are you sure you want to delete this entry?")
+                                    .setTitle("User failed to register, please try again")
+                                    .setMessage("Email may have already been used to create an account")
 
-                                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                                    // The dialog is automatically dismissed when a dialog button is clicked.
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
-                                            // Continue with delete operation
                                         }
                                     }).show();
                         }

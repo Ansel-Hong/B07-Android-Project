@@ -2,35 +2,40 @@ package com.example.b07project.user_information;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.b07project.LoginPage;
 import com.example.b07project.R;
-import com.example.b07project.appointment_activities.Appointment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
+import org.w3c.dom.Text;
 
 public class DoctorSignup extends AppCompatActivity {
 
     private FirebaseAuth auth;
     EditText editTextName, editTextEmail, editTextPassword, editTextSpecialty;
     RadioGroup genderRadioGroup;
+    Spinner specialtySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,12 @@ public class DoctorSignup extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        String[] specialties = new String[] {"Specialty", "Cardiology", "Dermatology", "Family Medicine", "Neurology"
+                , "Gynecology", "Pediatrics", "Physiotherapy", "Psychiatry"};
+        Spinner specialtySpinner = (Spinner)findViewById(R.id.specialty_doctor);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specialties);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        specialtySpinner.setAdapter(adapter);
 
         auth = FirebaseAuth.getInstance();
         Button update_info = findViewById(R.id.add_doctor_info);
@@ -54,7 +65,6 @@ public class DoctorSignup extends AppCompatActivity {
 
                 editTextEmail = (EditText) findViewById(R.id.doctor_email);
 
-                editTextSpecialty = (EditText) findViewById(R.id.doctor_specialty);
 
                 genderRadioGroup = (RadioGroup)findViewById(R.id.gender_doctor);
 
@@ -76,8 +86,8 @@ public class DoctorSignup extends AppCompatActivity {
 
         String newEmail = editTextEmail.getText().toString().trim();
 
-
-        String newSpecialty = editTextSpecialty.getText().toString().trim();
+        Spinner specialtySpinner = (Spinner)findViewById(R.id.specialty_doctor);
+        String newSpecialty = specialtySpinner.getSelectedItem().toString().trim();
 
         String gender = ((RadioButton)findViewById(genderRadioGroup.getCheckedRadioButtonId()))
                 .getText().toString();
@@ -109,6 +119,16 @@ public class DoctorSignup extends AppCompatActivity {
             return;
         }
 
+        if (newSpecialty.equals("Specialty")) {
+            new AlertDialog.Builder(DoctorSignup.this)
+                    .setTitle("Please select your specialty!")
+
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
+        }
+
         if (!Patterns.EMAIL_ADDRESS.matcher(newEmail).matches()) {
             editTextEmail.setError("Please provide valid email");
             editTextEmail.requestFocus();
@@ -120,7 +140,7 @@ public class DoctorSignup extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Doctor newDoctor = new Doctor(newName, newEmail, newPassword, gender);
+                            Doctor newDoctor = new Doctor(newName, newEmail, newPassword, gender, newSpecialty);
 
                             FirebaseDatabase.getInstance().getReference().child("doctors").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(newDoctor).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -134,17 +154,27 @@ public class DoctorSignup extends AppCompatActivity {
 
 
                                     } else{
-                                        Toast toast = Toast.makeText(DoctorSignup.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                                        toast.show();
+                                        new AlertDialog.Builder(DoctorSignup.this)
+                                                .setTitle("User failed to register, please try again")
+                                                .setMessage("Email may have already been used to create an account")
+
+                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
+                                                }).show();
                                     }
                                 }
                             });
 
                         } else {
-                            Toast toast = Toast.makeText(DoctorSignup.this, "Failed to register patient! Try Again!", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                            toast.show();
+                            new AlertDialog.Builder(DoctorSignup.this)
+                                    .setTitle("User failed to register, please try again")
+                                    .setMessage("Email may have already been used to create an account")
+
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    }).show();
                         }
                     }
                 });
