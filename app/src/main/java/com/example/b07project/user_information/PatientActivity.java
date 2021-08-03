@@ -8,8 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.b07project.MainActivity;
 import com.example.b07project.R;
 import com.example.b07project.appointment_activities.ViewAppointmentActivity;
 import com.example.b07project.appointment_activities.BookAppointmentActivity;
@@ -71,10 +73,19 @@ public class PatientActivity extends AppCompatActivity {
             }
         });
 
-
+        Button logout = (Button) findViewById(R.id.signOut);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                FirebaseAuth.getInstance().signOut();
+                Intent navigateToPatientIntent = new Intent(PatientActivity.this, MainActivity.class);
+                startActivity(navigateToPatientIntent);
+            }
+        });
 
 
     }
+
 
     public void navigateToBookAppointmentActivity(View view){
         Intent navigateToPatientIntent = new Intent(this, BookAppointmentActivity.class);
