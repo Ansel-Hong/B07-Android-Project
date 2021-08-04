@@ -79,6 +79,20 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
 
                 while(i<30){
                     int j = 0;
+                    int k = holder.get(Calendar.HOUR_OF_DAY);
+                    int m = 9;
+                    if(i == 0 && k > 17){
+                        holder.set(Calendar.HOUR_OF_DAY, 9);
+                        holder.add(Calendar.DAY_OF_MONTH, 1);
+                    }
+                    else if (i == 0 && k < 9){
+                        holder.set(Calendar.HOUR_OF_DAY, 9);
+                    }
+                    else if (i == 0 && k >= 9 && k <= 17){
+                        int t = k - 9;
+                        m = m - t;
+                    }
+
                     while (j<9){
                         Calendar slot = new GregorianCalendar();
                         slot = holder;
@@ -114,41 +128,9 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
             }
         });
 
-
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot availability:dataSnapshot.getChildren()){
-//                    //Availability child = availability.getValue(Availability.class);
-//                    //addTimeSlot(child);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                Log.w("info", "Failed to read value.", error.toException());
-//            }
-//        });
     }
 
-//    public void addTimeSlot(Availability availability){
-//        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.availability_list);
-//        Button newTimeSlot = new Button(this);
-//        newTimeSlot.setText(availability.toString());
-//        newTimeSlot.setId(availability.hashCode());
-//        linearLayout.addView(newTimeSlot);
-//        Context pageContext = this;
-//        newTimeSlot.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new AlertDialog.Builder(pageContext)
-//                        .setTitle("Booking Successful")
-//                        .setMessage("You have successfully booked this time slot!")
-//                        .setNegativeButton(android.R.string.no, null)
-//                        .show();
-//            }
-//        });
-//    }
+
 
 
     @Override
@@ -167,6 +149,7 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
         newSlot = new Button(this);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("EST"));
         String time = dateFormat.format(date);
         newSlot.setText(time);
         newSlot.setOnClickListener(new View.OnClickListener(){
