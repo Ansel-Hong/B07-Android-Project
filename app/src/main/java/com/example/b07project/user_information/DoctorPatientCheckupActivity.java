@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DoctorPatientCheckupActivity extends AppCompatActivity {
@@ -58,11 +59,13 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
                     int patientWeight = patientHI.weight;
                     patientInfo.setText(patientName+": ");
                     if (patientGender != null)
-                        patientInfo.setText("\n    Gender - "+patientHI.gender);
-                    if (patientAge < 0)
-                        patientInfo.setText("\n    Age - "+patientHI.age);
-                    if (patientWeight < 0)
-                        patientInfo.setText("\n    weight - "+patientHI.weight);
+                        patientInfo.append("\n    Gender - "+patientHI.gender);
+                    if (patientAge > 0)
+                        patientInfo.append("\n    Age - "+patientHI.age);
+                    if (patientWeight > 0)
+                        patientInfo.append("\n    weight - "+patientHI.weight);
+
+                    patientInfo.append("\n\n\n");
 
                     layout.addView(patientInfo);
                 }
@@ -76,16 +79,18 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
 
     }
 
-//    public void getPastDoctors(Patient pat){
-//
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Appointments");
-//        LinearLayout layout = (LinearLayout) findViewById(R.id.appointment_list);
-//
-//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for(DataSnapshot doctor: snapshot.getChildren()){
-//                    Doctor doc = doctor.getValue(Doctor.class);
+    public void getPastDoctors(Patient pat){
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Appointments");
+        LinearLayout layout = (LinearLayout) findViewById(R.id.appointment_list);
+
+        ArrayList<Appointment> currPatientAppointments = pat.getAppointments();
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot apt: snapshot.getChildren()){
+//                    Doctor doc = apt.getValue(Doctor.class);
 //
 //
 //                    if(doctorID.equals(doctor.getKey())){
@@ -97,15 +102,15 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
 //
 //                        layout.addView(appointmentInfo);
 //                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
     @Override
