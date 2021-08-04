@@ -51,8 +51,8 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
 
                     patientInfo = new TextView(DoctorPatientCheckupActivity.this);
 
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
                     String patientName = pat.getName();
+                    String patUID = patient.getKey();
                     HealthInformation patientHI = pat.getHealthInformation();
                     String patientGender = patientHI.gender;
                     int patientAge = patientHI.age;
@@ -65,7 +65,9 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
                     if (patientWeight > 0)
                         patientInfo.append("\n    weight - "+patientHI.weight);
 
-                    patientInfo.append("\n\n\n");
+
+
+                    patientInfo.append("\n\n");
 
                     layout.addView(patientInfo);
                 }
@@ -79,7 +81,7 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
 
     }
 
-    public void getPastDoctors(Patient pat){
+    public void getPastDoctors(Patient pat, String patUID){
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Appointments");
         LinearLayout layout = (LinearLayout) findViewById(R.id.appointment_list);

@@ -127,6 +127,7 @@ public class DoctorSignup extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                         }
                     }).show();
+            return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(newEmail).matches()) {
