@@ -14,9 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.b07project.MainActivity;
 import com.example.b07project.R;
 import com.example.b07project.appointment_activities.DoctorViewAppointmentActivity;
-import com.example.b07project.appointment_activities.ScheduleActivity;
+import com.example.b07project.appointment_activities.DoctorViewAvailabilityActivity;
 import com.example.b07project.appointment_activities.ScheduleShowAvailability;
-import com.example.b07project.appointment_activities.ViewAppointmentActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -80,28 +79,22 @@ public class DoctorActivity extends AppCompatActivity {
             }
         });
 
-        Button showSchedule = (Button) findViewById(R.id.my_availability);
-        showSchedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(DoctorActivity.this, ScheduleActivity.class));
-            }
-        });
+    }
 
-        }
 
-        public void navigateToDoctorViewAppointmentsActivity(View view) {
-            Intent navigateToDoctorIntent = new Intent(this, DoctorViewAppointmentActivity.class);
-            startActivity(navigateToDoctorIntent);
-        }
+    public void navigateToDoctorViewAvailabilityActivity(View view) {
+        Intent navigateToDoctorIntent = new Intent(this, DoctorViewAvailabilityActivity.class);
+        startActivity(navigateToDoctorIntent);
+    }
 
-        public void navigateToDoctorViewPatientsActivity(View view) {
-            Intent navigateToDoctorIntent = new Intent(this, DoctorPatientCheckupActivity.class);
-            startActivity(navigateToDoctorIntent);
-        }
+    public void navigateToDoctorViewAppointmentsActivity(View view) {
+        Intent navigateToDoctorIntent = new Intent(this, DoctorViewAppointmentActivity.class);
+        startActivity(navigateToDoctorIntent);
+    }
 
-        public void navigateToScheduleShowAvailability(View view){
-            startActivity(new Intent(this, ScheduleShowAvailability.class));
-        }
+    public void navigateToDoctorViewPatientsActivity(View view) {
+        Intent navigateToDoctorIntent = new Intent(this, DoctorPatientCheckupActivity.class);
+        startActivity(navigateToDoctorIntent);
+    }
 
 }

@@ -8,13 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.b07project.R;
-import com.example.b07project.user_information.DoctorActivity;
-import com.example.b07project.user_information.Patient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +25,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-public class ScheduleActivity extends AppCompatActivity {
+public class DoctorViewAvailabilityActivity extends AppCompatActivity {
 
     TextView timeSlot;
     FirebaseAuth auth;
@@ -36,7 +33,7 @@ public class ScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.activity_doctor_view_availability);
 
         auth = FirebaseAuth.getInstance();
 
@@ -53,8 +50,6 @@ public class ScheduleActivity extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
 
-
-        //Creating blank schedule
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -65,8 +60,6 @@ public class ScheduleActivity extends AppCompatActivity {
                 TimeZone.setDefault(TimeZone.getTimeZone("EST"));
 
                 Calendar today = Calendar.getInstance();
-                today.add(Calendar.DAY_OF_MONTH, 1);
-                today.set(Calendar.HOUR, -15);
                 today.set(Calendar.MINUTE, 0);
                 today.set(Calendar.SECOND, 0);
 
@@ -77,7 +70,20 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 while(i<7){ //this week
                     int j = 0;
-                    while (j<9){
+                    int k = holder.get(Calendar.HOUR_OF_DAY);
+                    int m = 9;
+                    if(i == 0 && k > 17){
+                        holder.set(Calendar.HOUR_OF_DAY, 9);
+                        holder.add(Calendar.DAY_OF_MONTH, 1);
+                    }
+                    else if (i == 0 && k < 9){
+                        holder.set(Calendar.HOUR_OF_DAY, 9);
+                    }
+                    else if (i == 0 && k >= 9 && k <= 17){
+                        int t = k - 9;
+                        m = m - t;
+                    }
+                    while (j<m){
                         Calendar slot = new GregorianCalendar();
                         slot = holder;
 
@@ -91,7 +97,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
 
                         if(!snapshot.child("Appointments").child(dateCode).exists() && now.before(slot))
-                            addTimeSlot(date); //should be in if statement once all features are added
+                            addTimeSlot(date);
 
                         else
                             getAppointment(date, dateCode);
@@ -154,7 +160,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
 
     public void addTimeSlot(Date date){
-        LinearLayout layout = (LinearLayout) findViewById(R.id.time_slots2);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.available_time_slots);
         timeSlot = new TextView(this);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
@@ -169,7 +175,7 @@ public class ScheduleActivity extends AppCompatActivity {
     public void getAppointment(Date date, String dateCode){
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Appointments");
-        LinearLayout layout = (LinearLayout) findViewById(R.id.time_slots2);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.available_time_slots);
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -179,11 +185,11 @@ public class ScheduleActivity extends AppCompatActivity {
 
 
                     if(dateCode.equals(apt.getKey())){ //not sure if this is correct
-                        timeSlot = new TextView(ScheduleActivity.this);
+                        timeSlot = new TextView(DoctorViewAvailabilityActivity.this);
 
                         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
                         String time = dateFormat.format(date);
-                        timeSlot.setText(time+" with patient "+aptm.getPatientID());
+                        timeSlot.setText(time+" is booked with an appointment (ID: '"+dateCode+ "')");
 
                         layout.addView(timeSlot);
                         break;
@@ -214,13 +220,6 @@ public class ScheduleActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    /** Called when the user taps the back button */
-    public void goBack(View view) {
-        Intent intent = new Intent(this, DoctorActivity.class);
-        startActivity(intent);
     }
 
 }
