@@ -81,13 +81,15 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
 
                         Date date = slot.getTime();
 
+                        Calendar now = Calendar.getInstance();
+
 
                         SimpleDateFormat test = new SimpleDateFormat("yyyyMMddhhmm");
                         String dateCode = test.format(date)+doctorID;
 
 
 
-                        if(!snapshot.child("Appointments").child(dateCode).exists())
+                        if(!snapshot.child("Appointments").child(dateCode).exists() && now.before(slot))
                             addTimeSlot(date, doctorID); //should be in if statement once all features are added
 
                         slot.add(Calendar.HOUR, 1);

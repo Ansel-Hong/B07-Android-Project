@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.example.b07project.user_information.Doctor;
 import com.example.b07project.R;
@@ -24,6 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 public class BookAppointmentActivity extends AppCompatActivity {
     Button newDoctor;
     FirebaseAuth auth;
+    Spinner specialtyFilterSpinner;
+    Spinner genderFilterSpinner;
+    Button refresh;
+    LinearLayout doctorList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,24 +40,47 @@ public class BookAppointmentActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        String[] specialties = new String[] {"Any", "Cardiology", "Dermatology", "Family Medicine", "Neurology"
+                , "Gynecology", "Pediatrics", "Physiotherapy", "Psychiatry"};
+        specialtyFilterSpinner = (Spinner)findViewById(R.id.filter_specialty);
+        ArrayAdapter<String> specialtyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specialties);
+        specialtyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        specialtyFilterSpinner.setAdapter(specialtyAdapter);
+
+
+        String [] genders = new String [] {"Any", "Male", "Female"};
+        genderFilterSpinner = (Spinner) findViewById(R.id.filter_gender);
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genders);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderFilterSpinner.setAdapter(genderAdapter);
 
 
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
-        ref.addValueEventListener(new ValueEventListener() {
+        refresh = (Button) findViewById(R.id.filter_refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onClick(View v) {
+                doctorList = (LinearLayout) findViewById(R.id.doctor_list);
+                doctorList.removeAllViews();
 
 
-                for (DataSnapshot child: dataSnapshot.getChildren()){
-                    Doctor d = child.getValue(Doctor.class);
-                    addDoctor(d, child.getKey());
-                }
-            }
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
+                ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.w("info", "Failed to read value.", error.toException());
+
+                        for (DataSnapshot child: dataSnapshot.getChildren()){
+                            Doctor d = child.getValue(Doctor.class);
+                            addDoctor(d, child.getKey());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Log.w("info", "Failed to read value.", error.toException());
+                    }
+                });
             }
         });
 
@@ -60,19 +90,27 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
     public void addDoctor(Doctor doctor, String id){
         String doctorID = id;
-        LinearLayout layout = (LinearLayout) findViewById(R.id.doctor_list);
-        newDoctor = new Button(this);
-        newDoctor.setText(doctor.name);
+        doctorList = (LinearLayout) findViewById(R.id.doctor_list);
 
-        newDoctor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent navigateToAvailabilityIntent = new Intent(BookAppointmentActivity.this, SelectAvailabilityActivity.class);
-                navigateToAvailabilityIntent.putExtra("doctorID", doctorID);
-                startActivity(navigateToAvailabilityIntent);
-            }
-        });
-        layout.addView(newDoctor);
+         String filterSpecialty = specialtyFilterSpinner.getSelectedItem().toString().trim();
+         String filterGender = genderFilterSpinner.getSelectedItem().toString().trim();
+
+
+         if((doctor.getGender().equals(filterGender) || filterGender.equals("Any")) && (doctor.getSpecialty().equals(filterSpecialty) || filterSpecialty.equals("Any"))){
+             newDoctor = new Button(this);
+             newDoctor.setText(doctor.name);
+
+             newDoctor.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     Intent navigateToAvailabilityIntent = new Intent(BookAppointmentActivity.this, SelectAvailabilityActivity.class);
+                     navigateToAvailabilityIntent.putExtra("doctorID", doctorID);
+                     startActivity(navigateToAvailabilityIntent);
+                 }
+             });
+             doctorList.addView(newDoctor);
+         }
+
     }
 
     @Override
