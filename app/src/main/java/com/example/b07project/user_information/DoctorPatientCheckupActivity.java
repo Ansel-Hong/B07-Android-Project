@@ -161,7 +161,7 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot doc: snapshot.getChildren()){
-                    docName[0] = doc.getValue(String.class);
+                    docName[0] = doc.child("name").getValue(String.class);
                 }
                 finishRun[0] = true;
 //                cb.callback(docName[0]);
