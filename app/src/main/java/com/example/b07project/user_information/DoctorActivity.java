@@ -84,4 +84,9 @@ public class DoctorActivity extends AppCompatActivity {
             startActivity(navigateToDoctorIntent);
         }
 
+        public void navigateToDoctorViewPatientsActivity(View view) {
+            Intent navigateToDoctorIntent = new Intent(this, DoctorPatientCheckupActivity.class);
+            startActivity(navigateToDoctorIntent);
+        }
+
 }

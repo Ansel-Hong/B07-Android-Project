@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.B07Project">
         <activity
-            android:name=".appointment_activities.DoctorViewAppointmentActivity"
+            android:name=".user_information.DoctorPatientCheckupActivity"
             android:exported="true" />
         <activity
             android:name=".appointment_activities.SelectAvailabilityActivity"
