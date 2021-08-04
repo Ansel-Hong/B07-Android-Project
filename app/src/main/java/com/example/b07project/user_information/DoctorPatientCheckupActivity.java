@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.b07project.R;
 import com.example.b07project.appointment_activities.Appointment;
 import com.example.b07project.appointment_activities.ViewAppointmentActivity;
+import com.example.b07project.user_information.confirm_callback.ConfirmCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,7 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DoctorPatientCheckupActivity extends AppCompatActivity {
 
@@ -65,11 +69,11 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
                     if (patientWeight > 0)
                         patientInfo.append("\n    weight - "+patientHI.weight);
 
+                    getPastDoctors(pat, patUID, patientInfo, layout);
 
+//                    patientInfo.append("\n\n");
 
-                    patientInfo.append("\n\n");
-
-                    layout.addView(patientInfo);
+//                    layout.addView(patientInfo);
                 }
             }
 
@@ -81,30 +85,48 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
 
     }
 
-    public void getPastDoctors(Patient pat, String patUID){
+    public void getPastDoctors(Patient pat, String patUID, TextView patientInfo, LinearLayout layout){
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Appointments");
-        LinearLayout layout = (LinearLayout) findViewById(R.id.appointment_list);
 
-        ArrayList<Appointment> currPatientAppointments = pat.getAppointments();
+//        ArrayList<Appointment> currPatientAppointments = pat.getAppointments();
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String appointmentListText = "";
                 for(DataSnapshot apt: snapshot.getChildren()){
-//                    Doctor doc = apt.getValue(Doctor.class);
-//
-//
-//                    if(doctorID.equals(doctor.getKey())){
-//                        appointmentInfo = new TextView(ViewAppointmentActivity.this);
-//
-//                        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
-//                        String time = dateFormat.format(date);
-//                        appointmentInfo.setText(time+" with Dr. "+doc.getName());
-//
-//                        layout.addView(appointmentInfo);
-//                    }
+                    String curAptKey = apt.getKey();
+                    String curPatientUID = apt.child("patientID").getValue(String.class);
+
+                    Log.i("PATUID CHECK", patUID+curPatientUID);
+                    if(patUID.equals(curPatientUID)) {
+                        Log.i("PATUID MATCHES", "matching");
+                        Appointment aptClass = apt.getValue(Appointment.class);
+                        TextView appointmentInfo = new TextView(DoctorPatientCheckupActivity.this);
+
+                        Date date = aptClass.getStartTime();
+
+                        Calendar currentTime = Calendar.getInstance();
+                        Date currentDate = currentTime.getTime();
+                        if (date.compareTo(currentDate) < 0) {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
+                            String time = dateFormat.format(date);
+                            String doctorName = getDoctorNameFromID(aptClass.getDoctorID());
+                            appointmentListText += "\n      " + " Dr. " + doctorName + " at "+time;
+                        }
+                    }
                 }
+                if(!appointmentListText.equals("")) {
+                    patientInfo.append("\n    " + pat.name + " has had appointments with: ");
+                    patientInfo.append(appointmentListText);
+                }
+                else{
+                    patientInfo.append("\n    " + pat.name + " has had no prior appointments here.");
+                }
+
+                patientInfo.append("\n\n");
+                layout.addView(patientInfo);
             }
 
             @Override
@@ -112,6 +134,46 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+//    public void getDocNames(String docID) {
+//
+//        ArrayList<Doctor> attendees = new ArrayList<Doctor>();
+//        FirebaseDatabase.getInstance().getDoctorNameFromID(docID, new Callable<List<Doctor>) {
+//            void callback (List<Doctor>, attendees) {
+//
+//            }
+//        } ;
+//
+//
+//    }
+
+    public String getDoctorNameFromID(String docID){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
+
+        final String[] docName = {""};
+        final boolean[] finishRun = {false};
+//        ConfirmCallback calConfirm
+
+        //.child(""+ docID)
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot doc: snapshot.getChildren()){
+                    docName[0] = doc.child("name").getValue(String.class);
+                }
+                finishRun[0] = true;
+//                cb.callback(docName[0]);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return docName[0];
     }
 
 
