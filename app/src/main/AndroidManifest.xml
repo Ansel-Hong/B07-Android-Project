@@ -15,6 +15,9 @@
         <activity
             android:name=".appointment_activities.SelectAvailabilityActivity"
             android:exported="true" />
+        <activity
+            android:name=".appointment_activities.DoctorViewAppointmentActivity"
+            android:exported="true" />
         <activity android:name=".appointment_activities.ViewAppointmentActivity" />
         <activity android:name=".appointment_activities.BookAppointmentActivity" />
         <activity android:name=".user_information.PatientActivity" />

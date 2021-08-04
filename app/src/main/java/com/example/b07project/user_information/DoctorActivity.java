@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.b07project.MainActivity;
 import com.example.b07project.R;
+import com.example.b07project.appointment_activities.DoctorViewAppointmentActivity;
 import com.example.b07project.appointment_activities.ViewAppointmentActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -80,7 +81,7 @@ public class DoctorActivity extends AppCompatActivity {
         }
 
         public void navigateToDoctorViewAppointmentsActivity(View view) {
-            Intent navigateToDoctorIntent = new Intent(this, ViewAppointmentActivity.class);
+            Intent navigateToDoctorIntent = new Intent(this, DoctorViewAppointmentActivity.class);
             startActivity(navigateToDoctorIntent);
         }
 

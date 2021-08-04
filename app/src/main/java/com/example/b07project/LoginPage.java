@@ -176,7 +176,7 @@ public class LoginPage extends AppCompatActivity {
                     });
 
                     //test code
-//                    checkIfDoc[0] = true;
+                    checkIfDoc[0] = true;
                     if (checkIfDoc[0]) {
                         startActivity(new Intent(LoginPage.this, DoctorActivity.class));
                     } else {

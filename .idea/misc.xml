@@ -4,17 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.25104166666666666" />
-        <entry key="app/src/main/res/layout/activity_book_appointment.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_doctor.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_doctor_patient_checkup.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_book_appointment.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/layout/activity_doctor.xml" value="0.1418853604281149" />
+        <entry key="app/src/main/res/layout/activity_doctor_patient_checkup.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_doctor_signup.xml" value="0.33636363636363636" />
+        <entry key="app/src/main/res/layout/activity_doctor_view_appointment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/activity_login_page.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_patient.xml" value="0.10179997967097631" />
+        <entry key="app/src/main/res/layout/activity_patient.xml" value="0.11" />
         <entry key="app/src/main/res/layout/activity_patient_information.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_select_availability.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_view_appointment.xml" value="0.2125" />
+        <entry key="app/src/main/res/layout/activity_select_availability.xml" value="0.20555555555555555" />
+        <entry key="app/src/main/res/layout/activity_view_appointment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/content_doctor_signup.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.22291666666666668" />
       </map>
