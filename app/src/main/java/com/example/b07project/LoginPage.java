@@ -130,7 +130,7 @@ public class LoginPage extends AppCompatActivity {
 
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);
-                    new AlertDialog.Builder(LoginPage.this)
+                    new AlertDialog.Builder(pageContext)
                             .setTitle("Login information was incorrect, please try again.")
                             //.setMessage("Are you sure you want to delete this entry?")
 
@@ -140,7 +140,7 @@ public class LoginPage extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Continue with delete operation
                                 }
-                            }).show();
+                            });
 
                             // A null listener allows the button to dismiss the dialog and take no further action.
 //                            .setNegativeButton(android.R.string.no, null)

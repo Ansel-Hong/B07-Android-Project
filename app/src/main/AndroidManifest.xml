@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.B07Project">
-
+        <activity
+            android:name=".user_information.DoctorPatientCheckupActivity"
+            android:exported="true" />
         <activity
             android:name=".appointment_activities.SelectAvailabilityActivity"
             android:exported="true" />
@@ -17,7 +19,7 @@
         <activity android:name=".appointment_activities.BookAppointmentActivity" />
         <activity android:name=".user_information.PatientActivity" />
         <activity android:name=".user_information.PatientInformation" />
-        <activity android:name=".user_information.DoctorSignup"/>
+        <activity android:name=".user_information.DoctorSignup" />
         <activity android:name=".LoginPage" />
         <activity android:name=".MainActivity">
             <intent-filter>
