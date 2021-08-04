@@ -5,8 +5,8 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.25104166666666666" />
         <entry key="app/src/main/res/layout/activity_book_appointment.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_doctor.xml" value="0.1889279174437799" />
-        <entry key="app/src/main/res/layout/activity_doctor_patient_checkup.xml" value="0.14036275177055046" />
+        <entry key="app/src/main/res/layout/activity_doctor.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_doctor_patient_checkup.xml" value="0.17751105495893874" />
         <entry key="app/src/main/res/layout/activity_doctor_signup.xml" value="0.33636363636363636" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/activity_login_page.xml" value="0.2947916666666667" />

@@ -18,6 +18,7 @@
         <activity android:name=".appointment_activities.ViewAppointmentActivity" />
         <activity android:name=".appointment_activities.BookAppointmentActivity" />
         <activity android:name=".user_information.PatientActivity" />
+        <activity android:name=".user_information.DoctorActivity" />
         <activity android:name=".user_information.PatientInformation" />
         <activity android:name=".user_information.DoctorSignup" />
         <activity android:name=".LoginPage" />

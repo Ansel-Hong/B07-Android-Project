@@ -143,11 +143,10 @@ public class LoginPage extends AppCompatActivity {
 
                     final Boolean[] checkIfDoc = {false};
 
-                    final ConfirmCallback cb = null;
+//                    final ConfirmCallback cb = null;
 
                     //Match UID to see if user is a doctor... run through doctor UID list
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
-                    ref.keepSynced(true);
                     ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -176,7 +175,8 @@ public class LoginPage extends AppCompatActivity {
                         }
                     });
 
-
+                    //test code
+//                    checkIfDoc[0] = true;
                     if (checkIfDoc[0]) {
                         startActivity(new Intent(LoginPage.this, DoctorActivity.class));
                     } else {
