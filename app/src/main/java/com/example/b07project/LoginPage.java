@@ -155,10 +155,16 @@ public class LoginPage extends AppCompatActivity {
                                 if(curDocUID.equals(currentLoggedInUID)){
                                     Log.i("UID MATCHED", curDocUID);
                                     checkIfDoc[0] = true;
+                                    startActivity(new Intent(LoginPage.this, DoctorActivity.class));
 //                                    confirmUserPageNavigationCallback(true);
                                 }
                             }
-                            checkIfDoc[0] = false;
+//                            checkIfDoc[0] = false;
+
+                            if(checkIfDoc[0])
+                                startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+                            else
+                                startActivity(new Intent(LoginPage.this, PatientActivity.class));
 //                            if(checkIfDoc[0] != null && checkIfDoc[0] == false)
 //                            confirmUserPageNavigationCallback(false);
 //                            cb.confirmCallback(checkIfDoc[0]);
@@ -173,17 +179,22 @@ public class LoginPage extends AppCompatActivity {
                                         }
                                     });
                         }
-                    });
+                    });//.addOnCompleteListener(LoginPage.this,new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                ;
+//
+//                                //test code
+////                                checkIfDoc[0] = true;
 
-                    //test code
-//                    checkIfDoc[0] = true;
-                    if (checkIfDoc[0]) {
-                        startActivity(new Intent(LoginPage.this, DoctorActivity.class));
-                    } else {
+//                    if (checkIfDoc[0]) {
+//                        startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+//                    } else {
                         //Else not a doctor and login via patientlogin
-                        startActivity(new Intent(LoginPage.this, PatientActivity.class));
-                    }
-
+//                        startActivity(new Intent(LoginPage.this, PatientActivity.class));
+//                    }
+//                            }
+//                        });
 
                 //If authentication fails
                 } else {
