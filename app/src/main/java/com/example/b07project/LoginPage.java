@@ -8,19 +8,30 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.b07project.user_information.Doctor;
+import com.example.b07project.user_information.DoctorActivity;
 import com.example.b07project.user_information.DoctorSignup;
+import com.example.b07project.user_information.Patient;
 import com.example.b07project.user_information.PatientActivity;
 import com.example.b07project.user_information.PatientInformation;
+import com.example.b07project.user_information.confirm_callback.ConfirmCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -126,8 +137,55 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(LoginPage.this, PatientActivity.class));
+                    // Get current UID
+                    String currentLoggedInUID = auth.getUid();
+                    Log.i("UID OBTAINED", currentLoggedInUID);
 
+                    final Boolean[] checkIfDoc = {false};
+
+                    final ConfirmCallback cb = null;
+
+                    //Match UID to see if user is a doctor... run through doctor UID list
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
+                    ref.keepSynced(true);
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot child: snapshot.getChildren()){
+                                String curDocUID = child.getKey();
+                                if(curDocUID.equals(currentLoggedInUID)){
+                                    Log.i("UID MATCHED", curDocUID);
+                                    checkIfDoc[0] = true;
+//                                    confirmUserPageNavigationCallback(true);
+                                }
+                            }
+                            checkIfDoc[0] = false;
+//                            if(checkIfDoc[0] != null && checkIfDoc[0] == false)
+//                            confirmUserPageNavigationCallback(false);
+//                            cb.confirmCallback(checkIfDoc[0]);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            new AlertDialog.Builder(LoginPage.this)
+                                    .setTitle("Something went wrong, please restart the application")
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Continue with delete operation
+                                        }
+                                    });
+                        }
+                    });
+
+
+                    if (checkIfDoc[0]) {
+                        startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+                    } else {
+                        //Else not a doctor and login via patientlogin
+                        startActivity(new Intent(LoginPage.this, PatientActivity.class));
+                    }
+
+
+                //If authentication fails
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);
                     new AlertDialog.Builder(pageContext)
@@ -153,4 +211,13 @@ public class LoginPage extends AppCompatActivity {
 
     }
 
+    public void confirmUserPageNavigationCallback(boolean isDoc) {
+        if (isDoc) {
+            startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+        } else {
+            //Else not a doctor and login via patientlogin
+            startActivity(new Intent(LoginPage.this, PatientActivity.class));
+        }
+    }
 }
+
