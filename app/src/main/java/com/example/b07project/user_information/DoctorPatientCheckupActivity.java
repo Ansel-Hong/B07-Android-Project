@@ -87,7 +87,7 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
 
     public void getPastDoctors(Patient pat, String patUID, TextView patientInfo, LinearLayout layout){
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Appointments");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
 //        ArrayList<Appointment> currPatientAppointments = pat.getAppointments();
 
@@ -95,7 +95,10 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String appointmentListText = "";
-                for(DataSnapshot apt: snapshot.getChildren()){
+
+                DataSnapshot doctorSnpashot = snapshot.child("doctors");
+                DataSnapshot appointmentSnapshot = snapshot.child("Appointments");
+                for(DataSnapshot apt: appointmentSnapshot.getChildren()){
                     String curAptKey = apt.getKey();
                     String curPatientUID = apt.child("patientID").getValue(String.class);
 
@@ -106,14 +109,19 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
                         TextView appointmentInfo = new TextView(DoctorPatientCheckupActivity.this);
 
                         Date date = aptClass.getStartTime();
+                        String doctorID = aptClass.getDoctorID();
+
+                        DataSnapshot doctorClass = doctorSnpashot.child(doctorID);
+                        Doctor doc = doctorClass.getValue(Doctor.class);
+
 
                         Calendar currentTime = Calendar.getInstance();
                         Date currentDate = currentTime.getTime();
                         if (date.compareTo(currentDate) < 0) {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
                             String time = dateFormat.format(date);
-                            String doctorName = getDoctorNameFromID(aptClass.getDoctorID());
-                            appointmentListText += "\n      " + " Dr. " + doctorName + " at "+time;
+                            //String doctorName = getDoctorNameFromID(aptClass.getDoctorID());
+                            appointmentListText += "\n      " + " Dr. " + doc.getName() + " at "+time;
                         }
                     }
                 }
