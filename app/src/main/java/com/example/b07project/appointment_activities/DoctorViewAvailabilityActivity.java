@@ -33,7 +33,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_view_availability);
+        setContentView(R.layout.activity_schedule);
 
         auth = FirebaseAuth.getInstance();
 
@@ -160,7 +160,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
 
 
     public void addTimeSlot(Date date){
-        LinearLayout layout = (LinearLayout) findViewById(R.id.available_time_slots);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.time_slots2);
         timeSlot = new TextView(this);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
@@ -175,7 +175,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
     public void getAppointment(Date date, String dateCode){
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Appointments");
-        LinearLayout layout = (LinearLayout) findViewById(R.id.available_time_slots);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.time_slots2);
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
