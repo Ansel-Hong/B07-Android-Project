@@ -24,6 +24,7 @@
         <activity android:name=".user_information.DoctorActivity" />
         <activity android:name=".user_information.PatientInformation" />
         <activity android:name=".user_information.DoctorSignup" />
+        <activity android:name=".appointment_activities.ScheduleActivity"/>
         <activity android:name=".LoginPage" />
         <activity android:name=".MainActivity">
             <intent-filter>

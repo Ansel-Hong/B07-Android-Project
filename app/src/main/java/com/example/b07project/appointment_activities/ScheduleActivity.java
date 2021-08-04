@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -61,6 +62,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 int i = 0;
 
+                TimeZone.setDefault(TimeZone.getTimeZone("EST"));
+
                 Calendar today = Calendar.getInstance();
                 today.add(Calendar.DAY_OF_MONTH, 1);
                 today.set(Calendar.HOUR, -15);
@@ -80,13 +83,14 @@ public class ScheduleActivity extends AppCompatActivity {
 
                         Date date = slot.getTime();
 
+                        Calendar now = Calendar.getInstance();
 
                         SimpleDateFormat test = new SimpleDateFormat("yyyyMMddhhmm");
                         String dateCode = test.format(date)+doctorID;
 
 
 
-                        if(!snapshot.child("Appointments").child(dateCode).exists())
+                        if(!snapshot.child("Appointments").child(dateCode).exists() && now.before(slot))
                             addTimeSlot(date); //should be in if statement once all features are added
 
                         else

@@ -25,10 +25,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class SelectAvailabilityActivity extends AppCompatActivity {
 
@@ -61,6 +63,8 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
 
 
                 int i = 0;
+
+                TimeZone.setDefault(TimeZone.getTimeZone("EST"));
 
                 Calendar today = Calendar.getInstance();
                 today.add(Calendar.DAY_OF_MONTH, 1);
