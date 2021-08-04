@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DoctorViewAppointmentActivity extends AppCompatActivity {
@@ -74,11 +75,15 @@ public class DoctorViewAppointmentActivity extends AppCompatActivity {
                     if (patientID.equals(patient.getKey())){
                         appointmentInfo = new TextView(DoctorViewAppointmentActivity.this);
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
-                        String time = dateFormat.format(date);
-                        appointmentInfo.setText(time + " with " + pat.getName());
+                        Calendar currentTime = Calendar.getInstance();
+                        Date currentDate = currentTime.getTime();
+                        if (date.compareTo(currentDate) > 0){
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
+                            String time = dateFormat.format(date);
+                            appointmentInfo.setText(time + " with " + pat.getName());
 
-                        layout.addView(appointmentInfo);
+                            layout.addView(appointmentInfo);
+                        }
                     }
                 }
             }
