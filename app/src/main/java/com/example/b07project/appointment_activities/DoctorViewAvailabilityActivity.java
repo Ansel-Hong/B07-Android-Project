@@ -46,7 +46,6 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String doctorID = auth.getUid();
-        //DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors").child(doctorID);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
 
@@ -67,7 +66,8 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
                 Calendar holder = new GregorianCalendar();
                 holder = today;
 
-
+                addAvailableTextSlot();
+                addEmptySlot();
                 while(i<7){ //this week
                     int j = 0;
                     int k = holder.get(Calendar.HOUR_OF_DAY);
@@ -99,8 +99,8 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
                         if(!snapshot.child("Appointments").child(dateCode).exists() && now.before(slot))
                             addTimeSlot(date);
 
-                        else
-                            getAppointment(date, dateCode);
+                        //else
+                            //getAppointment(date, dateCode);
 
 
 
@@ -113,7 +113,62 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
                     i++;
                 }
 
+                TimeZone.setDefault(TimeZone.getTimeZone("EST"));
 
+                today = Calendar.getInstance();
+                today.set(Calendar.MINUTE, 0);
+                today.set(Calendar.SECOND, 0);
+                holder = new GregorianCalendar();
+                holder = today;
+
+                addLineSlot();
+                addEmptySlot();
+                addAppointmentTextSlot();
+                addEmptySlot();
+
+                i = 0;
+
+                while(i<7){ //this week
+                    int j = 0;
+                    int k = holder.get(Calendar.HOUR_OF_DAY);
+                    int m = 9;
+                    if(i == 0 && k > 17){
+                        holder.set(Calendar.HOUR_OF_DAY, 9);
+                        holder.add(Calendar.DAY_OF_MONTH, 1);
+                    }
+                    else if (i == 0 && k < 9){
+                        holder.set(Calendar.HOUR_OF_DAY, 9);
+                    }
+                    else if (i == 0 && k >= 9 && k <= 17){
+                        int t = k - 9;
+                        m = m - t;
+                    }
+                    while (j<m){
+                        Calendar slot = new GregorianCalendar();
+                        slot = holder;
+
+                        Date date = slot.getTime();
+
+                        Calendar now = Calendar.getInstance();
+
+                        SimpleDateFormat test = new SimpleDateFormat("yyyyMMddhhmm");
+                        String dateCode = test.format(date)+doctorID;
+
+
+
+                        if(snapshot.child("Appointments").child(dateCode).exists() && now.before(slot))
+                            getAppointment(date, dateCode);
+
+
+
+                        slot.add(Calendar.HOUR, 1);
+                        holder = slot;
+                        j++;
+                    }
+                    holder.add(Calendar.HOUR, -9);
+                    holder.add(Calendar.DAY_OF_MONTH,1);
+                    i++;
+                }
             }
 
             @Override
@@ -122,41 +177,8 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
             }
         });
 
-
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot availability:dataSnapshot.getChildren()){
-//                    //Availability child = availability.getValue(Availability.class);
-//                    //addTimeSlot(child);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                Log.w("info", "Failed to read value.", error.toException());
-//            }
-//        });
     }
 
-//    public void addTimeSlot(Availability availability){
-//        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.availability_list);
-//        Button newTimeSlot = new Button(this);
-//        newTimeSlot.setText(availability.toString());
-//        newTimeSlot.setId(availability.hashCode());
-//        linearLayout.addView(newTimeSlot);
-//        Context pageContext = this;
-//        newTimeSlot.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new AlertDialog.Builder(pageContext)
-//                        .setTitle("Booking Successful")
-//                        .setMessage("You have successfully booked this time slot!")
-//                        .setNegativeButton(android.R.string.no, null)
-//                        .show();
-//            }
-//        });
-//    }
 
 
     public void addTimeSlot(Date date){
@@ -189,7 +211,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
 
                         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
                         String time = dateFormat.format(date);
-                        timeSlot.setText(time+" is booked with an appointment (ID: '"+dateCode+ "')");
+                        timeSlot.setText("An appointment is booked at "+time);
 
                         layout.addView(timeSlot);
                         break;
@@ -207,6 +229,46 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
 
 
 
+
+    }
+
+    public void addEmptySlot(){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.available_time_slots);
+        timeSlot = new TextView(this);
+
+        timeSlot.setText("");
+
+        layout.addView(timeSlot);
+
+    }
+
+    public void addLineSlot(){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.available_time_slots);
+        timeSlot = new TextView(this);
+
+        timeSlot.setText("--------------------------------------------------------------------------");
+
+        layout.addView(timeSlot);
+
+    }
+
+    public void addAppointmentTextSlot(){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.available_time_slots);
+        timeSlot = new TextView(this);
+
+        timeSlot.setText("Your Upcoming Appointments:");
+
+        layout.addView(timeSlot);
+
+    }
+
+    public void addAvailableTextSlot(){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.available_time_slots);
+        timeSlot = new TextView(this);
+
+        timeSlot.setText("Your Available Time Slots:");
+
+        layout.addView(timeSlot);
 
     }
 
