@@ -35,6 +35,8 @@ public class DoctorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
 
+        MainActivity.setActivityBackgroundColor(0xff597ea8, this);
+
         doctor = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference().child("doctors");
         userID = doctor.getUid();

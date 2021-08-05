@@ -24,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setActivityBackgroundColor(0xff4293f5);
+        setActivityBackgroundColor(0xff4293f5, this);
 
 
     }
 
-    public void setActivityBackgroundColor(int color) {
-        View view = this.getWindow().getDecorView();
+    public static void setActivityBackgroundColor(int color, AppCompatActivity activity) {
+        View view = activity.getWindow().getDecorView();
         view.setBackgroundColor(color);
     }
 

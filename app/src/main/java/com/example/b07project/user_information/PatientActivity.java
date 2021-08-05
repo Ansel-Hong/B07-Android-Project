@@ -36,6 +36,8 @@ public class PatientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient);
 
+        MainActivity.setActivityBackgroundColor(0xf0bccbe8, this);
+
         patient = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference().child("patients");
         userID = patient.getUid();
