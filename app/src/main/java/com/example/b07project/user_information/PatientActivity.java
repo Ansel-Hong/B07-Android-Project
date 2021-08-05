@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.b07project.MainActivity;
 import com.example.b07project.R;
+import com.example.b07project.appointment_activities.ViewPastAppointmentActivity;
 import com.example.b07project.appointment_activities.ViewAppointmentActivity;
 import com.example.b07project.appointment_activities.BookAppointmentActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -86,7 +87,6 @@ public class PatientActivity extends AppCompatActivity {
 
     }
 
-
     public void navigateToBookAppointmentActivity(View view){
         Intent navigateToPatientIntent = new Intent(this, BookAppointmentActivity.class);
         startActivity(navigateToPatientIntent);
@@ -97,5 +97,14 @@ public class PatientActivity extends AppCompatActivity {
         startActivity(navigateToPatientIntent);
     }
 
+    public void navigateToViewPastAppointmentsActivity(View view){
+        Intent navigateToPatientIntent = new Intent(this, ViewPastAppointmentActivity.class);
+        startActivity(navigateToPatientIntent);
+    }
+
+    public void navigateToViewVisitedDoctorsActivity(View view){
+        Intent navigateToPatientIntent = new Intent(this, ViewVisitedDoctorsActivity.class);
+        startActivity(navigateToPatientIntent);
+    }
 
 }

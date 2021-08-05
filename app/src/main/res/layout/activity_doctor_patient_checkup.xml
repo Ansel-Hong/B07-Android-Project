@@ -20,7 +20,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="306dp"
         android:layout_height="489dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="54dp"
         android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

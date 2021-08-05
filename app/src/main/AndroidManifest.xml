@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.b07project">
+    package="com.example.b07project" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.B07Project">
+        android:theme="@style/Theme.B07Project" >
+        <activity
+            android:name=".user_information.ViewVisitedDoctorsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".appointment_activities.ViewPastAppointmentActivity"
+            android:exported="true" />
         <activity
             android:name=".appointment_activities.DoctorViewAvailabilityActivity"
             android:exported="true" />
@@ -28,7 +34,7 @@
         <activity android:name=".user_information.PatientInformation" />
         <activity android:name=".user_information.DoctorSignup" />
         <activity android:name=".LoginPage" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

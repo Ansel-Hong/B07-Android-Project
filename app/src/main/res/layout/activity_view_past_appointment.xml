@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".appointment_activities.ViewAppointmentActivity">
+    tools:context=".appointment_activities.ViewPastAppointmentActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Here are your upcoming appointments:"
+        android:text="Here are your past appointments:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,14 +25,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@id/textView8"
         app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
-            android:id="@+id/appointment_list"
-            android:layout_width="wrap_content"
+            android:id="@+id/past_appointment_list"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

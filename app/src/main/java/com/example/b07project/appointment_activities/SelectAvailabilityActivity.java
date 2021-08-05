@@ -2,10 +2,11 @@ package com.example.b07project.appointment_activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -148,6 +149,7 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.time_slots);
         newSlot = new Button(this);
 
+        Context pageContext = this;
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
         dateFormat.setTimeZone(TimeZone.getTimeZone("EST"));
         String time = dateFormat.format(date);
@@ -156,6 +158,17 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bookAppointment(date, doctorID);
+                new AlertDialog.Builder(pageContext)
+                        .setTitle("Booking Successful")
+                        .setMessage("You have successfully booked this timeslot!")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setCancelable(false)
+                        .show();
             }
         });
 
