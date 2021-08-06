@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -69,6 +70,7 @@ public class DoctorSignup extends AppCompatActivity {
                 genderRadioGroup = (RadioGroup)findViewById(R.id.gender_doctor);
 
                 registerUser();
+
 
             }
         });
@@ -148,11 +150,8 @@ public class DoctorSignup extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast toast = Toast.makeText(DoctorSignup.this, "User successfully registered!", Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                                        toast.show();
 
-
+                                        startActivity(new Intent(DoctorSignup.this, DoctorActivity.class));
 
                                     } else{
                                         new AlertDialog.Builder(DoctorSignup.this)
