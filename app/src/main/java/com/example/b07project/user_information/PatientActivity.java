@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.b07project.MainActivity;
 import com.example.b07project.R;
-import com.example.b07project.appointment_activities.ChooseDoctorActivity;
+import com.example.b07project.appointment_activities.PatientChooseDoctorActivity;
 import com.example.b07project.appointment_activities.PatientViewPastAppointmentActivity;
 import com.example.b07project.appointment_activities.PatientViewAppointmentActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -90,7 +90,7 @@ public class PatientActivity extends AppCompatActivity {
     }
 
     public void navigateToBookAppointmentActivity(View view){
-        Intent navigateToPatientIntent = new Intent(this, ChooseDoctorActivity.class);
+        Intent navigateToPatientIntent = new Intent(this, PatientChooseDoctorActivity.class);
         startActivity(navigateToPatientIntent);
     }
 

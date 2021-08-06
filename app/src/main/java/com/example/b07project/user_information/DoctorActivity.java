@@ -15,7 +15,6 @@ import com.example.b07project.MainActivity;
 import com.example.b07project.R;
 import com.example.b07project.appointment_activities.DoctorViewAppointmentActivity;
 import com.example.b07project.appointment_activities.DoctorViewAvailabilityActivity;
-import com.example.b07project.appointment_activities.ScheduleShowAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

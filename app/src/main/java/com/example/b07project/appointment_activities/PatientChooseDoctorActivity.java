@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ChooseDoctorActivity extends AppCompatActivity {
+public class PatientChooseDoctorActivity extends AppCompatActivity {
     Button newDoctor;
     FirebaseAuth auth;
     Spinner specialtyFilterSpinner;
@@ -34,7 +34,7 @@ public class ChooseDoctorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose_doctor);
+        setContentView(R.layout.activity_patient_choose_doctor);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -100,7 +100,7 @@ public class ChooseDoctorActivity extends AppCompatActivity {
              newDoctor.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     Intent navigateToAvailabilityIntent = new Intent(ChooseDoctorActivity.this, PatientBookAppointmentActivity.class);
+                     Intent navigateToAvailabilityIntent = new Intent(PatientChooseDoctorActivity.this, PatientBookAppointmentActivity.class);
                      navigateToAvailabilityIntent.putExtra("doctorID", doctorID);
                      startActivity(navigateToAvailabilityIntent);
                  }

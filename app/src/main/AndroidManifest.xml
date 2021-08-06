@@ -28,7 +28,7 @@
             android:name=".appointment_activities.DoctorViewAppointmentActivity"
             android:exported="true" />
         <activity android:name=".appointment_activities.PatientViewAppointmentActivity" />
-        <activity android:name=".appointment_activities.ChooseDoctorActivity" />
+        <activity android:name=".appointment_activities.PatientChooseDoctorActivity" />
         <activity android:name=".user_information.PatientActivity" />
         <activity android:name=".user_information.DoctorActivity" />
         <activity android:name=".user_information.PatientSignup" />
