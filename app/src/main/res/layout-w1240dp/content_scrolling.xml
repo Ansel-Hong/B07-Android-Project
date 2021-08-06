@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".user_information.PatientInformation"
-    tools:showIn="@layout/activity_patient_information">
+    tools:context=".user_information.PatientSignup"
+    tools:showIn="@layout/activity_patient_signup">
 
     <TextView
         android:layout_width="wrap_content"

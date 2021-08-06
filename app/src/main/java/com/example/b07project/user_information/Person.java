@@ -1,14 +1,16 @@
 package com.example.b07project.user_information;
 
-import com.example.b07project.Login;
-
 import java.io.Serializable;
 
-public abstract class Person implements Login, Serializable {
-    public String name;
-    static int personCount;
 
-    // I figure having the 3 fields is no harm when logging in
+public abstract class Person implements Serializable {
+    /**
+     * Abstract class that holds all methods or fields related to a person or user who will use the application
+     * @param name a string that holds the full name of a Person
+     * @param email a string that holds the person's email. Due to FirebaseAuth, this field is unique to each Person
+     * @param password a string that holds each Person's password. This field must be at least 6 characters. This is checked in the sign up activities before creating a Person
+     */
+    public String name;
     public String email;
     private String password;
 
@@ -26,16 +28,7 @@ public abstract class Person implements Login, Serializable {
     }
 
 
-    public void setLoginInformation(String email, int loginID, String password){
-        this.email = email;
-        this.password = password;
-    }
-
-    //Function to pull appointments from DB. Abstract since it will be implemented differently for Doctors/Patients
-    //public abstract Set<Appointment> getAppointments(); //return type might not be void eventually, depends on later implementation
-
-
-    //--------------------- for Firebase -----------------------//
+    //---------------- Getters and Setters--------------------//
     public void setName(String name){this.name = name;}
     public void setEmail(String email){this.email = email;}
     public void setPassword(String password){this.name = password;}
@@ -43,22 +36,7 @@ public abstract class Person implements Login, Serializable {
     public String getName(){return name;}
     public String getEmail(){return email;}
     public String getPassword(){return password;}
+    //---------------- Getters and Setters--------------------//
 
 
-    @Override
-    public int hashCode() {
-        return 3;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj==null)
-            return false;
-        if(obj.getClass() != getClass())
-            return false;
-        Person p = (Person)obj;
-        if(this.hashCode() != p.hashCode())
-            return false;
-        return true;
-    }
 }

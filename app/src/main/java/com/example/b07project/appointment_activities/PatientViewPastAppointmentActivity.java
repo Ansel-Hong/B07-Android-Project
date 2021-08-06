@@ -5,12 +5,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.b07project.*;
 import com.example.b07project.R;
 import com.example.b07project.user_information.Doctor;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +24,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
-public class ViewAppointmentActivity extends AppCompatActivity {
+public class PatientViewPastAppointmentActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     TextView appointmentInfo;
@@ -34,7 +32,7 @@ public class ViewAppointmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_appointment);
+        setContentView(R.layout.activity_patient_view_past_appointment);
 
         auth = FirebaseAuth.getInstance();
 
@@ -45,31 +43,30 @@ public class ViewAppointmentActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                DataSnapshot appointmentsSnapshot = snapshot.child("Appointments");
+                DataSnapshot appointmentSnapshot = snapshot.child("Appointments");
                 String patientID = auth.getUid();
 
-                ArrayList<Date> upcomingAppointmentsDate = new ArrayList<Date>();
-                ArrayList<Appointment> upcomingAppointments = new ArrayList<Appointment>();
-
-                for (DataSnapshot appointment:appointmentsSnapshot.getChildren()){
+                ArrayList<Date> pastAppointmentsDates = new ArrayList<Date>();
+                ArrayList<Appointment> pastAppointments = new ArrayList<Appointment>();
+                for (DataSnapshot appointment:appointmentSnapshot.getChildren()){
                     Appointment apt = appointment.getValue(Appointment.class);
                     Date appointmentDate = apt.getStartTime();
-                    upcomingAppointmentsDate.add(appointmentDate);
+                    pastAppointmentsDates.add(appointmentDate);
                 }
-                Collections.sort(upcomingAppointmentsDate);
+                Collections.sort(pastAppointmentsDates);
 
-                for (Date date:upcomingAppointmentsDate){
-                    for (DataSnapshot appointment:appointmentsSnapshot.getChildren()){
+                for (Date date:pastAppointmentsDates){
+                    for (DataSnapshot appointment:appointmentSnapshot.getChildren()){
                         Appointment apt = appointment.getValue(Appointment.class);
                         if (date.equals(apt.getStartTime())
                                 && patientID.equals(apt.getPatientID())
-                                && !upcomingAppointments.contains(apt)){
-                            upcomingAppointments.add(apt);
+                                && !pastAppointments.contains(apt)){
+                            pastAppointments.add(apt);
                         }
                     }
                 }
 
-                for(Appointment apt:upcomingAppointments){
+                for (Appointment apt:pastAppointments){
                     getAppointment(apt.getStartTime(), apt.getDoctorID());
                 }
 
@@ -80,33 +77,25 @@ public class ViewAppointmentActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
-
     public void getAppointment(Date date, String doctorID){
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
-        LinearLayout layout = (LinearLayout) findViewById(R.id.appointment_list);
-
+        LinearLayout layout = (LinearLayout) findViewById(R.id.past_appointment_list);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for(DataSnapshot doctor: snapshot.getChildren()){
+                for (DataSnapshot doctor:snapshot.getChildren()){
                     Doctor doc = doctor.getValue(Doctor.class);
-
-                    if(doctorID.equals(doctor.getKey())){
-
+                    if (doctorID.equals(doctor.getKey())){
                         Calendar currentTime = Calendar.getInstance();
                         Date currentDate = currentTime.getTime();
-                        if (date.compareTo(currentDate) > 0){
-                            appointmentInfo = new TextView(ViewAppointmentActivity.this);
-
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
-                            String time = dateFormat.format(date);
-                            appointmentInfo.setText(time+" with Dr."+doc.getName() + "\n");
-
+                        if (date.compareTo(currentDate) < 0){
+                            appointmentInfo = new TextView(PatientViewPastAppointmentActivity.this);
+                            SimpleDateFormat formattedDate = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
+                            String time = formattedDate.format(date);
+                            appointmentInfo.setText(time + " with Dr." + doc.getName() + "\n");
                             layout.addView(appointmentInfo);
                         }
                     }
@@ -118,15 +107,7 @@ public class ViewAppointmentActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
@@ -137,4 +118,5 @@ public class ViewAppointmentActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

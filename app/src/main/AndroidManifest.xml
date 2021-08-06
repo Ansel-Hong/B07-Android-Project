@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.B07Project" >
         <activity
-            android:name=".user_information.ViewVisitedDoctorsActivity"
+            android:name=".user_information.PatientViewVisitedDoctorsActivity"
             android:exported="true" />
         <activity
-            android:name=".appointment_activities.ViewPastAppointmentActivity"
+            android:name=".appointment_activities.PatientViewPastAppointmentActivity"
             android:exported="true" />
         <activity
             android:name=".appointment_activities.DoctorViewAvailabilityActivity"
@@ -22,16 +22,16 @@
             android:name=".user_information.DoctorPatientCheckupActivity"
             android:exported="true" />
         <activity
-            android:name=".appointment_activities.SelectAvailabilityActivity"
+            android:name=".appointment_activities.PatientBookAppointmentActivity"
             android:exported="true" />
         <activity
             android:name=".appointment_activities.DoctorViewAppointmentActivity"
             android:exported="true" />
-        <activity android:name=".appointment_activities.ViewAppointmentActivity" />
-        <activity android:name=".appointment_activities.BookAppointmentActivity" />
+        <activity android:name=".appointment_activities.PatientViewAppointmentActivity" />
+        <activity android:name=".appointment_activities.ChooseDoctorActivity" />
         <activity android:name=".user_information.PatientActivity" />
         <activity android:name=".user_information.DoctorActivity" />
-        <activity android:name=".user_information.PatientInformation" />
+        <activity android:name=".user_information.PatientSignup" />
         <activity android:name=".user_information.DoctorSignup" />
         <activity android:name=".LoginPage" />
         <activity android:name=".MainActivity" >

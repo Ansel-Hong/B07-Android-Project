@@ -42,9 +42,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
 
 
 
-        Context pageContext = this;
 
-        Intent intent = getIntent();
         String doctorID = auth.getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
@@ -53,7 +51,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-
+                //------Displaying Available time slots------//
                 int i = 0;
 
                 TimeZone.setDefault(TimeZone.getTimeZone("EST"));
@@ -99,10 +97,6 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
                         if(!snapshot.child("Appointments").child(dateCode).exists() && now.before(slot))
                             addTimeSlot(date);
 
-                        //else
-                            //getAppointment(date, dateCode);
-
-
 
                         slot.add(Calendar.HOUR, 1);
                         holder = slot;
@@ -113,6 +107,11 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
                     i++;
                 }
 
+                //------Displaying Available time slots------//
+
+
+
+                //------Displaying Appointment time slots------//
                 TimeZone.setDefault(TimeZone.getTimeZone("EST"));
 
                 today = Calendar.getInstance();
@@ -170,6 +169,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
                     i++;
                 }
             }
+            //------Displaying Appointment time slots------//
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

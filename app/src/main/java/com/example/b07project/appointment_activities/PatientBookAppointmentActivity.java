@@ -9,8 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,16 +22,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-public class SelectAvailabilityActivity extends AppCompatActivity {
+public class PatientBookAppointmentActivity extends AppCompatActivity {
 
     Button newSlot;
     FirebaseAuth auth;
@@ -41,7 +36,7 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_availability);
+        setContentView(R.layout.activity_patient_book_appointment);
 
         auth = FirebaseAuth.getInstance();
 
@@ -49,12 +44,8 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-
-        Context pageContext = this;
-
         Intent intent = getIntent();
         String doctorID = intent.getStringExtra("doctorID");
-        //DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors").child(doctorID);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
         //Creating blank schedule
@@ -132,19 +123,6 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
     }
 
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        switch (item.getItemId()){
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     public void addTimeSlot(Date date, String doctorID){
         LinearLayout layout = (LinearLayout) findViewById(R.id.time_slots);
         newSlot = new Button(this);
@@ -201,8 +179,16 @@ public class SelectAvailabilityActivity extends AppCompatActivity {
             }
         });
 
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

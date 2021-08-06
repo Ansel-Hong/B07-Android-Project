@@ -118,51 +118,6 @@ public class ScheduleShowAvailability extends AppCompatActivity {
             }
         });
 
-
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot availability:dataSnapshot.getChildren()){
-//                    //Availability child = availability.getValue(Availability.class);
-//                    //addTimeSlot(child);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                Log.w("info", "Failed to read value.", error.toException());
-//            }
-//        });
-    }
-
-//    public void addTimeSlot(Availability availability){
-//        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.availability_list);
-//        Button newTimeSlot = new Button(this);
-//        newTimeSlot.setText(availability.toString());
-//        newTimeSlot.setId(availability.hashCode());
-//        linearLayout.addView(newTimeSlot);
-//        Context pageContext = this;
-//        newTimeSlot.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new AlertDialog.Builder(pageContext)
-//                        .setTitle("Booking Successful")
-//                        .setMessage("You have successfully booked this time slot!")
-//                        .setNegativeButton(android.R.string.no, null)
-//                        .show();
-//            }
-//        });
-//    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        switch (item.getItemId()){
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -177,6 +132,20 @@ public class ScheduleShowAvailability extends AppCompatActivity {
         layout.addView(timeSlot);
 
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 
 
 

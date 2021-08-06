@@ -47,6 +47,7 @@ public class DoctorViewAppointmentActivity extends AppCompatActivity {
                     String doctorID = auth.getUid();
                     Appointment apt = appointment.getValue(Appointment.class);
 
+                    //If the doctorID of an appointment matches the doctorID of the current doctor, the appointment will be retrieved
                     if(doctorID.equals(apt.getDoctorID())){
                         getAppointment(apt.getStartTime(), apt.getPatientID());
                     }
@@ -77,6 +78,8 @@ public class DoctorViewAppointmentActivity extends AppCompatActivity {
 
                         Calendar currentTime = Calendar.getInstance();
                         Date currentDate = currentTime.getTime();
+
+                        //An if statement to ensure only future appointment dates are displayed
                         if (date.compareTo(currentDate) > 0){
                             SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
                             String time = dateFormat.format(date);

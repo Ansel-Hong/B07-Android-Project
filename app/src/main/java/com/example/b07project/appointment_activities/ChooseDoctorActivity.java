@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class BookAppointmentActivity extends AppCompatActivity {
+public class ChooseDoctorActivity extends AppCompatActivity {
     Button newDoctor;
     FirebaseAuth auth;
     Spinner specialtyFilterSpinner;
@@ -35,11 +34,12 @@ public class BookAppointmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_appointment);
+        setContentView(R.layout.activity_choose_doctor);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        //Declaring Specialties and initializing spinner
         String[] specialties = new String[] {"Any", "Cardiology", "Dermatology", "Family Medicine", "Neurology"
                 , "Gynecology", "Pediatrics", "Physiotherapy", "Psychiatry"};
         specialtyFilterSpinner = (Spinner)findViewById(R.id.filter_specialty);
@@ -47,7 +47,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         specialtyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         specialtyFilterSpinner.setAdapter(specialtyAdapter);
 
-
+        //Declaring genders and initializing spinner
         String [] genders = new String [] {"Any", "Male", "Female"};
         genderFilterSpinner = (Spinner) findViewById(R.id.filter_gender);
         ArrayAdapter<String> genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genders);
@@ -55,21 +55,18 @@ public class BookAppointmentActivity extends AppCompatActivity {
         genderFilterSpinner.setAdapter(genderAdapter);
 
 
-
         refresh = (Button) findViewById(R.id.filter_refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doctorList = (LinearLayout) findViewById(R.id.doctor_list);
-                doctorList.removeAllViews();
 
+                doctorList = (LinearLayout) findViewById(R.id.doctor_list);
+                doctorList.removeAllViews(); //When new filter is applied, previous results are erased.
 
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
-
                         for (DataSnapshot child: dataSnapshot.getChildren()){
                             Doctor d = child.getValue(Doctor.class);
                             addDoctor(d, child.getKey());
@@ -95,7 +92,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
          String filterSpecialty = specialtyFilterSpinner.getSelectedItem().toString().trim();
          String filterGender = genderFilterSpinner.getSelectedItem().toString().trim();
 
-
+         //Check that doctor matches filters specified by user
          if((doctor.getGender().equals(filterGender) || filterGender.equals("Any")) && (doctor.getSpecialty().equals(filterSpecialty) || filterSpecialty.equals("Any"))){
              newDoctor = new Button(this);
              newDoctor.setText(doctor.name);
@@ -103,7 +100,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
              newDoctor.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     Intent navigateToAvailabilityIntent = new Intent(BookAppointmentActivity.this, SelectAvailabilityActivity.class);
+                     Intent navigateToAvailabilityIntent = new Intent(ChooseDoctorActivity.this, PatientBookAppointmentActivity.class);
                      navigateToAvailabilityIntent.putExtra("doctorID", doctorID);
                      startActivity(navigateToAvailabilityIntent);
                  }

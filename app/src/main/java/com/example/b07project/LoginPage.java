@@ -14,15 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.example.b07project.user_information.Doctor;
 import com.example.b07project.user_information.DoctorActivity;
 import com.example.b07project.user_information.DoctorSignup;
-import com.example.b07project.user_information.Patient;
 import com.example.b07project.user_information.PatientActivity;
-import com.example.b07project.user_information.PatientInformation;
-import com.example.b07project.user_information.confirm_callback.ConfirmCallback;
+import com.example.b07project.user_information.PatientSignup;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -97,7 +93,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public void navigateToPatientSignup(){
-        Intent navigateToPatientSignup = new Intent(this, PatientInformation.class);
+        Intent navigateToPatientSignup = new Intent(this, PatientSignup.class);
         startActivity(navigateToPatientSignup);
     }
 

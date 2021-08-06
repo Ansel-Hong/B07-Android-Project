@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ViewVisitedDoctorsActivity extends AppCompatActivity {
+public class PatientViewVisitedDoctorsActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     TextView doctorInfo;
@@ -29,7 +29,7 @@ public class ViewVisitedDoctorsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_visited_doctors);
+        setContentView(R.layout.activity_patient_view_visited_doctors);
 
         auth = FirebaseAuth.getInstance();
 
@@ -74,7 +74,7 @@ public class ViewVisitedDoctorsActivity extends AppCompatActivity {
                         if (date.compareTo(currentTime) < 0){
                             if (!doctorName.contains(doc.getName())){
                                 doctorName.add(doc.getName());
-                                doctorInfo = new TextView(ViewVisitedDoctorsActivity.this);
+                                doctorInfo = new TextView(PatientViewVisitedDoctorsActivity.this);
                                 doctorInfo.setText("Dr." + doc.getName() + ", specializes in " + doc.getSpecialty() + "\n");
                                 layout.addView(doctorInfo);
                             }

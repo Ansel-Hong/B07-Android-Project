@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.example.b07project.R;
 import com.example.b07project.appointment_activities.Appointment;
-import com.example.b07project.appointment_activities.ViewAppointmentActivity;
-import com.example.b07project.user_information.confirm_callback.ConfirmCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,10 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class DoctorPatientCheckupActivity extends AppCompatActivity {
 

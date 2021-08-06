@@ -8,20 +8,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 
-import com.example.b07project.LoginPage;
 import com.example.b07project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class PatientInformation extends AppCompatActivity {
+public class PatientSignup extends AppCompatActivity {
 
     private FirebaseAuth auth;
     EditText editTextName, editTextEmail, editTextPassword, editTextAge, editTextWeight, editTextBloodType;
@@ -40,7 +35,7 @@ public class PatientInformation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_information);
+        setContentView(R.layout.activity_patient_signup);
 
 
 
@@ -155,7 +150,7 @@ public class PatientInformation extends AppCompatActivity {
                                         navigateToPatientActivity();
 
                                     } else{
-                                        new AlertDialog.Builder(PatientInformation.this)
+                                        new AlertDialog.Builder(PatientSignup.this)
                                                 .setTitle("User failed to register, please try again")
                                                 .setMessage("Email may have already been used to create an account")
 
@@ -168,7 +163,7 @@ public class PatientInformation extends AppCompatActivity {
                             });
 
                         } else {
-                            new AlertDialog.Builder(PatientInformation.this)
+                            new AlertDialog.Builder(PatientSignup.this)
                                     .setTitle("User failed to register, please try again")
                                     .setMessage("Email may have already been used to create an account")
 
@@ -183,7 +178,7 @@ public class PatientInformation extends AppCompatActivity {
     }
 
     public void navigateToPatientActivity(){
-        Intent navigateToPatientIntent = new Intent(PatientInformation.this, PatientActivity.class);
+        Intent navigateToPatientIntent = new Intent(PatientSignup.this, PatientActivity.class);
         //navigateToPatientIntent.putExtra("patient", patient);
 
         startActivity(navigateToPatientIntent);

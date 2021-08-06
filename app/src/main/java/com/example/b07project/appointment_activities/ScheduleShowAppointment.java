@@ -30,7 +30,7 @@ public class ScheduleShowAppointment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_appointment);
+        setContentView(R.layout.activity_patient_view_appointment);
 
         auth = FirebaseAuth.getInstance();
 
@@ -96,11 +96,6 @@ public class ScheduleShowAppointment extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
 
     }
 
