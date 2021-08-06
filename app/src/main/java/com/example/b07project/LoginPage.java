@@ -21,6 +21,8 @@ import com.example.b07project.user_information.PatientActivity;
 import com.example.b07project.user_information.PatientSignup;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginPage extends AppCompatActivity {
 
-    private EditText loginEmail, loginPassword;
+    private TextInputEditText loginEmail;
+    private TextInputEditText loginPassword;
     private Button logIn;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
@@ -47,8 +50,8 @@ public class LoginPage extends AppCompatActivity {
 
 
 
-        loginEmail = (EditText) findViewById(R.id.login_email);
-        loginPassword = (EditText) findViewById(R.id.login_password);
+        loginEmail = (TextInputEditText) findViewById(R.id.email_text);
+        loginPassword = (TextInputEditText) findViewById(R.id.password_text);
 
         progressBar = (ProgressBar) findViewById(R.id.login_progressBar);
         auth =FirebaseAuth.getInstance();
