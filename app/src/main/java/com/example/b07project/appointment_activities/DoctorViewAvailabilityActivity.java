@@ -187,7 +187,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
         String time = dateFormat.format(date);
-        timeSlot.setText(time + " (available) ");
+        timeSlot.setText(time + " (available) " + "\n");
 
         layout.addView(timeSlot);
 
@@ -211,7 +211,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
 
                         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
                         String time = dateFormat.format(date);
-                        timeSlot.setText("An appointment is booked at "+time);
+                        timeSlot.setText("An appointment is booked at " + time + "\n");
 
                         layout.addView(timeSlot);
                         break;

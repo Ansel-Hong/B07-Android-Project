@@ -7,10 +7,12 @@
 
     <TextView
         android:id="@+id/textView5"
+        android:gravity="center"
         android:layout_width="205dp"
         android:layout_height="33dp"
         android:layout_marginTop="24dp"
         android:text="Here are your schedule:"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,17 +21,19 @@
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="299dp"
-        android:layout_height="606dp"
+        android:layout_height="580dp"
         android:layout_marginStart="50dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView5">
 
         <LinearLayout
             android:id="@+id/available_time_slots"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
