@@ -20,7 +20,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 public class DoctorViewAppointmentActivity extends AppCompatActivity {
@@ -43,14 +45,32 @@ public class DoctorViewAppointmentActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 DataSnapshot appointmentsSnapshot = snapshot.child("Appointments");
-                for(DataSnapshot appointment:appointmentsSnapshot.getChildren()){
-                    String doctorID = auth.getUid();
-                    Appointment apt = appointment.getValue(Appointment.class);
+                String doctorID = auth.getUid();
 
-                    //If the doctorID of an appointment matches the doctorID of the current doctor, the appointment will be retrieved
-                    if(doctorID.equals(apt.getDoctorID())){
-                        getAppointment(apt.getStartTime(), apt.getPatientID());
+                ArrayList<Date> upcomingAppointmentDates = new ArrayList<Date>();
+                ArrayList<Appointment> upcomingAppointments = new ArrayList<Appointment>();
+
+                for (DataSnapshot appointment:appointmentsSnapshot.getChildren()){
+                    Appointment apt = appointment.getValue(Appointment.class);
+                    Date appointmentDate = apt.getStartTime();
+                    upcomingAppointmentDates.add(appointmentDate);
+                }
+                Collections.sort(upcomingAppointmentDates);
+
+                for (Date date:upcomingAppointmentDates){
+                    for (DataSnapshot appointment:appointmentsSnapshot.getChildren()){
+                        Appointment apt = appointment.getValue(Appointment.class);
+                        if (date.equals(apt.getStartTime())
+                                && doctorID.equals(apt.getDoctorID())
+                                && !upcomingAppointments.contains(apt)){
+                            upcomingAppointments.add(apt);
+                        }
                     }
+                }
+
+                for(Appointment apt:upcomingAppointments){
+                    //If the doctorID of an appointment matches the doctorID of the current doctor, the appointment will be retrieved
+                    getAppointment(apt.getStartTime(), apt.getPatientID());
                 }
             }
 
@@ -83,7 +103,7 @@ public class DoctorViewAppointmentActivity extends AppCompatActivity {
                         if (date.compareTo(currentDate) > 0){
                             SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
                             String time = dateFormat.format(date);
-                            appointmentInfo.setText(time + " with " + pat.getName());
+                            appointmentInfo.setText(time + " with " + pat.getName() + "\n");
 
                             layout.addView(appointmentInfo);
                         }
