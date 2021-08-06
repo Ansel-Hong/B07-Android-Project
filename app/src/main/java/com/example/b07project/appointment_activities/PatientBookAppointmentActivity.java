@@ -132,6 +132,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity {
         dateFormat.setTimeZone(TimeZone.getTimeZone("EST"));
         String time = dateFormat.format(date);
         newSlot.setText(time);
+        newSlot.setAllCaps(false);
         newSlot.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

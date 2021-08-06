@@ -96,6 +96,7 @@ public class PatientChooseDoctorActivity extends AppCompatActivity {
          if((doctor.getGender().equals(filterGender) || filterGender.equals("Any")) && (doctor.getSpecialty().equals(filterSpecialty) || filterSpecialty.equals("Any"))){
              newDoctor = new Button(this);
              newDoctor.setText(doctor.name);
+             newDoctor.setAllCaps(false);
 
              newDoctor.setOnClickListener(new View.OnClickListener() {
                  @Override
