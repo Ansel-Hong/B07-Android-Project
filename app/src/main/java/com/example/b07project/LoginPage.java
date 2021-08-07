@@ -23,7 +23,6 @@ import com.example.b07project.user_information.PatientSignup;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginPage extends AppCompatActivity {
 
-    private Presenter presenter;
+    private LoginPagePresenter presenter;
 
     private TextInputEditText loginEmail;
     private TextInputEditText loginPassword;
@@ -122,26 +121,16 @@ public class LoginPage extends AppCompatActivity {
         String email = loginEmail.getText().toString().trim();
         String password = loginPassword.getText().toString().trim();
 
-        if (email.isEmpty()) {
-            loginEmail.setError("Email is required!");
+        String[] printmsg;
+        printmsg = LoginPagePresenter.checkLoginDetails(email, password);
+
+        if(!printmsg[0].equals("")) {
+            loginEmail.setError(printmsg[0]);
             loginEmail.requestFocus();
             return;
         }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            loginEmail.setError("Please enter a valid email!");
-            loginEmail.requestFocus();
-            return;
-        }
-
-        if (password.isEmpty()) {
-            loginPassword.setError("Password is required!");
-            loginPassword.requestFocus();
-            return;
-        }
-
-        if (password.length() < 6) {
-            loginPassword.setError("The minimum password length is 6 characters");
+        if(!printmsg[1].equals("")) {
+            loginPassword.setError(printmsg[1]);
             loginPassword.requestFocus();
             return;
         }
