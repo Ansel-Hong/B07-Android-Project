@@ -15,17 +15,17 @@ public class Model {
     }
 
     public boolean userIsFound(String email, String password){
-        int k = 0;
-        if(emails.contains(email)){
+        //int k = 0;
+       // if(emails.contains(email)){
             //search in database
             //if(password matches with the email)
                 return true;
             //else
                 //return false;
-        }
+        //}
 
-        else
-            return false;
+        //else
+            //return false;
     }
 
 

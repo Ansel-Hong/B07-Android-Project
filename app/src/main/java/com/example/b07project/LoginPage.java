@@ -48,13 +48,15 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public String getEmail(){
-        EditText editText = findViewById(R.id.email_text);
-        return editText.getText().toString();
+        String email = loginEmail.getText().toString().trim();
+        //EditText editText = findViewById(R.id.email_text);
+        return email;
     }
 
     public String getPassword(){
-        EditText editText = findViewById(R.id.password_text);
-        return editText.getText().toString();
+        String password = loginPassword.getText().toString().trim();
+        //EditText editText = findViewById(R.id.password_text);
+        return password;
     }
 
 
@@ -66,7 +68,7 @@ public class LoginPage extends AppCompatActivity {
         Context pageContext = this;
         getSupportActionBar().setTitle("B07 Hospital App");
 
-
+        presenter = new Presenter(new Model(), this);
 
         loginEmail = (TextInputEditText) findViewById(R.id.email_text);
         loginPassword = (TextInputEditText) findViewById(R.id.password_text);
@@ -80,7 +82,7 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                userLogin();
+                login();
 
 
             }
@@ -118,10 +120,12 @@ public class LoginPage extends AppCompatActivity {
         startActivity(navigateToPatientSignup);
     }
 
-    private void userLogin() {
-        String email = loginEmail.getText().toString().trim();
-        String password = loginPassword.getText().toString().trim();
+    public void login(){
+        presenter.login();
+    }
 
+    public void userLogin(String email, String password) {
+        /*
         if (email.isEmpty()) {
             loginEmail.setError("Email is required!");
             loginEmail.requestFocus();
@@ -145,6 +149,7 @@ public class LoginPage extends AppCompatActivity {
             loginPassword.requestFocus();
             return;
         }
+         */
 
         progressBar.setVisibility(View.VISIBLE);
 
