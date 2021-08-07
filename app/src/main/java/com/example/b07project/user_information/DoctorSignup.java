@@ -45,6 +45,7 @@ public class DoctorSignup extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Create An Account");
 
         String[] specialties = new String[] {"Specialty", "Cardiology", "Dermatology", "Family Medicine", "Neurology"
                 , "Gynecology", "Pediatrics", "Physiotherapy", "Psychiatry"};
