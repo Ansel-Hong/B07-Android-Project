@@ -55,6 +55,7 @@ public class DoctorSignup extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         Button update_info = findViewById(R.id.add_doctor_info);
+        update_info.setAllCaps(false);
         update_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

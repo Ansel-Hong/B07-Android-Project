@@ -38,6 +38,7 @@ public class PatientChooseDoctorActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Book Appointments");
 
         //Declaring Specialties and initializing spinner
         String[] specialties = new String[] {"Any", "Cardiology", "Dermatology", "Family Medicine", "Neurology"

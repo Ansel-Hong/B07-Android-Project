@@ -37,6 +37,7 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("See Patient Info");
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.patient_list);
 

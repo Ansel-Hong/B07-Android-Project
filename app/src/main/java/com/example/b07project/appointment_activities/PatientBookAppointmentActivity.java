@@ -42,6 +42,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Select Time Slots");
 
 
         Intent intent = getIntent();

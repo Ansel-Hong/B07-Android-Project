@@ -7,12 +7,14 @@
 
     <TextView
         android:id="@+id/textView5"
-        android:gravity="center"
-        android:layout_width="205dp"
-        android:layout_height="33dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:gravity="center"
         android:text="Here are your schedule:"
-        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

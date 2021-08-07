@@ -8,6 +8,9 @@
 
     <TextView
         android:id="@+id/textView4"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -19,7 +22,7 @@
     <ScrollView
         android:layout_width="312dp"
         android:layout_height="604dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +33,7 @@
 
         <LinearLayout
             android:id="@+id/appointment_list"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>

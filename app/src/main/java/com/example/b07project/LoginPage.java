@@ -46,7 +46,7 @@ public class LoginPage extends AppCompatActivity {
         setContentView(R.layout.activity_login_page);
 
         Context pageContext = this;
-
+        getSupportActionBar().setTitle("B07 Hospital App");
 
 
 

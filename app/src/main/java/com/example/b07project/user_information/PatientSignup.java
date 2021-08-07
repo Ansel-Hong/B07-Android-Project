@@ -43,6 +43,7 @@ public class PatientSignup extends AppCompatActivity {
 
 
         Button update_info = findViewById(R.id.add_patient_info);
+        update_info.setAllCaps(false);
         update_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

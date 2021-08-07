@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setActivityBackgroundColor(0xff4293f5, this);
-
+        getSupportActionBar().setTitle("B07 Hospital App");
 
     }
 

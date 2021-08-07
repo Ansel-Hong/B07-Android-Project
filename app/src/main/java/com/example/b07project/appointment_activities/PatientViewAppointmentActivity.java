@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,6 +41,7 @@ public class PatientViewAppointmentActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("See Upcoming Appointments");
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.addValueEventListener(new ValueEventListener() {
@@ -104,7 +108,11 @@ public class PatientViewAppointmentActivity extends AppCompatActivity {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
                             String time = dateFormat.format(date);
                             appointmentInfo.setText(time+" with Dr."+doc.getName() + "\n");
-
+                            Resources resource = (Resources) getBaseContext().getResources();
+                            ColorStateList csl = (ColorStateList) resource.getColorStateList(R.color.black);
+                            appointmentInfo.setTextColor(csl);
+                            appointmentInfo.setTextSize(15);
+                            appointmentInfo.setGravity(Gravity.CENTER);
                             layout.addView(appointmentInfo);
                         }
                     }

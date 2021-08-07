@@ -3,7 +3,11 @@ package com.example.b07project.user_information;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +39,7 @@ public class PatientViewVisitedDoctorsActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("See Visited Doctors");
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.addValueEventListener(new ValueEventListener() {
@@ -76,6 +81,11 @@ public class PatientViewVisitedDoctorsActivity extends AppCompatActivity {
                                 doctorName.add(doc.getName());
                                 doctorInfo = new TextView(PatientViewVisitedDoctorsActivity.this);
                                 doctorInfo.setText("Dr." + doc.getName() + ", specializes in " + doc.getSpecialty() + "\n");
+                                Resources resource = (Resources) getBaseContext().getResources();
+                                ColorStateList csl = (ColorStateList) resource.getColorStateList(R.color.black);
+                                doctorInfo.setTextColor(csl);
+                                doctorInfo.setGravity(Gravity.CENTER);
+                                doctorInfo.setTextSize(15);
                                 layout.addView(doctorInfo);
                             }
                         }
