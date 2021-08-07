@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.b07project.user_information.DoctorActivity;
 import com.example.b07project.user_information.DoctorSignup;
@@ -33,11 +34,28 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginPage extends AppCompatActivity {
 
+    private Presenter presenter;
+
     private TextInputEditText loginEmail;
     private TextInputEditText loginPassword;
     private Button logIn;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
+
+    public void displayMessage(String message){
+        TextView textView = findViewById(R.id.existedUser);
+        textView.setText(message);
+    }
+
+    public String getEmail(){
+        EditText editText = findViewById(R.id.email_text);
+        return editText.getText().toString();
+    }
+
+    public String getPassword(){
+        EditText editText = findViewById(R.id.password_text);
+        return editText.getText().toString();
+    }
 
 
     @Override
