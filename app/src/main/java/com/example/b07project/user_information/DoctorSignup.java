@@ -4,12 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -39,6 +43,8 @@ public class DoctorSignup extends AppCompatActivity {
     EditText editTextName, editTextEmail, editTextPassword, editTextSpecialty;
     RadioGroup genderRadioGroup;
     Spinner specialtySpinner;
+    private boolean isAtLeast6 = false;
+    CardView cardOne;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,9 @@ public class DoctorSignup extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specialties);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         specialtySpinner.setAdapter(adapter);
+
+        editTextPassword = (EditText) findViewById(R.id.doctor_password);
+        cardOne = (CardView) findViewById(R.id.doctor_cardOne);
 
         auth = FirebaseAuth.getInstance();
         Button update_info = findViewById(R.id.add_doctor_info);
@@ -80,7 +89,7 @@ public class DoctorSignup extends AppCompatActivity {
             }
         });
 
-
+        inputChange();
 
     }
 
@@ -184,6 +193,38 @@ public class DoctorSignup extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    @SuppressLint("ResourceType")
+    public void passwordCheck(){
+        String password = editTextPassword.getText().toString().trim();
+        if (password.length() >= 6){
+            isAtLeast6 = true;
+            cardOne.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
+        }
+        else{
+            isAtLeast6 = false;
+            cardOne.setCardBackgroundColor(Color.parseColor(getString(R.color.colorDefault)));
+        }
+    }
+
+    public void inputChange(){
+        editTextPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordCheck();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override

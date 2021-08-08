@@ -3,13 +3,17 @@ package com.example.b07project.user_information;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -18,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.example.b07project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,13 +31,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
+
 public class PatientSignup extends AppCompatActivity {
 
     private FirebaseAuth auth;
     EditText editTextName, editTextEmail, editTextPassword, editTextAge, editTextWeight, editTextBloodType;
+    CardView cardOne;
     RadioGroup genderRadioGroup;
     RadioButton genderRadioChoice;
     private ProgressBar progressBar;
+    private boolean isAtLeast6 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,9 @@ public class PatientSignup extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        editTextPassword = (EditText) findViewById(R.id.patient_password);
+
+        cardOne = (CardView) findViewById(R.id.patient_cardOne);
 
         Button update_info = findViewById(R.id.add_patient_info);
         update_info.setAllCaps(false);
@@ -59,16 +72,20 @@ public class PatientSignup extends AppCompatActivity {
 
                 editTextEmail = (EditText) findViewById(R.id.patient_email);
 
-                editTextAge = (EditText) findViewById(R.id.age);
+                editTextAge = (EditText) findViewById(R.id.patient_age);
 
-                editTextWeight = (EditText) findViewById(R.id.weight);
+                editTextWeight = (EditText) findViewById(R.id.patient_weight);
 
                 genderRadioGroup = (RadioGroup)findViewById(R.id.gender_patient);
 
+
                 registerUser();
+
 
             }
         });
+        inputChange();
+
     }
 
     public void navigateToPatientActivity(Patient patient){
@@ -180,6 +197,38 @@ public class PatientSignup extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    @SuppressLint("ResourceType")
+    public void passwordCheck(){
+        String password = editTextPassword.getText().toString().trim();
+        if (password.length() >= 6){
+            isAtLeast6 = true;
+            cardOne.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
+        }
+        else{
+            isAtLeast6 = false;
+            cardOne.setCardBackgroundColor(Color.parseColor(getString(R.color.colorDefault)));
+        }
+    }
+
+    public void inputChange(){
+        editTextPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordCheck();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     public void navigateToPatientActivity(){
