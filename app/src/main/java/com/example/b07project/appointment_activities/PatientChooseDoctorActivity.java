@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -39,6 +41,7 @@ public class PatientChooseDoctorActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Book Appointments");
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2E5DA3")));
 
         //Declaring Specialties and initializing spinner
         String[] specialties = new String[] {"Any", "Cardiology", "Dermatology", "Family Medicine", "Neurology"

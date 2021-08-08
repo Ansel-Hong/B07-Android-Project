@@ -4,8 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,6 +43,7 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("See Patient Info");
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2E5DA3")));
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.patient_list);
 
@@ -131,6 +137,10 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
                 }
 
                 patientInfo.append("\n\n");
+                Resources resource = (Resources) getBaseContext().getResources();
+                ColorStateList csl = (ColorStateList) resource.getColorStateList(R.color.black);
+                patientInfo.setTextColor(csl);
+                patientInfo.setTextSize(13);
                 layout.addView(patientInfo);
             }
 

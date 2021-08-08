@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +45,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Select Time Slots");
-
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2E5DA3")));
 
         Intent intent = getIntent();
         String doctorID = intent.getStringExtra("doctorID");

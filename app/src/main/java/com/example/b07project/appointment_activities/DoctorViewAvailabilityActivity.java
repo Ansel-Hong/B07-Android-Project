@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -44,7 +45,7 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("See Available Time");
-
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2E5DA3")));
 
 
         String doctorID = auth.getUid();
@@ -220,7 +221,11 @@ public class DoctorViewAvailabilityActivity extends AppCompatActivity {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d 'at' h:mm a");
                         String time = dateFormat.format(date);
                         timeSlot.setText("An appointment is booked at " + time + "\n");
-
+                        Resources resource = (Resources) getBaseContext().getResources();
+                        ColorStateList csl = (ColorStateList) resource.getColorStateList(R.color.black);
+                        timeSlot.setTextColor(csl);
+                        timeSlot.setTextSize(15);
+                        timeSlot.setGravity(Gravity.CENTER);
                         layout.addView(timeSlot);
                         break;
                     }

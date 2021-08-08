@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -67,6 +70,7 @@ public class LoginPage extends AppCompatActivity {
 
         Context pageContext = this;
         getSupportActionBar().setTitle("B07 Hospital App");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2E5DA3")));
 
         presenter = new Presenter(new Model(), this);
 

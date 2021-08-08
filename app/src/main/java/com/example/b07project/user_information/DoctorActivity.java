@@ -3,6 +3,8 @@ package com.example.b07project.user_information;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +37,7 @@ public class DoctorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doctor);
 
         getSupportActionBar().setTitle("My Account");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2E5DA3")));
 
         MainActivity.setActivityBackgroundColor(0xff597ea8, this);
 
