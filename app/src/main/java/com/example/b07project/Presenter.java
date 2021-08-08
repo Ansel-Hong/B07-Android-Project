@@ -29,4 +29,27 @@ public class Presenter {
         else
             view.displayMessage("invalid login");
     }
+
+    public static String[] checkLoginDetails(String email, String password){
+
+        String[] retVal = new String[2];
+
+        if (email.isEmpty()) {
+            retVal[0] = "Email is required!";
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            retVal[0] = "Please enter a valid email!";
+        }
+
+        if (password.isEmpty()) {
+            retVal[1] = "Password is required!";
+        }
+
+        if (password.length() < 6) {
+            retVal[1] = "The minimum password length is 6 characters";
+        }
+
+        return retVal;
+    }
 }

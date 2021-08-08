@@ -129,31 +129,19 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public void userLogin(String email, String password) {
-        /*
-        if (email.isEmpty()) {
-            loginEmail.setError("Email is required!");
-            loginEmail.requestFocus();
-            return;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            loginEmail.setError("Please enter a valid email!");
-            loginEmail.requestFocus();
-            return;
-        }
-
-        if (password.isEmpty()) {
-            loginPassword.setError("Password is required!");
-            loginPassword.requestFocus();
-            return;
-        }
-
-        if (password.length() < 6) {
-            loginPassword.setError("The minimum password length is 6 characters");
-            loginPassword.requestFocus();
-            return;
-        }
-         */
+//        String[] printmsg;
+//        printmsg = Presenter.checkLoginDetails(email, password);
+//
+//        if(!printmsg[0].equals("")) {
+//            loginEmail.setError(printmsg[0]);
+//            loginEmail.requestFocus();
+//            return;
+//        }
+//        if(!printmsg[1].equals("")) {
+//            loginPassword.setError(printmsg[1]);
+//            loginPassword.requestFocus();
+//            return;
+//        }
 
         progressBar.setVisibility(View.VISIBLE);
 
