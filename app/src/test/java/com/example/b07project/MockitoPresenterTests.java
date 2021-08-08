@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ExampleUnitTest {
+public class MockitoPresenterTests {
 //    @Mock
 //    MainActivity view;
 //

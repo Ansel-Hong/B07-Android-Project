@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.Date;
 
-public class BasicsTest {
+public class JavaClassConfirmationTests {
 
     @Test
     public void testPatientEmptyConstructor(){
