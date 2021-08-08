@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.example.b07project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,13 +30,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class PatientSignup extends AppCompatActivity {
 
     private FirebaseAuth auth;
-    EditText editTextName, editTextEmail, editTextPassword, editTextAge, editTextWeight, editTextBloodType;
+    EditText editTextName, editTextEmail, editTextPassword, editTextDOB, editTextWeight, editTextBloodType;
     CardView cardOne;
     RadioGroup genderRadioGroup;
     RadioButton genderRadioChoice;
@@ -72,7 +75,7 @@ public class PatientSignup extends AppCompatActivity {
 
                 editTextEmail = (EditText) findViewById(R.id.patient_email);
 
-                editTextAge = (EditText) findViewById(R.id.patient_age);
+                editTextDOB = (EditText) findViewById(R.id.patient_DOB);
 
                 editTextWeight = (EditText) findViewById(R.id.patient_weight);
 
@@ -106,12 +109,14 @@ public class PatientSignup extends AppCompatActivity {
 
         String newEmail = editTextEmail.getText().toString().trim();
 
-        String newAge = editTextAge.getText().toString();
+        String newDateOfBirth = editTextDOB.getText().toString();
+
 
         String newWeight = editTextWeight.getText().toString();
 
         String gender = ((RadioButton)findViewById(genderRadioGroup.getCheckedRadioButtonId()))
                 .getText().toString();
+
 
         if (newName.isEmpty()) {
             editTextName.setError("Full name is required!");
@@ -119,11 +124,22 @@ public class PatientSignup extends AppCompatActivity {
             return;
         }
 
-        if (newAge.isEmpty()) {
-            editTextAge.setError("Age is required!");
-            editTextAge.requestFocus();
+        if (newDateOfBirth.isEmpty()) {
+            editTextDOB.setError("Date of Birth is required!");
+            editTextDOB.requestFocus();
             return;
         }
+
+
+
+        Pattern DOBpattern = Pattern.compile("^(19|20)\\d\\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$");
+        Matcher DOBmatcher = DOBpattern.matcher(newDateOfBirth);
+        if (!DOBmatcher.matches()){
+            editTextDOB.setError("Invalid Date of Birth");
+            editTextDOB.requestFocus();
+            return;
+        }
+
 
         if (newEmail.isEmpty()) {
             editTextEmail.setError("Email is required!");
@@ -157,7 +173,14 @@ public class PatientSignup extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            HealthInformation newHealthInformation = new HealthInformation(Integer.parseInt(newAge), Integer.parseInt(newWeight), gender);
+                            Date newDOB = null;
+                            try {
+                                newDOB = new SimpleDateFormat("yyyy/MM/dd").parse(newDateOfBirth);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            HealthInformation newHealthInformation = new HealthInformation(newDOB, Integer.parseInt(newWeight), gender);
                             Patient newPatient = new Patient(newName, newEmail, newPassword, newHealthInformation);
 
                             FirebaseDatabase.getInstance().getReference().child("patients").child(FirebaseAuth.getInstance().getCurrentUser().getUid())

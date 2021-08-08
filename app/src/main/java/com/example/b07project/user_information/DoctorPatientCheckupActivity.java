@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -62,13 +62,17 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
                     String patUID = patient.getKey();
                     HealthInformation patientHI = pat.getHealthInformation();
                     String patientGender = patientHI.gender;
-                    int patientAge = patientHI.age;
+                    String patientDOB = null;
+                    if(patientHI.dateOfBirth != null){
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                        patientDOB = dateFormat.format(patientHI.dateOfBirth);
+                    }
                     int patientWeight = patientHI.weight;
                     patientInfo.setText(patientName+": ");
                     if (patientGender != null)
                         patientInfo.append("\n    Gender - "+patientHI.gender);
-                    if (patientAge > 0)
-                        patientInfo.append("\n    Age - "+patientHI.age);
+                    if (patientDOB != null)
+                        patientInfo.append("\n    Date of Birth - "+patientDOB);
                     if (patientWeight > 0)
                         patientInfo.append("\n    weight - "+patientHI.weight);
 

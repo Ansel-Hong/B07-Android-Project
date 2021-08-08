@@ -59,12 +59,12 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/patient_age"
+                android:id="@+id/patient_DOB"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Age"
-                android:inputType="number"
-                android:selectAllOnFocus="true"/>
+                android:hint="Date of Birth (YYYY/MM/DD)"
+                android:inputType="date|number"
+                android:selectAllOnFocus="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

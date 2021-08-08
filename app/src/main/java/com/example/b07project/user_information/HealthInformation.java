@@ -1,6 +1,7 @@
 package com.example.b07project.user_information;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class HealthInformation implements Serializable {
     /**
@@ -9,18 +10,27 @@ public class HealthInformation implements Serializable {
      * @param weight an int storing the weight of the patient in pounds
      * @param gender a string storing the gender of the patient - either "Male" or "Female"
      */
-    public int age;
+    public Date dateOfBirth;
     public int weight;
     public String gender;
 
     public HealthInformation(){}
 
-    public HealthInformation(int age, int weight, String gender){
-        this.age = age;
+    public HealthInformation(Date dateOfBirth, int weight, String gender){
+        this.dateOfBirth = dateOfBirth;
         this.weight = weight;
         this.gender = gender;
 
     }
+
+
+    public Date getDateOfBirth(){return dateOfBirth;}
+    public int getWeight(){return weight;}
+    public String getGender(){return gender;}
+
+    public void setDateOfBirth(Date dateOfBirth){this.dateOfBirth = dateOfBirth;}
+    public void setWeight(int weight){this.weight = weight;}
+    public void setGender(String gender){this.gender = gender;}
 
 
 

@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
+
 public class PatientActivity extends AppCompatActivity {
 
     private FirebaseUser patient;
@@ -57,7 +59,7 @@ public class PatientActivity extends AppCompatActivity {
                 if(patientProfile != null){
                     String name = patientProfile.name;
                     String email = patientProfile.email;
-                    int age = patientProfile.getHealthInformation().age;
+                    Date DOB = patientProfile.getHealthInformation().dateOfBirth;
                     int weight = patientProfile.getHealthInformation().weight;
                     String gender = patientProfile.getHealthInformation().gender;
 
