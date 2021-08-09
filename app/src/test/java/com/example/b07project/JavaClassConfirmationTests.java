@@ -33,14 +33,14 @@ public class JavaClassConfirmationTests {
     @Test
     public void testHealthInformationEmptyConstructor(){
         HealthInformation healthInformation = new HealthInformation();
-        assertEquals(healthInformation.gender, null);
+        assertEquals(healthInformation.getGender(), null);
     }
 
     @Test
     public void testPatientGetInfo(){
 //        when(patView.navigateToPatientSignup()).getMock();
         Patient pat = new Patient("Patient1");
-        HealthInformation healthInformation = new HealthInformation(10,100,"Female");
+        HealthInformation healthInformation = new HealthInformation(new Date(100, 1 , 1),100,"Female");
         pat.setHealthInformation(healthInformation);
 
 //        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
@@ -52,7 +52,7 @@ public class JavaClassConfirmationTests {
 
     @Test
     public void testPatientToString(){
-        HealthInformation healthInformation = new HealthInformation(10,100,"Female");
+        HealthInformation healthInformation = new HealthInformation(new Date(100, 1 , 1),100,"Female");
         Patient pat = new Patient("Patient1", "pat1@gmail.com", "password1", healthInformation);
 
         assertEquals(pat.toString(), "{Patient name: Patient1}");
@@ -60,7 +60,7 @@ public class JavaClassConfirmationTests {
 
     @Test
     public void testPersonSetGetName(){
-        HealthInformation healthInformation = new HealthInformation(10,100,"Female");
+        HealthInformation healthInformation = new HealthInformation(new Date(100, 1 , 1),100,"Female");
         Patient pat = new Patient("P1", "pat1@gmail.com", "password1", healthInformation);
         pat.setName("Kevin");
         assertEquals(pat.getName(), "Kevin");
@@ -68,7 +68,7 @@ public class JavaClassConfirmationTests {
 
     @Test
     public void testPersonSetGetEmail(){
-        HealthInformation healthInformation = new HealthInformation(10,100,"Female");
+        HealthInformation healthInformation = new HealthInformation(new Date(100, 1 , 1),100,"Female");
         Patient pat = new Patient("P1", "pat1@gmail.com", "password1", healthInformation);
         pat.setEmail("123@docs.com");
         assertEquals(pat.getEmail(), "123@docs.com");
@@ -76,7 +76,7 @@ public class JavaClassConfirmationTests {
 
     @Test
     public void testPersonSetGetPassword(){
-        HealthInformation healthInformation = new HealthInformation(10,100,"Female");
+        HealthInformation healthInformation = new HealthInformation(new Date(100, 1 , 1),100,"Female");
         Patient pat = new Patient("P1", "pat1@gmail.com", "password1", healthInformation);
         pat.setPassword("dragonSlayer99");
         assertEquals(pat.getPassword(), "dragonSlayer99");
@@ -172,6 +172,26 @@ public class JavaClassConfirmationTests {
         Date newStart = new Date(120,10, 1, 12, 0);
         apt.setStartTime(newStart);
         assertEquals(apt.getStartTime(), newStart);
+    }
+    @Test
+    public void testHealthInformationSetGetDate(){
+        Date birth = new Date(100, 1 , 1);
+        HealthInformation healthInformation = new HealthInformation(birth,100,"Female");
+        assertEquals(healthInformation.getDateOfBirth(), birth);
+    }
+
+    @Test
+    public void testHealthInformationSetGetGender(){
+        Date birth = new Date(100, 1 , 1);
+        HealthInformation healthInformation = new HealthInformation(birth,100,"Female");
+        assertEquals(healthInformation.getGender(), "Female");
+    }
+
+    @Test
+    public void testHealthInformationSetGetWeight(){
+        Date birth = new Date(100, 1 , 1);
+        HealthInformation healthInformation = new HealthInformation(birth,100,"Female");
+        assertEquals(healthInformation.getWeight(), 100);
     }
 
 }

@@ -10,9 +10,9 @@ public class HealthInformation implements Serializable {
      * @param weight an int storing the weight of the patient in pounds
      * @param gender a string storing the gender of the patient - either "Male" or "Female"
      */
-    public Date dateOfBirth;
-    public int weight;
-    public String gender;
+    private Date dateOfBirth;
+    private int weight;
+    private String gender;
 
     public HealthInformation(){}
 

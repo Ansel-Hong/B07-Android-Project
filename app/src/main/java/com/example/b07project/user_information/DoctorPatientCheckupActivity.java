@@ -61,20 +61,20 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
                     String patientName = pat.getName();
                     String patUID = patient.getKey();
                     HealthInformation patientHI = pat.getHealthInformation();
-                    String patientGender = patientHI.gender;
+                    String patientGender = patientHI.getGender();
                     String patientDOB = null;
-                    if(patientHI.dateOfBirth != null){
+                    if(patientHI.getDateOfBirth() != null){
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                        patientDOB = dateFormat.format(patientHI.dateOfBirth);
+                        patientDOB = dateFormat.format(patientHI.getDateOfBirth());
                     }
-                    int patientWeight = patientHI.weight;
+                    int patientWeight = patientHI.getWeight();
                     patientInfo.setText(patientName+": ");
                     if (patientGender != null)
-                        patientInfo.append("\n    Gender - "+patientHI.gender);
+                        patientInfo.append("\n    Gender - "+patientHI.getGender());
                     if (patientDOB != null)
                         patientInfo.append("\n    Date of Birth - "+patientDOB);
                     if (patientWeight > 0)
-                        patientInfo.append("\n    weight - "+patientHI.weight);
+                        patientInfo.append("\n    weight - "+patientHI.getWeight());
 
                     getPastDoctors(pat, patUID, patientInfo, layout);
 

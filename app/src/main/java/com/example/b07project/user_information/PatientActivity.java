@@ -59,9 +59,9 @@ public class PatientActivity extends AppCompatActivity {
                 if(patientProfile != null){
                     String name = patientProfile.name;
                     String email = patientProfile.email;
-                    Date DOB = patientProfile.getHealthInformation().dateOfBirth;
-                    int weight = patientProfile.getHealthInformation().weight;
-                    String gender = patientProfile.getHealthInformation().gender;
+                    Date DOB = patientProfile.getHealthInformation().getDateOfBirth();
+                    int weight = patientProfile.getHealthInformation().getWeight();
+                    String gender = patientProfile.getHealthInformation().getGender();
 
                     welcome.setText("Welcome " + name + "!");
 

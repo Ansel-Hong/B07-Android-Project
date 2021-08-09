@@ -44,20 +44,6 @@ public class MockitoPresenterTests {
 //    @Mock
 //    private String userID;
 
-    @Test
-    public void testPatientGetInfo(){
-//        when(patView.navigateToPatientSignup()).getMock();
-        Patient pat = new Patient("Patient1");
-        HealthInformation healthInformation = new HealthInformation(10,100,"Female");
-        pat.setHealthInformation(healthInformation);
-
-//        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-
-        HealthInformation retreiveInfo = pat.getHealthInformation();
-//        verify(pat).
-        assertEquals(retreiveInfo, healthInformation);
-    }
-
 
     @Test
     public void testingGeneral(){
