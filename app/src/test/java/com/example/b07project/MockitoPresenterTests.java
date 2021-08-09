@@ -24,42 +24,39 @@ import com.google.firebase.database.DatabaseReference;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class MockitoPresenterTests {
-//    @Mock
-//    MainActivity view;
-//
-//    @Mock
-//    LoginPage loginView;
-
-//    @Test
-//    public void testMainNavigation(){
-//        when(loginView.navigateToPatientSignup()).getMock();
-//    }
-
-//    @Mock
-//    PatientActivity patView;
-//    @Mock
-//    FirebaseUser patient;
-//    @Mock
-//    DatabaseReference ref;
-//    @Mock
-//    private String userID;
-
-
+    @Mock
+    LoginPage view;
+    @Mock
+    Model model;
     @Test
-    public void testingGeneral(){
+    public void presenterTest(){
+        when(view.getEmail()).thenReturn("abc@mail.com");
+        when(view.getPassword()).thenReturn("abcdef");
+        when(model.userIsFound("abc@mail.com", "abcdef")).thenReturn(true);
 
-//        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-//        verify(x).someMethod(captor.capture());
-//        assertEquals(captor.getValue(), "some desired output");
-//
+        Presenter presenter = new Presenter(model, view);
+        presenter.login();
+        verify(view).displayMessage("trying to login");
     }
 
-//    @Mock
-//    DoctorActivity docView;
+    //    @Mock
+    //    MainActivity view;
+    //
+    //    @Mock
+    //    LoginPage loginView;
 
+    //    @Test
+    //    public void testMainNavigation(){
+    //        when(loginView.navigateToPatientSignup()).getMock();
+    //    }
 
-//    @Test
-//    public void addition_isCorrect() {
-//        assertEquals(4, 2 + 2);
-//    }
+    //    @Mock
+    //    PatientActivity patView;
+    //    @Mock
+    //    FirebaseUser patient;
+    //    @Mock
+    //    DatabaseReference ref;
+    //    @Mock
+    //    private String userID;
+
 }

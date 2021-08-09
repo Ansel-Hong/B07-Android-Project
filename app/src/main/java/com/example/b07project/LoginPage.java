@@ -114,14 +114,6 @@ public class LoginPage extends AppCompatActivity {
 
     }
 
-
-    public void navigateToPatientActivity(){
-        Intent navigateToPatientIntent = new Intent(LoginPage.this, PatientActivity.class);
-        //navigateToPatientIntent.putExtra("patient", patient);
-
-        startActivity(navigateToPatientIntent);
-    }
-
     public void navigateToPatientSignup(){
         Intent navigateToPatientSignup = new Intent(this, PatientSignup.class);
         startActivity(navigateToPatientSignup);
@@ -132,6 +124,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public void userLogin(String email, String password) {
+
 //        String[] printmsg;
 //        printmsg = Presenter.checkLoginDetails(email, password);
 //
@@ -145,7 +138,6 @@ public class LoginPage extends AppCompatActivity {
 //            loginPassword.requestFocus();
 //            return;
 //        }
-
 
 
         progressBar.setVisibility(View.VISIBLE);
@@ -298,6 +290,17 @@ public class LoginPage extends AppCompatActivity {
 //                    }
 //                            }
 //                        });
+//                         @Override
+//                         public void onCancelled(@NonNull DatabaseError error) {
+//                             new AlertDialog.Builder(LoginPage.this)
+//                                     .setTitle("Something went wrong, please restart the application")
+//                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                         public void onClick(DialogInterface dialog, int which) {
+//                                             // Continue with delete operation
+//                                         }
+//                                     });
+//                         }
+//                     });
 
                 //If authentication fails
 //                } else {
@@ -323,8 +326,6 @@ public class LoginPage extends AppCompatActivity {
 //            }
 //        });
 
-
-
     public void confirmUserPageNavigationCallback(boolean isDoc) {
         if (isDoc) {
             startActivity(new Intent(LoginPage.this, DoctorActivity.class));
@@ -332,6 +333,8 @@ public class LoginPage extends AppCompatActivity {
             //Else not a doctor and login via patientlogin
             startActivity(new Intent(LoginPage.this, PatientActivity.class));
         }
+//             }
+//         });
     }
 }
 
