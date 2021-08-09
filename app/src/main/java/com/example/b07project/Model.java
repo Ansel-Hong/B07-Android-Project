@@ -35,7 +35,7 @@ public class Model {
     public int loginSuccess(){return loginSuccess;}
 
 
-    public void userIsFound(String email, String password) {
+    public int userIsFound(String email, String password) {
         //int k = 0;
         // if(emails.contains(email)){
         //search in database
@@ -64,7 +64,7 @@ public class Model {
                 }
             }
         });
-
+        return this.loginSuccess;
     }
 
 }

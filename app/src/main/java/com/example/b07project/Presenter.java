@@ -28,11 +28,17 @@ public class Presenter {
 //         }
 //         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
 //             view.displayMessage("Please enter a valid email!");
-        else
-            view.userLogin(email, password);
-            if(model.loginSuccess()==0)
+        else{
+            int checker = model.userIsFound(email, password);
+            if(checker==0)
                 view.displayMessage("invalid login");
-            view.displayMessage("trying to login");
+            else{
+                view.displayMessage("trying to login");
+                view.userLogin(email, password);
+            }
+
+        }
+
     }
 
     public static String[] checkLoginDetails(String email, String password){
