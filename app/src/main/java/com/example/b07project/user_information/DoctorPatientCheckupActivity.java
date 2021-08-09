@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -61,16 +61,20 @@ public class DoctorPatientCheckupActivity extends AppCompatActivity {
                     String patientName = pat.getName();
                     String patUID = patient.getKey();
                     HealthInformation patientHI = pat.getHealthInformation();
-                    String patientGender = patientHI.gender;
-                    int patientAge = patientHI.age;
-                    int patientWeight = patientHI.weight;
+                    String patientGender = patientHI.getGender();
+                    String patientDOB = null;
+                    if(patientHI.getDateOfBirth() != null){
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                        patientDOB = dateFormat.format(patientHI.getDateOfBirth());
+                    }
+                    int patientWeight = patientHI.getWeight();
                     patientInfo.setText(patientName+": ");
                     if (patientGender != null)
-                        patientInfo.append("\n    Gender - "+patientHI.gender);
-                    if (patientAge > 0)
-                        patientInfo.append("\n    Age - "+patientHI.age);
+                        patientInfo.append("\n    Gender - "+patientHI.getGender());
+                    if (patientDOB != null)
+                        patientInfo.append("\n    Date of Birth - "+patientDOB);
                     if (patientWeight > 0)
-                        patientInfo.append("\n    weight - "+patientHI.weight);
+                        patientInfo.append("\n    weight - "+patientHI.getWeight());
 
                     getPastDoctors(pat, patUID, patientInfo, layout);
 
