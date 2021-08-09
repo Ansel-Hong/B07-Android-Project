@@ -38,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginPage extends AppCompatActivity {
 
     private Presenter presenter;
+    private Model model;
 
     private TextInputEditText loginEmail;
     private TextInputEditText loginPassword;
@@ -72,7 +73,9 @@ public class LoginPage extends AppCompatActivity {
         getSupportActionBar().setTitle("B07 Hospital App");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2E5DA3")));
 
-        presenter = new Presenter(new Model(), this);
+        model = new Model();
+
+        presenter = new Presenter(model, this);
 
         loginEmail = (TextInputEditText) findViewById(R.id.email_text);
         loginPassword = (TextInputEditText) findViewById(R.id.password_text);
@@ -121,81 +124,217 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public void userLogin(String email, String password) {
+
+//        String[] printmsg;
+//        printmsg = Presenter.checkLoginDetails(email, password);
+//
+//        if(!printmsg[0].equals("")) {
+//            loginEmail.setError(printmsg[0]);
+//            loginEmail.requestFocus();
+//            return;
+//        }
+//        if(!printmsg[1].equals("")) {
+//            loginPassword.setError(printmsg[1]);
+//            loginPassword.requestFocus();
+//            return;
+//        }
+
+
         progressBar.setVisibility(View.VISIBLE);
 
         Context pageContext = this;
+        model.userIsFound(email, password);
 
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Get current UID
-                    String currentLoggedInUID = auth.getUid();
-                    Log.i("UID OBTAINED", currentLoggedInUID);
 
-                    final Boolean[] checkIfDoc = {false};
+        auth = FirebaseAuth.getInstance();
+
+        if (model.loginSuccess() == 1){
+
+            // Get current UID
+            String currentLoggedInUID = auth.getUid();
+            Log.i("UID OBTAINED", currentLoggedInUID);
+
+            final Boolean[] checkIfDoc = {false};
 
 //                    final ConfirmCallback cb = null;
 
-                    //Match UID to see if user is a doctor... run through doctor UID list
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
-                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot child: snapshot.getChildren()){
-                                String curDocUID = child.getKey();
-                                if(curDocUID.equals(currentLoggedInUID)){
-                                    Log.i("UID MATCHED", curDocUID);
-                                    checkIfDoc[0] = true;
-                                    startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+            //Match UID to see if user is a doctor... run through doctor UID list
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot child: snapshot.getChildren()){
+                        String curDocUID = child.getKey();
+                        if(curDocUID.equals(currentLoggedInUID)){
+                            Log.i("UID MATCHED", curDocUID);
+                            checkIfDoc[0] = true;
+                            startActivity(new Intent(LoginPage.this, DoctorActivity.class));
 //                                    confirmUserPageNavigationCallback(true);
-                                }
-                            }
-//                            checkIfDoc[0] = false;
+                        }
+                    }
+                            checkIfDoc[0] = false;
 
-                            if(checkIfDoc[0])
-                                startActivity(new Intent(LoginPage.this, DoctorActivity.class));
-                            else
-                                startActivity(new Intent(LoginPage.this, PatientActivity.class));
+                    if(checkIfDoc[0])
+                        startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+                    else
+                        startActivity(new Intent(LoginPage.this, PatientActivity.class));
 //                            if(checkIfDoc[0] != null && checkIfDoc[0] == false)
 //                            confirmUserPageNavigationCallback(false);
 //                            cb.confirmCallback(checkIfDoc[0]);
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            new AlertDialog.Builder(LoginPage.this)
-                                    .setTitle("Something went wrong, please restart the application")
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // Continue with delete operation
-                                        }
-                                    });
-                        }
-                    });
-
-                //If authentication fails
-                } else {
-                    progressBar.setVisibility(View.INVISIBLE);
-                    new AlertDialog.Builder(pageContext)
-                            .setTitle("Login information was incorrect, please try again.")
-                            //.setMessage("Are you sure you want to delete this entry?")
-
-                            // Specifying a listener allows you to take an action before dismissing the dialog.
-                            // The dialog is automatically dismissed when a dialog button is clicked.
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    new AlertDialog.Builder(LoginPage.this)
+                            .setTitle("Something went wrong, please restart the application")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Continue with delete operation
                                 }
                             });
+                }
+            });//.addOnCompleteListener(LoginPage.this,new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+            ;
 
-                            // A null listener allows the button to dismiss the dialog and take no further action.
+            //test code
+//                                checkIfDoc[0] = true;
+
+            if (checkIfDoc[0]) {
+                startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+            } else {
+                //Else not a doctor and login via patientlogin
+                startActivity(new Intent(LoginPage.this, PatientActivity.class));
+            }
+        } else if (model.loginSuccess() == 0){
+            progressBar.setVisibility(View.INVISIBLE);
+            new AlertDialog.Builder(pageContext)
+                    .setTitle("Login information was incorrect, please try again.")
+                    //.setMessage("Are you sure you want to delete this entry?")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Continue with delete operation
+                        }
+                    });
+
+            // A null listener allows the button to dismiss the dialog and take no further action.
 //                            .setNegativeButton(android.R.string.no, null)
 //                            .setIcon(android.R.drawable.ic_dialog_alert)
 //                            .show();
-                }
+//                }
+        }
+    }
 
-            }
-        });
+//        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if (task.isSuccessful()) {
+//                    // Get current UID
+//                    String currentLoggedInUID = auth.getUid();
+//                    Log.i("UID OBTAINED", currentLoggedInUID);
+//
+//                    final Boolean[] checkIfDoc = {false};
+//
+////                    final ConfirmCallback cb = null;
+//
+//                    //Match UID to see if user is a doctor... run through doctor UID list
+//                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("doctors");
+//                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            for (DataSnapshot child: snapshot.getChildren()){
+//                                String curDocUID = child.getKey();
+//                                if(curDocUID.equals(currentLoggedInUID)){
+//                                    Log.i("UID MATCHED", curDocUID);
+//                                    checkIfDoc[0] = true;
+//                                    startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+////                                    confirmUserPageNavigationCallback(true);
+//                                }
+//                            }
+////                            checkIfDoc[0] = false;
+//
+//                            if(checkIfDoc[0])
+//                                startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+//                            else
+//                                startActivity(new Intent(LoginPage.this, PatientActivity.class));
+////                            if(checkIfDoc[0] != null && checkIfDoc[0] == false)
+////                            confirmUserPageNavigationCallback(false);
+////                            cb.confirmCallback(checkIfDoc[0]);
+//                        }
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//                            new AlertDialog.Builder(LoginPage.this)
+//                                    .setTitle("Something went wrong, please restart the application")
+//                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            // Continue with delete operation
+//                                        }
+//                                    });
+//                        }
+//                    });//.addOnCompleteListener(LoginPage.this,new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                ;
+//
+//                                //test code
+////                                checkIfDoc[0] = true;
+
+//                    if (checkIfDoc[0]) {
+//                        startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+//                    } else {
+                        //Else not a doctor and login via patientlogin
+//                        startActivity(new Intent(LoginPage.this, PatientActivity.class));
+//                    }
+//                            }
+//                        });
+//                         @Override
+//                         public void onCancelled(@NonNull DatabaseError error) {
+//                             new AlertDialog.Builder(LoginPage.this)
+//                                     .setTitle("Something went wrong, please restart the application")
+//                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                         public void onClick(DialogInterface dialog, int which) {
+//                                             // Continue with delete operation
+//                                         }
+//                                     });
+//                         }
+//                     });
+
+                //If authentication fails
+//                } else {
+//                    progressBar.setVisibility(View.INVISIBLE);
+//                    new AlertDialog.Builder(pageContext)
+//                            .setTitle("Login information was incorrect, please try again.")
+//                            //.setMessage("Are you sure you want to delete this entry?")
+//
+//                            // Specifying a listener allows you to take an action before dismissing the dialog.
+//                            // The dialog is automatically dismissed when a dialog button is clicked.
+//                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    // Continue with delete operation
+//                                }
+//                            });
+//
+//                            // A null listener allows the button to dismiss the dialog and take no further action.
+////                            .setNegativeButton(android.R.string.no, null)
+////                            .setIcon(android.R.drawable.ic_dialog_alert)
+////                            .show();
+////                }
+//
+//            }
+//        });
+
+    public void confirmUserPageNavigationCallback(boolean isDoc) {
+        if (isDoc) {
+            startActivity(new Intent(LoginPage.this, DoctorActivity.class));
+        } else {
+            //Else not a doctor and login via patientlogin
+            startActivity(new Intent(LoginPage.this, PatientActivity.class));
+        }
+//             }
+//         });
     }
 }
 
