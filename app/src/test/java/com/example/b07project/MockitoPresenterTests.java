@@ -39,24 +39,47 @@ public class MockitoPresenterTests {
         verify(view).displayMessage("trying to login");
     }
 
-    //    @Mock
-    //    MainActivity view;
-    //
-    //    @Mock
-    //    LoginPage loginView;
+    @Test
+    public void presenterTestEmptyEmail(){
+        when(view.getEmail()).thenReturn("");
+        when(view.getPassword()).thenReturn("abcdef");
+        when(model.userIsFound("", "abcdef")).thenReturn(1);
 
-    //    @Test
-    //    public void testMainNavigation(){
-    //        when(loginView.navigateToPatientSignup()).getMock();
-    //    }
+        Presenter presenter = new Presenter(model, view);
+        presenter.login();
+        verify(view).displayMessage("email cannot be empty");
+    }
 
-    //    @Mock
-    //    PatientActivity patView;
-    //    @Mock
-    //    FirebaseUser patient;
-    //    @Mock
-    //    DatabaseReference ref;
-    //    @Mock
-    //    private String userID;
+    @Test
+    public void presenterTestEmptyPassword(){
+        when(view.getEmail()).thenReturn("abc@mail.com");
+        when(view.getPassword()).thenReturn("");
+        when(model.userIsFound("abc@mail.com", "")).thenReturn(1);
 
+        Presenter presenter = new Presenter(model, view);
+        presenter.login();
+        verify(view).displayMessage("password cannot be empty");
+    }
+
+    @Test
+    public void presenterTestShortPassword(){
+        when(view.getEmail()).thenReturn("abc@mail.com");
+        when(view.getPassword()).thenReturn("abc");
+        when(model.userIsFound("abc@mail.com", "abc")).thenReturn(1);
+
+        Presenter presenter = new Presenter(model, view);
+        presenter.login();
+        verify(view).displayMessage("The minimum password length is 6 characters");
+    }
+
+    @Test
+    public void presenterTestInvalidLogin(){
+        when(view.getEmail()).thenReturn("abc@mail.com");
+        when(view.getPassword()).thenReturn("abcdef");
+        when(model.userIsFound("abc@mail.com", "abcdef")).thenReturn(0);
+
+        Presenter presenter = new Presenter(model, view);
+        presenter.login();
+        verify(view).displayMessage("invalid login");
+    }
 }
