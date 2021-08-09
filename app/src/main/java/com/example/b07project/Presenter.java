@@ -20,14 +20,14 @@ public class Presenter {
             view.displayMessage("email cannot be empty");
         else if(password.equals(""))
             view.displayMessage("password cannot be empty");
-        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
-            view.displayMessage("Please enter a valid email!");
         else if(password.length() < 6)
             view.displayMessage("The minimum password length is 6 characters");
         else if(model.userIsFound(email, password) == true) {
             view.displayMessage("trying to login");
             view.userLogin(email, password);
         }
+        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            view.displayMessage("Please enter a valid email!");
         else
             view.displayMessage("invalid login");
     }
