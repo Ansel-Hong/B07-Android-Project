@@ -111,14 +111,6 @@ public class LoginPage extends AppCompatActivity {
 
     }
 
-
-    public void navigateToPatientActivity(){
-        Intent navigateToPatientIntent = new Intent(LoginPage.this, PatientActivity.class);
-        //navigateToPatientIntent.putExtra("patient", patient);
-
-        startActivity(navigateToPatientIntent);
-    }
-
     public void navigateToPatientSignup(){
         Intent navigateToPatientSignup = new Intent(this, PatientSignup.class);
         startActivity(navigateToPatientSignup);
@@ -129,20 +121,6 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public void userLogin(String email, String password) {
-//        String[] printmsg;
-//        printmsg = Presenter.checkLoginDetails(email, password);
-//
-//        if(!printmsg[0].equals("")) {
-//            loginEmail.setError(printmsg[0]);
-//            loginEmail.requestFocus();
-//            return;
-//        }
-//        if(!printmsg[1].equals("")) {
-//            loginPassword.setError(printmsg[1]);
-//            loginPassword.requestFocus();
-//            return;
-//        }
-
         progressBar.setVisibility(View.VISIBLE);
 
         Context pageContext = this;
@@ -193,22 +171,7 @@ public class LoginPage extends AppCompatActivity {
                                         }
                                     });
                         }
-                    });//.addOnCompleteListener(LoginPage.this,new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//                                ;
-//
-//                                //test code
-////                                checkIfDoc[0] = true;
-
-//                    if (checkIfDoc[0]) {
-//                        startActivity(new Intent(LoginPage.this, DoctorActivity.class));
-//                    } else {
-                        //Else not a doctor and login via patientlogin
-//                        startActivity(new Intent(LoginPage.this, PatientActivity.class));
-//                    }
-//                            }
-//                        });
+                    });
 
                 //If authentication fails
                 } else {
@@ -233,16 +196,6 @@ public class LoginPage extends AppCompatActivity {
 
             }
         });
-
-    }
-
-    public void confirmUserPageNavigationCallback(boolean isDoc) {
-        if (isDoc) {
-            startActivity(new Intent(LoginPage.this, DoctorActivity.class));
-        } else {
-            //Else not a doctor and login via patientlogin
-            startActivity(new Intent(LoginPage.this, PatientActivity.class));
-        }
     }
 }
 
