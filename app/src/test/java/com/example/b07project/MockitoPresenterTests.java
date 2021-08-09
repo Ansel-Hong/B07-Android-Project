@@ -32,7 +32,8 @@ public class MockitoPresenterTests {
     public void presenterTest(){
         when(view.getEmail()).thenReturn("abc@mail.com");
         when(view.getPassword()).thenReturn("abcdef");
-        when(model.userIsFound("abc@mail.com", "abcdef")).thenReturn(true);
+//        when(model.userIsFound("abc@mail.com", "abcdef")).thenCallRealMethod(model.loginSuccess());
+//        when(model.loginSuccess()).thenReturn(1);
 
         Presenter presenter = new Presenter(model, view);
         presenter.login();

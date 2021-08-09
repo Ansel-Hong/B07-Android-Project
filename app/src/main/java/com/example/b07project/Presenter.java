@@ -32,6 +32,7 @@ public class Presenter {
             view.userLogin(email, password);
             if(model.loginSuccess()==0)
                 view.displayMessage("invalid login");
+            view.displayMessage("trying to login");
     }
 
     public static String[] checkLoginDetails(String email, String password){
