@@ -6,7 +6,7 @@ import java.util.Date;
 public class HealthInformation implements Serializable {
     /**
      * Class that stores basic Patient information that can later by viewed by doctors.
-     * @param age an int storing age of the patient
+     * @param dateOfBirth a obj of class Date storing DOB of the patient
      * @param weight an int storing the weight of the patient in pounds
      * @param gender a string storing the gender of the patient - either "Male" or "Female"
      */

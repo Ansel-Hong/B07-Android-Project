@@ -177,21 +177,25 @@ public class JavaClassConfirmationTests {
     public void testHealthInformationSetGetDate(){
         Date birth = new Date(100, 1 , 1);
         HealthInformation healthInformation = new HealthInformation(birth,100,"Female");
-        assertEquals(healthInformation.getDateOfBirth(), birth);
+        Date changedDOB = new Date(100, 1 , 5);
+        healthInformation.setDateOfBirth(changedDOB);
+        assertEquals(healthInformation.getDateOfBirth(), changedDOB);
     }
 
     @Test
     public void testHealthInformationSetGetGender(){
         Date birth = new Date(100, 1 , 1);
         HealthInformation healthInformation = new HealthInformation(birth,100,"Female");
-        assertEquals(healthInformation.getGender(), "Female");
+        healthInformation.setGender("Male");
+        assertEquals(healthInformation.getGender(), "Male");
     }
 
     @Test
     public void testHealthInformationSetGetWeight(){
         Date birth = new Date(100, 1 , 1);
         HealthInformation healthInformation = new HealthInformation(birth,100,"Female");
-        assertEquals(healthInformation.getWeight(), 100);
+        healthInformation.setWeight(10);
+        assertEquals(healthInformation.getWeight(), 10);
     }
 
 }
