@@ -45,13 +45,21 @@ public class MockitoPresenterTests {
 //    private String userID;
 
 
-    @Test
-    public void testingGeneral(){
+    @Mock
+    LoginPage loginView;
 
-//        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-//        verify(x).someMethod(captor.capture());
-//        assertEquals(captor.getValue(), "some desired output");
-//
+    @Mock
+    Model model;
+
+    @Test
+    public void presenterTest(){
+        when(loginView.getEmail()).thenReturn("abc@mail.com");
+        when(loginView.getPassword()).thenReturn("abc");
+        when(model.userIsFound("abc@mail.com", "abc")).thenReturn(true);
+        Presenter presenter = new Presenter(model, loginView);
+
+        presenter.login();
+        verify(loginView).displayMessage("trying to login");
     }
 
 //    @Mock

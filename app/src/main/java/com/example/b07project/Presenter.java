@@ -24,8 +24,10 @@ public class Presenter {
             view.displayMessage("Please enter a valid email!");
         else if(password.length() < 6)
             view.displayMessage("The minimum password length is 6 characters");
-        else if(model.userIsFound(email, password) == true)
+        else if(model.userIsFound(email, password) == true) {
+            view.displayMessage("trying to login");
             view.userLogin(email, password);
+        }
         else
             view.displayMessage("invalid login");
     }
