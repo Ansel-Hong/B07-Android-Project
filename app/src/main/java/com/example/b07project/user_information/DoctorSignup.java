@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -45,11 +46,14 @@ public class DoctorSignup extends AppCompatActivity {
     Spinner specialtySpinner;
     private boolean isAtLeast6 = false;
     CardView cardOne;
+    private ProgressBar progressBar2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_signup);
+
+        progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -151,6 +155,9 @@ public class DoctorSignup extends AppCompatActivity {
             editTextEmail.requestFocus();
             return;
         }
+
+
+        progressBar2.setVisibility(View.VISIBLE);
 
         auth.createUserWithEmailAndPassword(newEmail, newPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

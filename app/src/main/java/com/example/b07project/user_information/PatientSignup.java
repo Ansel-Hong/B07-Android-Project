@@ -48,6 +48,7 @@ public class PatientSignup extends AppCompatActivity {
     RadioButton genderRadioChoice;
     private ProgressBar progressBar;
     private boolean isAtLeast6 = false;
+    private ProgressBar progressBar3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class PatientSignup extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+
+        progressBar3 = (ProgressBar) findViewById(R.id.progressBar3);
 
         getSupportActionBar().setTitle("Create An Account");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2E5DA3")));
@@ -173,7 +176,7 @@ public class PatientSignup extends AppCompatActivity {
             return;
         }
 
-
+        progressBar3.setVisibility(View.VISIBLE);
 
         Log.i("USERCREATION", "Creating user with new email and password");
         auth.createUserWithEmailAndPassword(newEmail, newPassword)
